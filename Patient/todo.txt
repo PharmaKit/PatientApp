@@ -1,0 +1,22 @@
+fix the login
+
+fix the address - three fields
+house number/building name
+streetname/locality
+area, city
+
+pages which are not functional make them hidden
+
+prescription wala pages
+remove send button
+
+put back the schemes 15% and 20%
+
+address should be auto filled
+two lines
+house number/building
+streetname/locality, area, city
+
+4.2.2 android is not working
+
+the email should have all the necessary details about the patient.

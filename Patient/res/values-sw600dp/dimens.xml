@@ -1,0 +1,42 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="listitem_vertical_margin">15dp</dimen>
+    <dimen name="lisitem_left_margin">10dp</dimen>
+    <dimen name="lisitem_right_margin">10dp</dimen>
+    <dimen name="textView_vertical_margin">15dp</dimen>
+    <dimen name="textView_left_margin">15dp</dimen>
+    <dimen name="textView1_vertical_margin">8dp</dimen>
+    <dimen name="textView2_vertical_margin">5dp</dimen>
+    <dimen name="framelayout_login_width">550dp</dimen>
+    <dimen name="framelayout_login_height">450dp</dimen>
+    <dimen name="text_Size">30dp</dimen>
+    <dimen name="text_Size1">18dp</dimen>
+    <dimen name="text_Size1p">18dp</dimen>
+    <dimen name="text_view_margin_left">50dp</dimen>
+    <dimen name="text_view_margin_top">20dp</dimen>
+    <dimen name="patient_name_left">10dp</dimen>
+    <dimen name="patient_name_vertical">10dp</dimen>
+    <dimen name="edittext_margin_top">10dp</dimen>
+    <dimen name="edittext_margin_left">50dp</dimen>
+    <dimen name="edittext_margin_right">40dp</dimen>
+    <dimen name="button_margin_left">100dp</dimen>
+    <dimen name="button_margin_right">70dp</dimen>
+    <dimen name="button_margin_top">20dp</dimen>
+    <dimen name="view_margin_top">10dp</dimen>
+    <dimen name="view_margin_left">80dp</dimen>
+    <dimen name="view_margin_right">50dp</dimen>
+    <dimen name="textview_margin_left">50dp</dimen>
+    <dimen name="image_width">100dp</dimen>
+    <dimen name="image_height">100dp</dimen>
+    <dimen name="image_view_top">30dp</dimen>
+    <dimen name="iconpadding">15dp</dimen>
+    <dimen name="button_margin_leftpres">30dp</dimen>
+    <dimen name="text_viewname_top">20dp</dimen>
+    <dimen name="text_viewqul_top">10dp</dimen>
+<dimen name="linearlayout_doc_sp_top">20dp</dimen>
+<dimen name="textsp_margin_left">15dp</dimen>
+ 
+</resources>
