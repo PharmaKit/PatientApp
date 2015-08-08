@@ -11,8 +11,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.gsm.SmsManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -29,12 +32,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.asyncTask.ForgotPasswordTassk;
+import com.example.asyncTask.ForgotPasswordTask;
 import com.example.asyncTask.LoginTask;
 import com.example.asyncTask.RegisterTask;
 import com.example.dataModel.LoginModel;
 import com.example.dataModel.RegisterModel;
+import com.example.datamodels.serialized.LoginResponse;
 import com.example.util.SessionManager;
+import com.google.gson.Gson;
 
 public class Login extends Activity implements OnClickListener {
 
@@ -44,6 +49,7 @@ public class Login extends Activity implements OnClickListener {
 	Button mLogin, mRegister,mLoginRegister,mforgot;
 	ImageButton buttonSearch;
 	FrameLayout framelLayoutlogin,framelLayoutregister,framLayoutForgot;
+	SharedPreferences sp;
 
 	
 	@Override
@@ -128,11 +134,31 @@ public class Login extends Activity implements OnClickListener {
 		int id = v.getId();
 		if (id == R.id.buttonLoginLogin) {
 			LoginModel logiinModel = new LoginModel();
-			logiinModel.setmPassword(mPassword.getText().toString());
-			logiinModel.setmUsername(mUsername.getText().toString());
+			String userName = mUsername.getText().toString();
+			String password = mPassword.getText().toString();
+			
+			logiinModel.setmPassword(password);
+			logiinModel.setmUsername(userName);
+			
+			if(userName.compareTo("") == 0 || password.compareTo("") == 0)
+			{
+				if(password.compareTo("") == 0)
+				{
+					mPassword.setError("Please Enter a password");
+				}
+				if(userName.compareTo("") == 0 )
+				{
+					mUsername.setError("Please Enter a username");					
+				}
+				return;
+			}
+									
 			AsyncTask<LoginModel,String,String> task = new LoginTask(Login.this).execute(logiinModel);
+			
+			String result = "";
+			
 			try {
-				String result = task.get();
+				result = task.get();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -140,8 +166,21 @@ public class Login extends Activity implements OnClickListener {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Intent intent = new Intent(Login.this,LandingActivity.class);
-			startActivity(intent);
+			
+			Gson gson = new Gson();
+
+			LoginResponse response = gson.fromJson(result, LoginResponse.class);
+			
+			if (response.success == 1) {
+				Intent intent = new Intent(Login.this,LandingActivity.class);
+				startActivity(intent);
+				sp = PreferenceManager.getDefaultSharedPreferences(Login.this);
+				Editor ed = sp.edit();
+			} else {
+				mUsername.setError("Enter valid details");
+				mPassword.setError(response.error_msg);
+			}
+			
 		} else if (id == R.id.textViewCreate) {
 			framelLayoutlogin.setVisibility(View.GONE);
 			framelLayoutregister.setVisibility(View.VISIBLE);
@@ -175,7 +214,7 @@ public class Login extends Activity implements OnClickListener {
 				objRegisterModel.setFirstName(mFirstName.getText().toString());
 				objRegisterModel.setLastName(mLastName.getText().toString());
 				objRegisterModel.setEmailId(mEmailId.getText().toString());
-				objRegisterModel.setPaaword(mpass.getText().toString());
+				objRegisterModel.setPassword(mpass.getText().toString());
 				objRegisterModel.setContactNo(mContactNo.getText().toString());
 				objRegisterModel.setAddress(mAddress.getText().toString());
 				objRegisterModel.setUserName(muser.getText().toString());
@@ -196,7 +235,7 @@ public class Login extends Activity implements OnClickListener {
 		} else if (id == R.id.buttonForgot) {
 			LoginModel objLoginModel = new LoginModel();
 			objLoginModel.setmUsername(mEmailForgot.getText().toString());
-			new ForgotPasswordTassk(Login.this).execute(objLoginModel);
+			new ForgotPasswordTask(Login.this).execute(objLoginModel);
 			//-------------manipulate these lines when password send Successfully-----------
 			framLayoutForgot.setVisibility(View.GONE);
 			framelLayoutlogin.setVisibility(View.VISIBLE);

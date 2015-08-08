@@ -1,5 +1,7 @@
 package com.example.asyncTask;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,104 +16,110 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.example.dataModel.LoginModel;
-import com.example.patient.HomePage;
-import com.example.util.Constants;
-import com.google.gson.Gson;
-
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.EditText;
+
+import com.example.dataModel.LoginModel;
+import com.example.datamodels.serialized.LoginResponse;
+import com.example.patient.R;
+import com.example.util.Constants;
+import com.example.patient.Login;
+import com.google.gson.Gson;
 
 public class LoginTask extends AsyncTask<LoginModel, String, String> {
 
-	LoginModel logiinModel;
-	Context mContext;
-	ProgressDialog mDialog;
-	String jsonResposnseString;
+	Activity mLogin;
+	ProgressDialog pd;
+	String jsonResponseString;
+	LoginModel objLoginModel;
+	SharedPreferences sp;
 
-	public LoginTask(Context c)
-	{
-		mContext = c;
-	}
-
-
-	@Override
-	protected void onPreExecute() {
-		// TODO Auto-generated method stub
-		super.onPreExecute();
-		mDialog = new ProgressDialog(mContext);
-		mDialog.setTitle("Loading");
-		mDialog.setCancelable(false);
-		//	mDialog.show();
-	}
-
-	@Override
-	protected String doInBackground(LoginModel... arg0) {
-
-
-		Gson objGson = new Gson();
-		String request  = objGson.toJson(arg0[0]);
-
-		HttpResponse response;
-
-		//Creating Http client
-		HttpClient httpclient = new DefaultHttpClient();
-
-		//Building post parametrs key and value pair
-
-		//------Modify your server url in Constants in util package-------
-
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL+"/urc2");		
-		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-		nameValuePair.add(new BasicNameValuePair("jsondata", request));
-
-		//URl Encoding the POST parametrs
-
-		try{
-
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-
-		//making http request
-		try{
-			System.out.println("Executing");
-			response = httpclient.execute(httpPost);
-			System.out.println("check response"+response.toString());
-			HttpEntity entity= response.getEntity();
-			jsonResposnseString = EntityUtils.toString(entity);
-
-
-			/**
-			 * In 'jsonResposnseString' you will get response that you sent form server.
-			 * 
-			 */
-
-		}catch(ClientProtocolException e){
-			e.printStackTrace();
-		}catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return null;
-
+	public LoginTask(Login login) {
+		mLogin = login;
 	}
 
 	@Override
 	protected void onPostExecute(String result) {
-		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-
-		//mDialog.dismiss();
-
-		//--------------Manipulate according to your response----------------
-
-		//		Intent intent = new Intent(mContext,HomePage.class);
-		//		mContext.startActivity(intent);
+		Log.d("response json is ", "" + result);
+		pd.dismiss();
 	}
+
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		pd = new ProgressDialog(mLogin);
+		pd.setMessage("Please wait while we are signing you in..");
+		pd.setTitle("Signing in");
+		pd.setCancelable(false);
+		pd.show();
+	}
+
+	@Override
+	protected String doInBackground(LoginModel... params) {
+
+		objLoginModel = params[0];
+
+		Log.d("username", "" + objLoginModel.getmUsername());
+		Log.d("password", "" + objLoginModel.getmPassword());
+
+		Gson gson = new Gson();
+		String request = gson.toJson(params[0]);
+		Log.d("gson is", "" + request);
+
+		HttpResponse response;
+
+		// Creating HTTP client
+		HttpClient httpClient = new DefaultHttpClient();
+
+		// Creating HttpPost
+		// Modify your url
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ Constants.PATIENT_EXTENSION);
+
+		Log.d("Call to servlet", "Call servlet");
+
+		// Building post parameters, key and value pair
+		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+		nameValuePair.add(new BasicNameValuePair("tag", "login"));
+		nameValuePair.add(new BasicNameValuePair("email", objLoginModel
+				.getmUsername()));
+		nameValuePair.add(new BasicNameValuePair("password", objLoginModel
+				.getmPassword()));
+
+		Log.d("cac", "NameValuePair" + nameValuePair);
+		// Url Encoding the POST parameters
+		try {
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+		} catch (UnsupportedEncodingException e) {
+			// writing error to Log
+			e.printStackTrace();
+		}
+		try {
+
+			System.out.println("Executing...");
+			response = httpClient.execute(httpPost);
+
+			HttpEntity entity = response.getEntity();
+			jsonResponseString = EntityUtils.toString(entity);
+			// Log.d("Http Response:",jsonResponseString);
+
+		} catch (ClientProtocolException e) {
+			// writing exception to log
+			e.printStackTrace();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jsonResponseString;
+	}
+
 }

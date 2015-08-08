@@ -4,7 +4,7 @@ public class Constants {
 
 	public static final String PRESCRIPTION_EXTENSION = "/android_api/prescription.php";
 	
-	public static String SERVER_URL = "http://mustaqim.ignorelist.com";
+	public static String SERVER_URL = "http://pharmakit.co";
 	public static String SITE = "http://mustaqim.ignorelist.com";
 	public static String DOCTOR_EXTENSION = "/android_api/doctor.php";
 	public static String PATIENT_EXTENSION = "/android_api/patient.php";
