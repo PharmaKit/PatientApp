@@ -256,9 +256,9 @@ int id Imageviewsurgeon 0x7f07002e
 int id Imageviewsurgeon1 0x7f07002f
 int id Imageviewsurgeontick 0x7f070030
 int id TabHostpatient 0x7f07001a
-int id action_aboutus 0x7f070089
-int id action_privacy 0x7f070088
-int id action_settings 0x7f070087
+int id action_aboutus 0x7f07008a
+int id action_privacy 0x7f070089
+int id action_settings 0x7f070088
 int id adjust_height 0x7f070001
 int id adjust_width 0x7f070002
 int id book_now 0x7f070012
@@ -276,7 +276,7 @@ int id buttonSearch 0x7f07003a
 int id buttonSend 0x7f07007b
 int id buttonSendPrescription 0x7f07004a
 int id buttonUPloadPrescription 0x7f070049
-int id buttonUpload 0x7f070085
+int id buttonUpload 0x7f070086
 int id buyButton 0x7f07000e
 int id buy_now 0x7f070013
 int id buy_with_google 0x7f070014
@@ -301,7 +301,7 @@ int id editTextFirstName 0x7f070057
 int id editTextLastName 0x7f070058
 int id editTextPassword 0x7f07005a
 int id editTextPasswordLogin 0x7f07004f
-int id editTextStreetNo 0x7f070084
+int id editTextStreetNo 0x7f070085
 int id editTextUserName 0x7f07005b
 int id editTextUsernameLogin 0x7f07004e
 int id emptyView 0x7f07003d
@@ -331,6 +331,7 @@ int id linearLayoutUploadPhotos 0x7f070045
 int id listView1 0x7f07007e
 int id listView1Tabdesc 0x7f070080
 int id listViewData 0x7f070081
+int id mainSpinner1 0x7f070084
 int id map 0x7f070021
 int id match_parent 0x7f070010
 int id monochrome 0x7f070018
@@ -344,7 +345,7 @@ int id satellite 0x7f070006
 int id savedprescription 0x7f07001b
 int id searchdocotr 0x7f07001c
 int id selectionDetails 0x7f07000f
-int id shape_bacground 0x7f070086
+int id shape_bacground 0x7f070087
 int id slide 0x7f070019
 int id strict_sandbox 0x7f07000c
 int id terrain 0x7f070007
@@ -404,9 +405,10 @@ int layout fragment_tnc 0x7f030017
 int layout fragment_uploaded_prescription 0x7f030018
 int layout grid_single 0x7f030019
 int layout list_item 0x7f03001a
-int layout new_address_prescription 0x7f03001b
-int layout new_attach_prescription 0x7f03001c
-int layout new_uploadprescription 0x7f03001d
+int layout loading_screen 0x7f03001b
+int layout new_address_prescription 0x7f03001c
+int layout new_attach_prescription 0x7f03001d
+int layout new_uploadprescription 0x7f03001e
 int menu home_page 0x7f0b0000
 int menu login 0x7f0b0001
 int menu main 0x7f0b0002

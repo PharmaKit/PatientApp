@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,6 +16,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.telephony.gsm.SmsManager;
 import android.util.Log;
@@ -133,7 +135,7 @@ public class Login extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		int id = v.getId();
 		if (id == R.id.buttonLoginLogin) {
-			LoginModel logiinModel = new LoginModel();
+			final LoginModel logiinModel = new LoginModel();
 			String userName = mUsername.getText().toString();
 			String password = mPassword.getText().toString();
 			
@@ -151,35 +153,40 @@ public class Login extends Activity implements OnClickListener {
 					mUsername.setError("Please Enter a username");					
 				}
 				return;
-			}
-									
-			AsyncTask<LoginModel,String,String> task = new LoginTask(Login.this).execute(logiinModel);
-			
-			String result = "";
-			
-			try {
-				result = task.get();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			Gson gson = new Gson();
+			}			
+	        
+	        final AsyncTask<LoginModel,String,String> task = new LoginTask(Login.this).execute(logiinModel);
+	        
+	        new Thread(new Runnable() {
+	
+	            @Override
+	
+	            public void run() {
+	    			String result = "";
+	    			try {
+	    				result = task.get();
+	    			} catch (InterruptedException e) {
+	    				// TODO Auto-generated catch block
+	    				e.printStackTrace();
+	    			} catch (ExecutionException e) {
+	    				// TODO Auto-generated catch block
+	    				e.printStackTrace();
+	    			}
+	    			
+	    			Gson gson = new Gson();
 
-			LoginResponse response = gson.fromJson(result, LoginResponse.class);
-			
-			if (response.success == 1) {
-				Intent intent = new Intent(Login.this,LandingActivity.class);
-				startActivity(intent);
-				sp = PreferenceManager.getDefaultSharedPreferences(Login.this);
-				Editor ed = sp.edit();
-			} else {
-				mUsername.setError("Enter valid details");
-				mPassword.setError(response.error_msg);
-			}
+	    			LoginResponse response = gson.fromJson(result, LoginResponse.class);
+	    			
+	    			if (response.success == 1) {
+	    				Intent intent = new Intent(Login.this,LandingActivity.class);
+	    				startActivity(intent);
+	    				sp = PreferenceManager.getDefaultSharedPreferences(Login.this);
+	    				Editor ed = sp.edit();
+	    			} else {
+	    			}
+	            }
+	
+	        }).start();	        
 			
 		} else if (id == R.id.textViewCreate) {
 			framelLayoutlogin.setVisibility(View.GONE);
