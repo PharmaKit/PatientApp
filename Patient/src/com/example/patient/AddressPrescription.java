@@ -12,9 +12,15 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import com.example.asyncTask.ImageUploadTask;
+import com.example.asyncTask.SaveImageDetailsTask;
 import com.example.dataModel.ImageUploadArgs;
+import com.example.dataModel.SaveImageDetailsModel;
+import com.example.datamodels.User;
+import com.example.datamodels.serialized.SaveImageDetailsResponse;
 import com.example.util.ImageUploader;
 import com.example.util.OnBackPressListener;
+import com.example.util.SessionManager;
+import com.google.gson.Gson;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -45,6 +51,8 @@ public class AddressPrescription extends Fragment implements OnClickListener,OnC
 	Button buttonUpload;
 	RadioButton radioButtonThirty,radioButtonFifteen;
 	RadioGroup radioGroupOffer;
+	SessionManager sessionManager;
+	User user;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +62,9 @@ public class AddressPrescription extends Fragment implements OnClickListener,OnC
 				false);
 
 		init(view);
+		
+		//auto fill the address of the patient.
+		editTextDoctorAdd.setText(sessionManager.getUserDetails().getAddress());
 
 		editTextDoctorAdd.setAdapter(new PlacesAutoCompleteAdapter1(getActivity(), R.layout.list_item));
 		editTextDoctorAdd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -86,7 +97,8 @@ public class AddressPrescription extends Fragment implements OnClickListener,OnC
 				
 		buttonUpload.setOnClickListener(this);
 		radioGroupOffer.setOnCheckedChangeListener(this);
-
+		sessionManager = new SessionManager(getActivity().getApplicationContext());
+		user = sessionManager.getUserDetails();
 	}
 	
 	private List<String> RetriveCapturedImagePath() {
@@ -113,6 +125,21 @@ public class AddressPrescription extends Fragment implements OnClickListener,OnC
 
 		int id = arg0.getId();
 		if (id == R.id.buttonUpload) {
+			
+			if(!radioButtonFifteen.isChecked() && !radioButtonThirty.isChecked()){
+				Toast.makeText(getActivity(), "Please select the offer", Toast.LENGTH_LONG).show();
+				return;
+			}
+			
+			if(editTextDoctorAdd.getText().toString().equals(""))
+			{
+				Toast.makeText(getActivity(), "Please enter the address", Toast.LENGTH_LONG).show();
+				return;
+			}
+			
+			String address = editTextDoctorAdd.getText().toString();
+			String offer = radioButtonFifteen.isChecked() ? "3 hours delivery" : "8 hours delivery";
+			
 			//this is where we actually upload the prescription
 			
 			List<String> images = RetriveCapturedImagePath();
@@ -127,8 +154,35 @@ public class AddressPrescription extends Fragment implements OnClickListener,OnC
 				if(file.isDirectory())
 					continue;
 				
+				SaveImageDetailsModel arguments = new SaveImageDetailsModel("jpg", user.getPersonId(), user.getFirstName() + " " + user.getLastName(), address, offer);
+				
+				AsyncTask<SaveImageDetailsModel, String, String> saveImageDetailsTask = new SaveImageDetailsTask(this.getActivity()).execute(arguments);
+				String response = null;
+				try {
+					response = saveImageDetailsTask.get();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ExecutionException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				Gson gson = new Gson();
+				SaveImageDetailsResponse imageDetails = gson.fromJson(response, SaveImageDetailsResponse.class);
+				
+				if(imageDetails.success == 1)
+				{
+					Log.d("filename", imageDetails.resourceid + ".jpg");
+				}
+				else{
+					Toast.makeText(getActivity(), "Image upload failed. Message: " + imageDetails.error_msg, Toast.LENGTH_LONG).show();
+					return;
+				}
+				
 				ImageUploadArgs args = new ImageUploadArgs();
 				args.file = file;
+				args.filename = imageDetails.resourceid + ".jpg";
 				args.mimeType = "image/jpeg";
 				try {
 					args.url = new URL("http://pharmakit.co/android_api/prescription/upload.php");
@@ -137,12 +191,11 @@ public class AddressPrescription extends Fragment implements OnClickListener,OnC
 					e.printStackTrace();
 				}
 				
-				AsyncTask<ImageUploadArgs, String, String> task = new ImageUploadTask(this.getActivity().getApplicationContext()).execute(args);
+				AsyncTask<ImageUploadArgs, String, String> task = new ImageUploadTask(this.getActivity()).execute(args);
 				synchronized(task){
 				
 				try {
 					task.get();
-						
 					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block

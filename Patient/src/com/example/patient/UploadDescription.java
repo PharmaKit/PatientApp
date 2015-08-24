@@ -66,6 +66,7 @@ import android.widget.Toast;
 import com.example.adapters.CustomGridImage;
 import com.example.dataModel.ImagViewModel;
 import com.example.dataModel.PrescriptionModel;
+import com.example.datamodels.User;
 import com.example.util.ButtonFloat;
 import com.example.util.ExpandableHeightGridView;
 import com.example.util.SessionManager;
@@ -265,9 +266,9 @@ public class UploadDescription extends Fragment implements OnClickListener, OnCh
 		textViewNote.setMovementMethod(LinkMovementMethod.getInstance());
 
 		SessionManager session = new SessionManager(getActivity());
-		HashMap<String, String> map = session.getUserDetails();
+		User user = session.getUserDetails();
 
-		String address=map.get(SessionManager.KEY_ADDRESS);
+		String address= user.getAddress();
 		editTextDoctorAdd.setText(address);
 
 		bfOptions=new BitmapFactory.Options();

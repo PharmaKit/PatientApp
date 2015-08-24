@@ -30,9 +30,10 @@ public class ImageUploadTask extends AsyncTask<ImageUploadArgs, String, String> 
 		// TODO Auto-generated method stub
 		super.onPreExecute();
 		mDialog = new ProgressDialog(mContext);
-		mDialog.setTitle("Loading");
+		mDialog.setTitle("Please wait");
+		mDialog.setMessage("Uploading prescription image..");
 		mDialog.setCancelable(false);
-		//	mDialog.show();
+		mDialog.show();
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class ImageUploadTask extends AsyncTask<ImageUploadArgs, String, String> 
 	
 
 		try {
-			int returnCode = ImageUploader.postFileToURL(params[0].file, params[0].mimeType, params[0].url);
+			int returnCode = ImageUploader.postFileToURL(params[0].file, params[0].filename, params[0].mimeType, params[0].url);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,5 +55,6 @@ public class ImageUploadTask extends AsyncTask<ImageUploadArgs, String, String> 
 		
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
+		mDialog.dismiss();
 	}
 }

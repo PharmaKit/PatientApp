@@ -5,5 +5,5 @@ public class RegistrationResponse {
 	public String error_msg;
 	public int success;
 	public String uid;
-	public User user;
+	public UserResponse user;
 }

@@ -5,6 +5,7 @@ public class LoginResponse {
 	public int success;
 	public int error;
 	public String uid;
-	public User user;
+	public UserResponse user;
 	public String error_msg;
+	public AddressResponse address;
 }

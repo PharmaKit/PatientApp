@@ -8,6 +8,7 @@ public class Constants {
 	public static String SITE = "http://mustaqim.ignorelist.com";
 	public static String DOCTOR_EXTENSION = "/android_api/doctor.php";
 	public static String PATIENT_EXTENSION = "/android_api/patient.php";
+	public static String IMAGE_EXTENSION = "/android_api/image.php";
 	public static String DEBUGGER_EXTENSION = "XDEBUG_SESSION_START=netbeans-xdebug";
 	public static String MEDICINE_EXTENSION = "/android_api/medicine.php";
 	

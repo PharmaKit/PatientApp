@@ -7,6 +7,7 @@ public class ImageUploadArgs {
 	
 	public String mimeType;
 	public File file;
+	public String filename;
 	public URL url;
 }
  

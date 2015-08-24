@@ -87,17 +87,17 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 		Log.d("Call to servlet", "Call servlet");
 
 		// Building post parameters, key and value pair
-		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-		nameValuePair.add(new BasicNameValuePair("tag", "login"));
-		nameValuePair.add(new BasicNameValuePair("email", objLoginModel
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+		nameValuePairs.add(new BasicNameValuePair("tag", "login"));
+		nameValuePairs.add(new BasicNameValuePair("email", objLoginModel
 				.getmUsername()));
-		nameValuePair.add(new BasicNameValuePair("password", objLoginModel
+		nameValuePairs.add(new BasicNameValuePair("password", objLoginModel
 				.getmPassword()));
 
-		Log.d("cac", "NameValuePair" + nameValuePair);
+		Log.d("cac", "NameValuePair" + nameValuePairs);
 		// Url Encoding the POST parameters
 		try {
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		} catch (UnsupportedEncodingException e) {
 			// writing error to Log
 			e.printStackTrace();

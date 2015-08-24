@@ -32,13 +32,13 @@ public class ImageUploader {
 //		}
 //	}
 
-	public static int postFileToURL(File file, String mimeType, URL url) throws IOException {
+	public static int postFileToURL(File file, String fileName, String mimeType, URL url) throws IOException {
 		
 		DataOutputStream requestData = null;
 		
 		try {
 			int size = (int) file.length();
-			String fileName = file.getName();
+			//String fileName = file.getName();
 			
 			//Create a random boundary string
 			Random random = new Random();
@@ -59,7 +59,6 @@ public class ImageUploader {
 			
 			urlConnection.setChunkedStreamingMode(size);
 			
-					
 			// Open file for reading
 			FileInputStream fileInput = new FileInputStream(file);
 			// Open connection to server...

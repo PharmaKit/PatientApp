@@ -54,7 +54,7 @@ public class AddNewPatienTask extends
 
 		HttpResponse response;
 
-		// Creating HTTP client
+		// Creating HTTP clien
 		HttpClient httpClient = new DefaultHttpClient();
 
 		// Creating HttpPost

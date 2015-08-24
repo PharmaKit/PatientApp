@@ -1,5 +1,8 @@
 package com.example.asyncTask;
 
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import com.example.dataModel.LoginModel;
 import com.example.dataModel.RegisterModel;
 import com.example.patient.Login;
 import com.example.util.Constants;
@@ -23,6 +27,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
 
@@ -30,6 +35,7 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
 	ProgressDialog pd;
 	String jsonResposnseString;
 	
+	RegisterModel objRegisterModel;
 	
 	public RegisterTask(Login login) {
 		_login  = login;
@@ -42,17 +48,8 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-	//	pd.dismiss();
-		
-		
-		/*
-		 * mainpulate this flow that user can navigate to proper activity.
-		 * Use intent bleow to navigate
-		 */
-		
-		/*Intent objintent= new  Intent(_login,Login.class);
-		_login.startActivity(objintent);*/
-
+		Log.d("response json is ", "" + result);
+		pd.dismiss();
 	}
 
 	/* (non-Javadoc)
@@ -63,16 +60,18 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
 		// TODO Auto-generated method stub
 		super.onPreExecute();
 		pd =new ProgressDialog(_login);
+		pd.setTitle("Registering");
 		pd.setMessage("Please Wait..");
 		pd.setCancelable(false);
-	//	pd.show();
+		pd.show();
 	}
 
 	@Override
 	protected String doInBackground(RegisterModel... params) {
 		// TODO Auto-generated method stub
 
-
+		objRegisterModel = params[0];
+		
 		Gson objGson = new Gson();
 		String request  = objGson.toJson(params[0]);
 
@@ -85,15 +84,40 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
 
 		//------Modify your server url in Constants in util package-------
 
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL+"/urc2");		
-		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-		nameValuePair.add(new BasicNameValuePair("jsondata", request));
+//		URL url = new URL(Constants.SERVER_URL
+//				+ Constants.PATIENT_EXTENSION);
+//		
+//		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+//		
+//		try{
+//			urlConnection.setDoOutput(true);
+//			urlConnection.setChunkedStreamingMode(0);
+//			
+//			OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
+//			
+//			writeStream(out);
+//		}
+		
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ Constants.PATIENT_EXTENSION);
+
+		Log.d("Call to servlet", "Call servlet");
+		
+		
+		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(6);
+		
+		nameValuePairs.add(new BasicNameValuePair("tag", "register"));
+		nameValuePairs.add(new BasicNameValuePair("name", objRegisterModel.getFirstName()));
+		nameValuePairs.add(new BasicNameValuePair("email", objRegisterModel.getEmailId()));
+		nameValuePairs.add(new BasicNameValuePair("password", objRegisterModel.getPassword()));
+		nameValuePairs.add(new BasicNameValuePair("address", objRegisterModel.getAddress()));
+		nameValuePairs.add(new BasicNameValuePair("telephone", objRegisterModel.getContactNo()));
 
 		//URl Encoding the POST parametrs
 
 		try{
 
-			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -101,16 +125,11 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
 
 		//making http request
 		try{
-			System.out.println("Executing");
+			Log.d("RegisterTask", "Sending NameValuePair" + nameValuePairs);
 			response = httpclient.execute(httpPost);
-			System.out.println("check response"+response.toString());
+			Log.d("RegisterTask", "check response"+response.toString());
 			HttpEntity entity= response.getEntity();
 			jsonResposnseString = EntityUtils.toString(entity);
-
-			/**
-			 * In 'jsonResposnseString' you will get response that you sent form server.
-			 * 
-			 */
 			
 		}catch(ClientProtocolException e){
 			e.printStackTrace();
@@ -118,9 +137,6 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return null;
-
-
+		return jsonResposnseString;
 	}
-
 }

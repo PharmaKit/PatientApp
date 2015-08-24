@@ -40,6 +40,8 @@ import com.example.asyncTask.RegisterTask;
 import com.example.dataModel.LoginModel;
 import com.example.dataModel.RegisterModel;
 import com.example.datamodels.serialized.LoginResponse;
+import com.example.datamodels.serialized.RegistrationResponse;
+import com.example.datamodels.serialized.UserResponse;
 import com.example.util.SessionManager;
 import com.google.gson.Gson;
 
@@ -178,10 +180,14 @@ public class Login extends Activity implements OnClickListener {
 	    			LoginResponse response = gson.fromJson(result, LoginResponse.class);
 	    			
 	    			if (response.success == 1) {
+	    				
+	    				SessionManager sessionManager = new SessionManager(getApplicationContext());
+	    				UserResponse user = response.user;
+	    				
+	    				sessionManager.createLoginSession(true, user.person_id, user.name, "", user.email, response.address.house_no,user.telephone);
+	    				
 	    				Intent intent = new Intent(Login.this,LandingActivity.class);
 	    				startActivity(intent);
-	    				sp = PreferenceManager.getDefaultSharedPreferences(Login.this);
-	    				Editor ed = sp.edit();
 	    			} else {
 	    			}
 	            }
@@ -226,15 +232,48 @@ public class Login extends Activity implements OnClickListener {
 				objRegisterModel.setAddress(mAddress.getText().toString());
 				objRegisterModel.setUserName(muser.getText().toString());
 
-				new RegisterTask(Login.this).execute(objRegisterModel);
+				final AsyncTask<RegisterModel, String, String> task = new RegisterTask(Login.this).execute(objRegisterModel);
 
+				new Thread(new Runnable() {
+					
+		            @Override
+		            public void run() {
+		    			String result = "";
+		    			try {
+		    				result = task.get();
+		    			} catch (InterruptedException e) {
+		    				// TODO Auto-generated catch block
+		    				e.printStackTrace();
+		    			} catch (ExecutionException e) {
+		    				// TODO Auto-generated catch block
+		    				e.printStackTrace();
+		    			}
+		    			
+		    			Gson gson = new Gson();
+
+		    			RegistrationResponse response = gson.fromJson(result, RegistrationResponse.class);
+		    			
+		    			if (response.success == 1) {
+		    				
+		    				SessionManager session = new SessionManager(getApplicationContext());
+		    				session.createLoginSession(true, response.user.person_id, mFirstName.getText().toString(), mLastName.getText().toString(), mEmailId.getText().toString(), mAddress.getText().toString(), mContactNo.getText().toString());
+		    				
+		    				Intent intent = new Intent(Login.this,LandingActivity.class);
+		    				startActivity(intent);
+		    			} else {
+		    			}
+		            }
+		
+		        }).start();
+				
 				/**
 				 * Create Sesson manager
 				 */
-				SessionManager session = new SessionManager(this);
-				session.createLoginSession(true, mFirstName.getText().toString(), mLastName.getText().toString(), mEmailId.getText().toString(), mAddress.getText().toString(), mContactNo.getText().toString());
+				
 
-				sendOTP(mContactNo.getText().toString());
+				//todo: password should not be sent from the cellphone itself. it should be sent forom the server.
+				
+				//sendOTP(mContactNo.getText().toString());
 			}
 		} else if (id == R.id.textViewforgot) {
 			framelLayoutlogin.setVisibility(View.GONE);
@@ -318,7 +357,7 @@ public class Login extends Activity implements OnClickListener {
 		}, new IntentFilter(DELIVERED));        
 
 		SmsManager sms = SmsManager.getDefault();
-		sms.sendTextMessage(stringPhone, null, "YOur OTP is: "+randomInt, sentPI, deliveredPI);        
+		sms.sendTextMessage(stringPhone, null, "Your OTP is: "+randomInt, sentPI, deliveredPI);        
 
 		createDialogForOTP(randomInt);
 	}
