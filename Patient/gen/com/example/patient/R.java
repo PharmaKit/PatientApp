@@ -1070,6 +1070,7 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f050084;
+        public static final int crash_toast_text=0x7f05009d;
         public static final int create=0x7f050009;
         public static final int create_calendar_message=0x7f050063;
         public static final int create_calendar_title=0x7f050062;

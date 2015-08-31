@@ -55,5 +55,6 @@
         \n\n<b>Dispute Resolution:</b>All differences, disputes etc., pertaining to the use of Services or any terms and conditions relating to this Agreement shall be resolved by arbitration in terms of the Arbitration and Conciliation Act, 1996 (Act). The arbitration shall be conducted by a sole arbitrator appointed by Pharmakit and in terms of the Act and the venue of arbitration shall be Mumbai. Either You or we may seek any interim or preliminary relief from a court of competent jurisdiction, in India, necessary to protect the rights or the property of You or Pharmakit (or its agents, suppliers, and subcontractors), pending the completion of arbitration.
         \n\nIf any part of these terms is determined to be invalid or unenforceable pursuant to applicable law, then the invalid or unenforceable provision will be deemed superseded by a valid, enforceable provision that most closely matches the intent of the original provision, and the remainder of the terms shall continue in effect.</string>
     <string name="questions">For questions or concerns about these terms of use, please send an email to legal@pharmakit.co</string>
+    <string name="crash_toast_text">Application crashed. Please try again.</string>
 
 </resources>

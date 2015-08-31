@@ -463,6 +463,7 @@ int string common_google_play_services_updating_title 0x7f050079
 int string common_open_on_phone 0x7f050085
 int string common_signin_button_text 0x7f050083
 int string common_signin_button_text_long 0x7f050084
+int string crash_toast_text 0x7f05009d
 int string create 0x7f050009
 int string create_calendar_message 0x7f050063
 int string create_calendar_title 0x7f050062
