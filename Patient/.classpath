@@ -3,7 +3,7 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="F:/Projects/GitHub/PatientApp/Patient/libs/acra-4.6.2.jar"/>
+	<classpathentry kind="lib" path="libs/acra-4.6.2.jar"/>
 	<classpathentry exported="true" kind="src" path="/google-play-services_lib"/>
 	<classpathentry exported="true" kind="lib" path="/google-play-services_lib/libs/google-play-services.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/CommonLibrary"/>
