@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,10 +105,10 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 
 		listOfImagesPath = null;
 		listOfImagesPath = RetriveCapturedImagePath();
+		
+		refreshImageGridView();
 
 		if(listOfImagesPath!=null && listOfImagesPath.size()!=0){
-
-
 		}else{
 			textViewUploadedPrescrition.setText("No Prescription Uploded Yet!!!");
 		}
@@ -191,113 +192,7 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 
 			Log.d("lisofImages", "size in camera view"+listOfImagesPath.size());
 
-			if(listOfImagesPath!=null && listOfImagesPath.size()!=0){
-
-				for(int i=0;i<listOfImagesPath.size();i++){
-					// Let's create the missing ImageView
-					ImageView image = new ImageView(getActivity());
-
-					// Now the layout parameters, these are a little tricky at first
-					FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-							400,
-							500);
-
-					FrameLayout framelayout = new FrameLayout(getActivity());
-					framelayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 
-							LayoutParams.MATCH_PARENT));
-
-					ImageView imageView = new ImageView(getActivity());
-					imageView.setScaleType(ImageView.ScaleType.MATRIX);
-					imageView.setImageResource(R.drawable.ic_close_white_18dp);
-					LinearLayout.LayoutParams layoutParamsImage= new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-					layoutParamsImage.gravity = Gravity.LEFT;
-					imageView.setLayoutParams(layoutParamsImage);
-					imageView.setId(i);
-
-					image.setScaleType
-					(ImageView.ScaleType.FIT_XY);
-					image.setPadding(10, 0, 10, 0);
-					File file = new File(listOfImagesPath.get(i).toString());
-					
-					if(file.exists() && file.length() > 500000)
-					{
-						double compressionRatio = (500000.0/(double)file.length()) * 100.0;
-						
-						Bitmap bMap = BitmapFactory.decodeFile(listOfImagesPath.get(i).toString());
-						
-						FileOutputStream out = null;
-						try {
-							out = new FileOutputStream(listOfImagesPath.get(i).toString());
-						} catch (FileNotFoundException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						bMap.compress(Bitmap.CompressFormat.JPEG, (int)compressionRatio, out);
-						try {
-							out.close();
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						file = new File(listOfImagesPath.get(i).toString());
-					}
-					
-
-					try {
-						fs = new FileInputStream(file);
-
-						if(fs!=null) {
-							bm=BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
-							image.setImageBitmap(bm);
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					} finally{
-						if(fs!=null) {
-							try {
-								fs.close();
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-
-					framelayout.addView(image);
-					framelayout.addView(imageView);
-
-					layout.addView(framelayout, 0, params);
-
-					imageView.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-
-							int idImageView = v.getId();
-							Log.d("id is:", "id"+idImageView);
-
-							deleteRespectiveImage(idImageView-1);
-
-						}
-					});
-
-				}
-				buttonUploadPrescription.setText("Add another prescription");
-
-				/**
-				 * Convert Bitmap to String
-				 */
-				//ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-				
-				
-				
-				//photo.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object   
-				//byte[] b = baos.toByteArray();
-				//encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-			} 
-			else{
-
-				textViewUploadedPrescrition.setText("Uploded Prescriptions");
-			}
+			refreshImageGridView();
 		}
 		else if (resultCode == getActivity().RESULT_OK && requestCode==PICK_FROM_FILE) {
 
@@ -305,115 +200,196 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 			if(data.getData() != null){
 
 				selectedImageUri = data.getData();
-				selectedPath = getPath(selectedImageUri,getActivity());
+				//todo: here we have to copy the file to destination folder.
+				
+				createDirIfNotExists();
+				String imgcurTime = dateFormat.format(new Date());
+				String _path = GridViewDemo_ImagePath + imgcurTime+".jpg";
+
+				Log.d("_path", "_path"+_path);
+				File destinationFile = new File(_path);
+				
+				String sourceFilePath = getPath(selectedImageUri,getActivity());
+				
+				copyFile(sourceFilePath, destinationFile);
+				
+				selectedPath = destinationFile.getAbsolutePath();
+				//selectedPath = getPath(selectedImageUri,getActivity());
 
 				//listOfImagesPath=RetriveCapturedImagePath();
 				listOfImagesPath.add(selectedPath);
+				
+				//todo: compress the copied file
 
 				Log.d("lisofImages", "size"+listOfImagesPath.size());				
 				Log.d("lisofImages", "size"+listOfImagesPath);				
 
-
-				if(listOfImagesPath!=null && listOfImagesPath.size()!=0){
-
-					for(int i=0;i<listOfImagesPath.size();i++){
-
-						ImageView image = new ImageView(getActivity());
-
-						// Now the layout parameters, these are a little tricky at first
-						FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-								400,
-								500);
-
-						FrameLayout framelayout = new FrameLayout(getActivity());
-						framelayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, 
-								LayoutParams.MATCH_PARENT));
-
-						ImageView imageView = new ImageView(getActivity());
-
-						imageView.setScaleType(ImageView.ScaleType.MATRIX);
-						imageView.setImageResource(R.drawable.ic_close_white_18dp);
-						LinearLayout.LayoutParams layoutParamsImage= new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-						layoutParamsImage.gravity = Gravity.RIGHT;
-						imageView.setLayoutParams(layoutParamsImage);
-
-						imageView.setId(i);
-
-						image.setScaleType
-						(ImageView.ScaleType.MATRIX);
-						image.setPadding(10, 0, 10, 0);
-
-						imageView.setOnTouchListener(this);    
-
-						try {
-							fs = new FileInputStream(new File(listOfImagesPath.get(i).toString()));
-
-							if(fs!=null) {
-								bm=BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
-								image.setImageBitmap(bm);
-								//image.setId(count);
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						} finally{
-							if(fs!=null) {
-								try {
-									fs.close();
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
-							}
-						}
-						framelayout.addView(image);
-						framelayout.addView(imageView);
-
-						layout.addView(framelayout, 0, params);
-
-						imageView.setOnClickListener(new OnClickListener() {
-
-							@Override
-							public void onClick(View v) {
-
-								int idImageView = v.getId();
-								Log.d("id is:", "id"+idImageView);
-
-								deleteRespectiveImage(idImageView);
-
-							}
-						});
-					}
-					buttonUploadPrescription.setText("Add another prescription");
-				} 
-				else{
-
-					textViewUploadedPrescrition.setText("Uploded Prescriptions");
-				}
+				refreshImageGridView();
 			}
 		}
+	}
+
+	protected void refreshImageGridView() {
+		layout.removeAllViews();	
+		
+		if(listOfImagesPath!=null && listOfImagesPath.size()!=0){
+
+			for(int i=0;i<listOfImagesPath.size();i++){
+				// Let's create the missing ImageView
+				ImageView image = new ImageView(getActivity());
+
+				// Now the layout parameters, these are a little tricky at first
+				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+						400,
+						500);
+
+				FrameLayout framelayout = new FrameLayout(getActivity());
+				framelayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 
+						LayoutParams.MATCH_PARENT));
+
+				ImageView imageView = new ImageView(getActivity());
+				imageView.setScaleType(ImageView.ScaleType.MATRIX);
+				imageView.setImageResource(R.drawable.ic_close_white_18dp);
+				LinearLayout.LayoutParams layoutParamsImage= new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				layoutParamsImage.gravity = Gravity.LEFT;
+				imageView.setLayoutParams(layoutParamsImage);
+				imageView.setId(i);
+
+				image.setScaleType
+				(ImageView.ScaleType.FIT_XY);
+				image.setPadding(10, 0, 10, 0);
+				File file = new File(listOfImagesPath.get(i).toString());
+				
+				if(file.exists() && file.length() > 500000)
+				{
+					double compressionRatio = (500000.0/(double)file.length()) * 100.0;
+					
+					Bitmap bMap = BitmapFactory.decodeFile(listOfImagesPath.get(i).toString());
+					
+					FileOutputStream out = null;
+					try {
+						out = new FileOutputStream(listOfImagesPath.get(i).toString());
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					bMap.compress(Bitmap.CompressFormat.JPEG, (int)compressionRatio, out);
+					try {
+						out.close();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					file = new File(listOfImagesPath.get(i).toString());
+				}
+				
+
+				try {
+					fs = new FileInputStream(file);
+
+					if(fs!=null) {
+						bm=BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
+						image.setImageBitmap(bm);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally{
+					if(fs!=null) {
+						try {
+							fs.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+
+				framelayout.addView(image);
+				framelayout.addView(imageView);
+
+				layout.addView(framelayout, 0, params);
+
+				imageView.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+
+						int idImageView = v.getId();
+						Log.d("id is:", "id"+idImageView);
+
+						deleteRespectiveImage(idImageView-1);
+
+					}
+				});
+
+			}
+			buttonUploadPrescription.setText("Add another prescription");
+
+			/**
+			 * Convert Bitmap to String
+			 */
+			//ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+			
+			
+			
+			//photo.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object   
+			//byte[] b = baos.toByteArray();
+			//encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+		} 
+		else{
+
+			textViewUploadedPrescrition.setText("Uploded Prescriptions");
+		}
+	}
+	
+	private void copyFile(String sourceFilePath, File destination) {
+	    try {
+	        File source = new File(sourceFilePath);
+	        FileChannel src = new FileInputStream(source).getChannel();
+	        FileChannel dst = new FileOutputStream(destination).getChannel();
+	        dst.transferFrom(src, 0, src.size());
+	        src.close();
+	        dst.close();
+	    } catch (IOException ex) {
+	        ex.printStackTrace();
+	    }
 	}
 
 	protected void deleteRespectiveImage(int position) {
 
-		listOfImagesPath.remove(position);
+		String imagePath = listOfImagesPath.get(position+1);
+		File imageFile = new File(imagePath);
+		imageFile.delete();
+		
+		listOfImagesPath.remove(position+1);
+		
+		refreshImageGridView();
 
-		ViewGroup parentLayout = (ViewGroup) objHorizontalScrollView.getChildAt(0);
+//		ViewGroup parentLayout = (ViewGroup) objHorizontalScrollView.getChildAt(0);
+//
+//		if (parentLayout.getChildCount() > 0) {
+//
+//			Log.d("parent", "parent"+parentLayout.getChildCount());
+//			
+//			Log.d("parent", ""+position);
+//			parentLayout.removeView(parentLayout.getChildAt((parentLayout.getChildCount()-1)-position));
+//			Log.d("parent", "parent after"+parentLayout.getChildCount());
 
-		if (parentLayout.getChildCount() > 0) {
-
-			Log.d("parent", "parent"+parentLayout.getChildCount());
-			if(parentLayout.getChildCount() ==1 ){
-
-				parentLayout.removeView(parentLayout.getChildAt(position));
-				Log.d("parent", "parent after"+parentLayout.getChildCount());
-
-			}else{
-				Log.d("parent", ""+position);
-				parentLayout.removeView(parentLayout.getChildAt((parentLayout.getChildCount()-1)-position));
-				Log.d("parent", "parent after"+parentLayout.getChildCount());
-
-			}
-		}
+			
+//			if(parentLayout.getChildCount() ==1 ){
+//
+//				parentLayout.removeView(parentLayout.getChildAt(position));
+//				Log.d("parent", "parent after"+parentLayout.getChildCount());
+//
+//			}else{
+//				Log.d("parent", ""+position);
+//				parentLayout.removeView(parentLayout.getChildAt((parentLayout.getChildCount()-1)-position));
+//				Log.d("parent", "parent after"+parentLayout.getChildCount());
+//
+//			}
+//		}
 	}
+	
+	
 
 	private List<String> RetriveCapturedImagePath() {
 		List<String> tFileList = new ArrayList<String>();
@@ -643,14 +619,7 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 				if (items[item].equals("Take Photo")) {
 					Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
 					
-					String imgcurTime = dateFormat.format(new Date());
-					File imageDirectory = new File(GridViewDemo_ImagePath);
-					if(!imageDirectory.exists()){
-						imageDirectory.mkdirs();
-					}				
-					String _path = GridViewDemo_ImagePath + imgcurTime+".jpg";
-
-					Log.d("_path", "_path"+_path);
+					File imageDirectory = createDirIfNotExists();			
 					
 					File tempFile;
 					try {
@@ -661,6 +630,7 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 						}
 							
 						fileName = tempFile.getAbsolutePath();
+						Log.d("_path", fileName);
 						Uri uri = Uri.fromFile(tempFile);
 						
 						cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
@@ -685,6 +655,14 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 
 		builder.show();
 
+	}
+	
+	private File createDirIfNotExists() {
+		File imageDirectory = new File(GridViewDemo_ImagePath);
+		if(!imageDirectory.exists()){
+			imageDirectory.mkdirs();
+		}
+		return imageDirectory;
 	}
 
 	@Override
