@@ -86,6 +86,7 @@ public class SaveImageDetailsTask extends AsyncTask<SaveImageDetailsModel, Strin
 		nameValuePairs.add(new BasicNameValuePair("personid", Long.toString(saveImageDetailsModel.getPersonId())));
 		nameValuePairs.add(new BasicNameValuePair("recepientname", saveImageDetailsModel.getRecepientName()));
 		nameValuePairs.add(new BasicNameValuePair("recepientaddress", saveImageDetailsModel.getRecepientAddress()));
+		nameValuePairs.add(new BasicNameValuePair("recepientnumber", saveImageDetailsModel.getRecepientNumber()));
 		nameValuePairs.add(new BasicNameValuePair("offertype", saveImageDetailsModel.getOfferType()));
 		
 		Log.d("cac", "NameValuePair" + nameValuePairs);

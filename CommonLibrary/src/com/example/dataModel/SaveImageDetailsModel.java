@@ -6,13 +6,15 @@ public class SaveImageDetailsModel {
 	private long personId;
 	private String recepientName;
 	private String recepientAddress;
+	private String recepientNumber;
 	private String offerType;
 	
-	public SaveImageDetailsModel(String resourceType, long personId, String recepientName, String recepientAddress, String offerType){
+	public SaveImageDetailsModel(String resourceType, long personId, String recepientName, String recepientAddress, String recepientNumber, String offerType){
 		this.resourceType = resourceType;
 		this.personId = personId;
 		this.recepientName = recepientName;
 		this.recepientAddress = recepientAddress;
+		this.recepientNumber = recepientNumber;
 		this.offerType = offerType;
 	}
 
@@ -34,5 +36,9 @@ public class SaveImageDetailsModel {
 
 	public String getOfferType() {
 		return offerType;
+	}
+
+	public String getRecepientNumber() {
+		return recepientNumber;
 	}
 }

@@ -45,6 +45,7 @@ import android.view.Choreographer.FrameCallback;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewParent;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -236,7 +237,7 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 
 			for(int i=0;i<listOfImagesPath.size();i++){
 				// Let's create the missing ImageView
-				ImageView image = new ImageView(getActivity());
+				
 
 				// Now the layout parameters, these are a little tricky at first
 				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
@@ -247,14 +248,7 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 				framelayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 
 						LayoutParams.MATCH_PARENT));
 
-				ImageView imageView = new ImageView(getActivity());
-				imageView.setScaleType(ImageView.ScaleType.MATRIX);
-				imageView.setImageResource(R.drawable.ic_close_white_18dp);
-				LinearLayout.LayoutParams layoutParamsImage= new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-				layoutParamsImage.gravity = Gravity.LEFT;
-				imageView.setLayoutParams(layoutParamsImage);
-				imageView.setId(i);
-
+				ImageView image = new ImageView(getActivity());
 				image.setScaleType
 				(ImageView.ScaleType.FIT_XY);
 				image.setPadding(10, 0, 10, 0);
@@ -302,6 +296,14 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 						}
 					}
 				}
+				
+				ImageView imageView = new ImageView(getActivity());
+				imageView.setScaleType(ImageView.ScaleType.MATRIX);
+				imageView.setImageResource(R.drawable.ic_close_white_18dp);
+				LinearLayout.LayoutParams layoutParamsImage= new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				layoutParamsImage.gravity = Gravity.LEFT;
+				imageView.setLayoutParams(layoutParamsImage);
+				imageView.setId(i);
 
 				framelayout.addView(image);
 				framelayout.addView(imageView);
@@ -316,7 +318,7 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 						int idImageView = v.getId();
 						Log.d("id is:", "id"+idImageView);
 
-						deleteRespectiveImage(idImageView-1);
+						deleteRespectiveImage(idImageView, v);
 
 					}
 				});
@@ -354,35 +356,37 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 	    }
 	}
 
-	protected void deleteRespectiveImage(int position) {
+	protected void deleteRespectiveImage(int position, View view) {
 
-		String imagePath = listOfImagesPath.get(position+1);
+		String imagePath = listOfImagesPath.get(position);
 		File imageFile = new File(imagePath);
 		imageFile.delete();
 		
-		listOfImagesPath.remove(position+1);
+		listOfImagesPath.remove(position);
+		
+		Log.d("remove view", "removing view at position: " + position);
 		
 		refreshImageGridView();
 
 //		ViewGroup parentLayout = (ViewGroup) objHorizontalScrollView.getChildAt(0);
-//
+//		
+//		View frameLayoutView = (View)view.getParent();
+//		parentLayout.removeView(frameLayoutView);
+		
+//		Log.d("parent", "new image count "+parentLayout.getChildCount());
+
 //		if (parentLayout.getChildCount() > 0) {
 //
 //			Log.d("parent", "parent"+parentLayout.getChildCount());
 //			
-//			Log.d("parent", ""+position);
-//			parentLayout.removeView(parentLayout.getChildAt((parentLayout.getChildCount()-1)-position));
-//			Log.d("parent", "parent after"+parentLayout.getChildCount());
-
-			
 //			if(parentLayout.getChildCount() ==1 ){
 //
-//				parentLayout.removeView(parentLayout.getChildAt(position));
+//				parentLayout.removeView(parentLayout.getChildAt(position-1));
 //				Log.d("parent", "parent after"+parentLayout.getChildCount());
 //
 //			}else{
-//				Log.d("parent", ""+position);
-//				parentLayout.removeView(parentLayout.getChildAt((parentLayout.getChildCount()-1)-position));
+//				Log.d("parent", ""+(position-1));
+//				parentLayout.removeView(parentLayout.getChildAt((parentLayout.getChildCount()-1)-(position-1)));
 //				Log.d("parent", "parent after"+parentLayout.getChildCount());
 //
 //			}
@@ -402,7 +406,12 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 				File file = files[i];
 				if(file.isDirectory())
 					continue;
-				tFileList.add(file.getPath());
+				if(file.length() > 0) {
+					tFileList.add(file.getPath());
+				}
+				else {
+					file.delete();
+				}
 			}
 		}
 		return tFileList;

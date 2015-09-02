@@ -154,7 +154,7 @@ public class AddressPrescription extends Fragment implements OnClickListener,OnC
 				if(file.isDirectory())
 					continue;
 				
-				SaveImageDetailsModel arguments = new SaveImageDetailsModel("jpg", user.getPersonId(), user.getFirstName() + " " + user.getLastName(), address, offer);
+				SaveImageDetailsModel arguments = new SaveImageDetailsModel("jpg", user.getPersonId(), user.getFirstName() + " " + user.getLastName(), address, user.getPhoneNo(), offer);
 				
 				AsyncTask<SaveImageDetailsModel, String, String> saveImageDetailsTask = new SaveImageDetailsTask(this.getActivity()).execute(arguments);
 				String response = null;
