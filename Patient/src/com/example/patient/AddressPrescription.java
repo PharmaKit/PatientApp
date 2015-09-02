@@ -151,6 +151,14 @@ public class AddressPrescription extends Fragment implements OnClickListener,OnC
 				
 				File file = new File(image);
 				
+				long imageSize = file.length();
+				
+				if(imageSize == 0)
+				{
+					file.delete();
+					continue;
+				}
+				
 				if(file.isDirectory())
 					continue;
 				

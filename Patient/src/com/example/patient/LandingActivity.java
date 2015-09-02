@@ -68,9 +68,9 @@ public class LandingActivity extends Activity {
 
 		// Add Drawer Item to dataList
 		dataList.add(new DrawerItem("Add Prescription", R.drawable.ic_briefcase_upload_grey600_36dp));
-		dataList.add(new DrawerItem("Find Doctor", R.drawable.ic_account_search_grey600_36dp));
-		dataList.add(new DrawerItem("Saved Prescrption", R.drawable.ic_content_save_all_grey600_36dp));
-		dataList.add(new DrawerItem("Prescrption History", R.drawable.ic_content_save_all_grey600_36dp));
+		//dataList.add(new DrawerItem("Find Doctor", R.drawable.ic_account_search_grey600_36dp));
+		//dataList.add(new DrawerItem("Saved Prescrption", R.drawable.ic_content_save_all_grey600_36dp));
+		//dataList.add(new DrawerItem("Prescrption History", R.drawable.ic_content_save_all_grey600_36dp));
 		//dataList.add(new DrawerItem("Settings", R.drawable.ic_settings_grey600_36dp));
 		dataList.add(new DrawerItem("Feedback", R.drawable.ic_comment_alert_outline_grey600_36dp));
 		//	dataList.add(new DrawerItem("Privacy Policy", R.drawable.ic_marker_check_grey600_36dp));
@@ -131,40 +131,50 @@ public class LandingActivity extends Activity {
 					.getImgResID());
 
 			break;
+			
 		case 1:
-			fragment = new FindDoctor();
-			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
-					.getItemName());
-			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition)
-					.getImgResID());
-
-			break;
-		case 2:
-			fragment = new SavedPrescription();
-			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
-					.getItemName());
-			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition)
-					.getImgResID());
-
-
-			break;
-
-		case 3:
-			fragment = new UploadedPrescription();
-			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
-					.getItemName());
-			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition)
-					.getImgResID());
-
-
-			break;
-
-		case 4:
 			fragment = new Feedback();
 			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
 					.getItemName());
 			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition)
 					.getImgResID());
+			
+			//todo: we are hiding all other cases which are currently not used.
+			
+//		case 1:
+//			fragment = new FindDoctor();
+//			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
+//					.getItemName());
+//			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition)
+//					.getImgResID());
+//
+//			break;
+//		case 2:
+//			fragment = new SavedPrescription();
+//			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
+//					.getItemName());
+//			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition)
+//					.getImgResID());
+//
+//
+//			break;
+//
+//		case 3:
+//			fragment = new UploadedPrescription();
+//			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
+//					.getItemName());
+//			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition)
+//					.getImgResID());
+//
+//
+//			break;
+//
+//		case 4:
+//			fragment = new Feedback();
+//			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
+//					.getItemName());
+//			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition)
+//					.getImgResID());
 
 
 

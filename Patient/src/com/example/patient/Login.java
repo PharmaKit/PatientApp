@@ -137,12 +137,12 @@ public class Login extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		int id = v.getId();
 		if (id == R.id.buttonLoginLogin) {
-			final LoginModel logiinModel = new LoginModel();
+			final LoginModel loginModel = new LoginModel();
 			String userName = mUsername.getText().toString();
 			String password = mPassword.getText().toString();
 			
-			logiinModel.setmPassword(password);
-			logiinModel.setmUsername(userName);
+			loginModel.setmPassword(password);
+			loginModel.setmUsername(userName);
 			
 			if(userName.compareTo("") == 0 || password.compareTo("") == 0)
 			{
@@ -157,42 +157,8 @@ public class Login extends Activity implements OnClickListener {
 				return;
 			}			
 	        
-	        final AsyncTask<LoginModel,String,String> task = new LoginTask(Login.this).execute(logiinModel);
+	        AsyncTask<LoginModel,String,String> task = new LoginTask(Login.this).execute(loginModel);
 	        
-	        new Thread(new Runnable() {
-	
-	            @Override
-	
-	            public void run() {
-	    			String result = "";
-	    			try {
-	    				result = task.get();
-	    			} catch (InterruptedException e) {
-	    				// TODO Auto-generated catch block
-	    				e.printStackTrace();
-	    			} catch (ExecutionException e) {
-	    				// TODO Auto-generated catch block
-	    				e.printStackTrace();
-	    			}
-	    			
-	    			Gson gson = new Gson();
-
-	    			LoginResponse response = gson.fromJson(result, LoginResponse.class);
-	    			
-	    			if (response.success == 1) {
-	    				
-	    				SessionManager sessionManager = new SessionManager(getApplicationContext());
-	    				UserResponse user = response.user;
-	    				
-	    				sessionManager.createLoginSession(true, user.person_id, user.name, "", user.email, response.address.house_no,user.telephone);
-	    				
-	    				Intent intent = new Intent(Login.this,LandingActivity.class);
-	    				startActivity(intent);
-	    			} else {
-	    			}
-	            }
-	
-	        }).start();	        
 			
 		} else if (id == R.id.textViewCreate) {
 			framelLayoutlogin.setVisibility(View.GONE);

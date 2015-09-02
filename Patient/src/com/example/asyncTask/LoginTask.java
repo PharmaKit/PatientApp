@@ -25,11 +25,15 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.dataModel.LoginModel;
 import com.example.datamodels.serialized.LoginResponse;
+import com.example.datamodels.serialized.UserResponse;
 import com.example.patient.R;
 import com.example.util.Constants;
+import com.example.util.SessionManager;
+import com.example.patient.LandingActivity;
 import com.example.patient.Login;
 import com.google.gson.Gson;
 
@@ -50,6 +54,28 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 		super.onPostExecute(result);
 		Log.d("response json is ", "" + result);
 		pd.dismiss();
+		
+		Gson gson = new Gson();
+
+		LoginResponse response = gson.fromJson(result, LoginResponse.class);
+		
+		if (response.success == 1) {
+			
+			SessionManager sessionManager = new SessionManager(mLogin.getApplicationContext());
+			UserResponse user = response.user;
+			
+			sessionManager.createLoginSession(true, user.person_id, user.name, "", user.email, response.address.house_no,user.telephone);
+			
+			// Show a welcome message to the user through toast
+			Toast.makeText(mLogin, "Welcome " + user.name, Toast.LENGTH_SHORT).show();
+			
+			Intent intent = new Intent(mLogin,LandingActivity.class);
+			mLogin.startActivity(intent);
+		} else {
+			
+			EditText mPassword = (EditText)mLogin.findViewById(R.id.editTextPasswordLogin);
+			mPassword.setError(response.error_msg);
+		}
 	}
 
 	@Override

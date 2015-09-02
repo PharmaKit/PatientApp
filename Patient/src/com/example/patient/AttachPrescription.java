@@ -236,23 +236,18 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 		if(listOfImagesPath!=null && listOfImagesPath.size()!=0){
 
 			for(int i=0;i<listOfImagesPath.size();i++){
-				// Let's create the missing ImageView
 				
-
-				// Now the layout parameters, these are a little tricky at first
-				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-						400,
-						500);
-
-				FrameLayout framelayout = new FrameLayout(getActivity());
-				framelayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 
-						LayoutParams.MATCH_PARENT));
-
-				ImageView image = new ImageView(getActivity());
-				image.setScaleType
-				(ImageView.ScaleType.FIT_XY);
-				image.setPadding(10, 0, 10, 0);
 				File file = new File(listOfImagesPath.get(i).toString());
+				
+				long size = file.length();
+				
+				if(file.length() == 0)
+				{
+					file.delete();
+					listOfImagesPath.remove(i);
+					i--;
+					continue;
+				}
 				
 				if(file.exists() && file.length() > 500000)
 				{
@@ -276,6 +271,23 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 					}
 					file = new File(listOfImagesPath.get(i).toString());
 				}
+				// Let's create the missing ImageView
+				
+
+				// Now the layout parameters, these are a little tricky at first
+				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+						400,
+						500);
+
+				FrameLayout framelayout = new FrameLayout(getActivity());
+				framelayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 
+						LayoutParams.MATCH_PARENT));
+
+				ImageView image = new ImageView(getActivity());
+				image.setScaleType
+				(ImageView.ScaleType.FIT_XY);
+				image.setPadding(10, 0, 10, 0);
+				
 				
 
 				try {

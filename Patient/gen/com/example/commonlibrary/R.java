@@ -8,7 +8,7 @@ package com.example.commonlibrary;
 
 public final class R {
 	public static final class drawable {
-		public static final int ic_launcher = 0x7f02004c;
+		public static final int ic_launcher = 0x7f02004d;
 	}
 	public static final class string {
 		public static final int Calendar = 0x7f05000e;
