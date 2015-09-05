@@ -57,5 +57,6 @@
         \n\nIf any part of these terms is determined to be invalid or unenforceable pursuant to applicable law, then the invalid or unenforceable provision will be deemed superseded by a valid, enforceable provision that most closely matches the intent of the original provision, and the remainder of the terms shall continue in effect.</string>
     <string name="questions">For questions or concerns about these terms of use, please send an email to legal@pharmakit.co</string>
     <string name="crash_toast_text">Application crashed. Please try again.</string>
+    <string name="take_picture">Take!</string>
 
 </resources>

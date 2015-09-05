@@ -169,7 +169,8 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (requestCode == PICK_FROM_CAMERA && resultCode == getActivity().RESULT_OK) {  
+		getActivity();
+		if (requestCode == PICK_FROM_CAMERA && resultCode == Activity.RESULT_OK) {  
 
 //			Bitmap photo = (Bitmap) data.getExtras().get("data"); 
 //
@@ -638,27 +639,27 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 			@Override
 			public void onClick(DialogInterface dialog, int item) {
 				if (items[item].equals("Take Photo")) {
-					Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
+					Intent cameraIntent = new Intent(getActivity(), CameraActivity.class); 
 					
-					File imageDirectory = createDirIfNotExists();			
-					
-					File tempFile;
-					try {
-						tempFile = File.createTempFile("my_app" + dateFormat.format(new Date()) , ".jpg", imageDirectory);
-						if(tempFile == null)
-						{
-							Log.d("Warning: ","the file was not created");
-						}
-							
-						fileName = tempFile.getAbsolutePath();
-						Log.d("_path", fileName);
-						Uri uri = Uri.fromFile(tempFile);
-						
-						cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}					
+//					File imageDirectory = createDirIfNotExists();			
+//					
+//					File tempFile;
+//					try {
+//						tempFile = File.createTempFile("my_app" + dateFormat.format(new Date()) , ".jpg", imageDirectory);
+//						if(tempFile == null)
+//						{
+//							Log.d("Warning: ","the file was not created");
+//						}
+//							
+//						fileName = tempFile.getAbsolutePath();
+//						Log.d("_path", fileName);
+//						Uri uri = Uri.fromFile(tempFile);
+//						
+//						cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}					
 					
 					startActivityForResult(cameraIntent, PICK_FROM_CAMERA); 
 				} else if (items[item].equals("Choose from Library")) {
