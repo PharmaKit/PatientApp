@@ -1,13 +1,14 @@
 package com.example.patient;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class CameraActivity extends Activity {
+public class CameraActivity extends FragmentActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,15 +20,26 @@ public class CameraActivity extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_fragment);
-		FragmentManager manager = getFragmentManager();
-		Fragment fragment = manager.findFragmentById(R.id.fragmentContainer);
-		
-		if(fragment == null) {
-			fragment = CameraFragment.newInstance();
-			manager.beginTransaction()
-			.add(R.id.fragmentContainer, fragment)
-			.commit();
+			
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+				android.app.FragmentManager manager = getFragmentManager();
+				android.app.Fragment fragment = manager.findFragmentById(R.id.fragmentContainer);
+				if(fragment == null) {
+					fragment = Camera2Fragment.newInstance();
+				}
+				manager.beginTransaction()
+				.add(R.id.fragmentContainer, fragment)
+				.commit();	
+			}
+			else {
+				FragmentManager manager = getSupportFragmentManager();
+				Fragment fragment = manager.findFragmentById(R.id.fragmentContainer);
+				if(fragment == null) {
+					fragment = new CameraFragment();
+				}
+				manager.beginTransaction()
+				.add(R.id.fragmentContainer, fragment)
+				.commit();
+			}
 		}
 	}
-	
-}

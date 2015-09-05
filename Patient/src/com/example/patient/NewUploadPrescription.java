@@ -3,9 +3,9 @@ package com.example.patient;
 import com.example.util.ButtonFloat;
 import com.example.util.OnBackPressListener;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;

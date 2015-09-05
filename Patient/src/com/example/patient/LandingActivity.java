@@ -9,11 +9,12 @@ import com.example.adapters.DrawerItem;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -25,7 +26,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 @SuppressLint("NewApi")
-public class LandingActivity extends Activity {
+public class LandingActivity extends FragmentActivity {
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -185,7 +186,7 @@ public class LandingActivity extends Activity {
 		}
 
 		fragment.setArguments(args);
-		FragmentManager frgManager = getFragmentManager();
+		FragmentManager frgManager = getSupportFragmentManager();
 		frgManager.beginTransaction().replace(R.id.content_frame, fragment)
 		.addToBackStack(null)
 		.commit();
@@ -266,7 +267,7 @@ public class LandingActivity extends Activity {
 			fragment = new AboutUs();
 			setTitle("About Us");
 		}
-		FragmentManager frgManager = getFragmentManager();
+		FragmentManager frgManager = getSupportFragmentManager();
 		frgManager.beginTransaction().replace(R.id.content_frame, fragment)
 		.commit();
 
