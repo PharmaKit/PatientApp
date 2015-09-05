@@ -1,12 +1,19 @@
 package com.example.patient;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Context;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +28,51 @@ public class CameraFragment extends Fragment{
 	private static final String TAG = "CameraFragment";
 	private SurfaceView mSurfaceView;
 	private Camera mCamera;
+	private View mProgressContainer;
+	public static final String GridViewDemo_ImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/GridView/";
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
+		
+		@Override
+		public void onShutter() {
+			mProgressContainer.setVisibility(View.VISIBLE);
+		}
+	};
+	
+	private Camera.PictureCallback mJpegCallback = new Camera.PictureCallback() {
+		
+		@Override
+		public void onPictureTaken(byte[] data, Camera camera) {
+			String filename = GridViewDemo_ImagePath + dateFormat.format(new Date()) + ".jpg";
+			FileOutputStream os = null;
+			boolean success = true;
+			
+			File file = new File(filename);
+			
+			try {
+				os = new FileOutputStream(file);
+				os.write(data);
+			} catch (Exception e) {
+				Log.e(TAG, "Error writing to file " + filename, e);
+				success = false;
+			} finally {
+				try {
+					if(os != null)
+						os.close();
+				} catch (Exception e) {
+					Log.e(TAG, "Error closing file " + filename, e);
+					success = false;
+				}
+			}
+			
+			if(success) {
+				Log.i(TAG, "Jpeg saved at " + filename);
+			}
+			getActivity().setResult(Activity.RESULT_OK, null);
+            getActivity().finish();
+		}
+	};
 	
 	@Override
 	public void onResume() {
@@ -47,12 +99,17 @@ public class CameraFragment extends Fragment{
 		
 		View v = inflater.inflate(R.layout.fragment_camera, parent, false);
 		
+		mProgressContainer = v.findViewById(R.id.camera_progressContainer);
+		mProgressContainer.setVisibility(View.INVISIBLE);
+		
 		Button takePictureButton = (Button)v.findViewById(R.id.camera_takePictureButton);
 		takePictureButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				getActivity().finish();
+				if(mCamera!=null) {
+					mCamera.takePicture(mShutterCallback, null, mJpegCallback);
+				}
 			}
 		});
 		
@@ -90,6 +147,7 @@ public class CameraFragment extends Fragment{
 				Camera.Parameters parameters = mCamera.getParameters();
 				Size s = getOptimalPreviewSize(parameters.getSupportedPreviewSizes(), width, height);
 				parameters.setPreviewSize(s.width, s.height);
+				parameters.setPictureSize(s.width, s.height);
 				parameters.set("orientation", "portrait");
 				mCamera.setParameters(parameters);
 				try {
