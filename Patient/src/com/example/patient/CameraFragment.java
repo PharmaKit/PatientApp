@@ -7,6 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.example.datamodels.serialized.LoginResponse;
+import com.google.gson.Gson;
+
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Camera;
@@ -30,7 +33,7 @@ public class CameraFragment extends Fragment{
 	private Camera mCamera;
 	private View mProgressContainer;
 	public static final String GridViewDemo_ImagePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/GridView/";
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 	
 	private Camera.ShutterCallback mShutterCallback = new Camera.ShutterCallback() {
 		
@@ -56,6 +59,13 @@ public class CameraFragment extends Fragment{
 			} catch (Exception e) {
 				Log.e(TAG, "Error writing to file " + filename, e);
 				success = false;
+				
+				if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+					Gson gson = new Gson();
+
+					LoginResponse response = gson.fromJson(null, LoginResponse.class);
+				}
+				
 			} finally {
 				try {
 					if(os != null)
@@ -69,6 +79,7 @@ public class CameraFragment extends Fragment{
 			if(success) {
 				Log.i(TAG, "Jpeg saved at " + filename);
 			}
+						
 			getActivity().setResult(Activity.RESULT_OK, null);
             getActivity().finish();
 		}
@@ -148,7 +159,6 @@ public class CameraFragment extends Fragment{
 				Size s = getOptimalPreviewSize(parameters.getSupportedPreviewSizes(), width, height);
 				parameters.setPreviewSize(s.width, s.height);
 				parameters.setPictureSize(s.width, s.height);
-				parameters.set("orientation", "portrait");
 				mCamera.setParameters(parameters);
 				try {
 					mCamera.startPreview();

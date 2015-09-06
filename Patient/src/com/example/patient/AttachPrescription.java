@@ -103,6 +103,12 @@ public class AttachPrescription extends Fragment implements OnClickListener, OnT
 		textViewUploadedPrescrition = (TextView)view.findViewById(R.id.textViewUploadedPrescription);
 		buttonUploadPrescription =(Button)view.findViewById(R.id.buttonUPloadPrescription);
 		buttonNext = (Button)view.findViewById(R.id.buttonNext);
+		
+		File imageDirectory = new File(GridViewDemo_ImagePath);
+		
+		if(!imageDirectory.exists()) {
+			imageDirectory.mkdirs();
+		}
 
 		listOfImagesPath = null;
 		listOfImagesPath = RetriveCapturedImagePath();
