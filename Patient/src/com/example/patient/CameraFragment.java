@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.acra.ACRA;
+
 import com.example.datamodels.serialized.LoginResponse;
 import com.google.gson.Gson;
 
@@ -60,11 +62,7 @@ public class CameraFragment extends Fragment{
 				Log.e(TAG, "Error writing to file " + filename, e);
 				success = false;
 				
-				if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-					Gson gson = new Gson();
-
-					LoginResponse response = gson.fromJson(null, LoginResponse.class);
-				}
+				ACRA.getErrorReporter().handleException(e);
 				
 			} finally {
 				try {
@@ -73,6 +71,7 @@ public class CameraFragment extends Fragment{
 				} catch (Exception e) {
 					Log.e(TAG, "Error closing file " + filename, e);
 					success = false;
+					ACRA.getErrorReporter().handleException(e);
 				}
 			}
 			

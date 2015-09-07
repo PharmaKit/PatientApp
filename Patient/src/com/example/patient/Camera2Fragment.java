@@ -72,7 +72,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import com.example.Camera.AutoFitTextureView;
+import com.example.camera.AutoFitTextureView;
  
 public class Camera2Fragment extends Fragment
         implements View.OnClickListener, FragmentCompat.OnRequestPermissionsResultCallback {
