@@ -1,6 +1,8 @@
 package com.example.patient;
 
 
+import com.pharmakit.patient.R;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;

@@ -14,18 +14,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.example.adapters.PrescriptionAdapter;
 import com.example.dataModel.LoginModel;
 import com.example.dataModel.PatientDescriptionDTO;
 import com.example.patient.HomePage;
-import com.example.patient.R;
 import com.example.util.Constants;
 import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.widget.ListView;
 
 public class HistoryTask extends AsyncTask<LoginModel, String, String>{
 

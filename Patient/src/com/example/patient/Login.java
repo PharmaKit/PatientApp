@@ -39,11 +39,13 @@ import com.example.asyncTask.LoginTask;
 import com.example.asyncTask.RegisterTask;
 import com.example.dataModel.LoginModel;
 import com.example.dataModel.RegisterModel;
+import com.example.datamodels.User;
 import com.example.datamodels.serialized.LoginResponse;
 import com.example.datamodels.serialized.RegistrationResponse;
 import com.example.datamodels.serialized.UserResponse;
 import com.example.util.SessionManager;
 import com.google.gson.Gson;
+import com.pharmakit.patient.R;
 
 public class Login extends Activity implements OnClickListener {
 
@@ -82,6 +84,19 @@ public class Login extends Activity implements OnClickListener {
 		mRegister.setOnClickListener(this);
 		textViewforgot.setOnClickListener(this);
 		mforgot.setOnClickListener(this);
+		
+		//check if user is already logged in and try to login again.
+		SessionManager sessionManager = new SessionManager(getApplicationContext());
+		
+		//we need to validate if the password is changed or it is right.
+		if(sessionManager.isLoggedIn()) 
+		{
+			User user = sessionManager.getUserDetails();
+			Toast.makeText(getApplicationContext(), "Welcome " + user.getFirstName(), Toast.LENGTH_SHORT).show();
+			
+			Intent intent = new Intent(this,LandingActivity.class);
+			startActivity(intent);
+		}
 	}
 
 	private void init() {

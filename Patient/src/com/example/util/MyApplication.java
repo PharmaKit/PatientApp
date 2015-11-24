@@ -2,7 +2,7 @@ package com.example.util;
 
 import org.acra.*;
 import org.acra.annotation.*;
-import com.example.patient.R;
+import com.pharmakit.patient.R;
 
 import android.app.Application;
 

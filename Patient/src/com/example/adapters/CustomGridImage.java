@@ -15,7 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
-import com.example.patient.R;
+import com.pharmakit.patient.R;
 
 public class CustomGridImage extends BaseAdapter{
 

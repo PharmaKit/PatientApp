@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.example.dataModel.DoctorDTO;
 import com.example.patient.DoctorProfile;
-import com.example.patient.R;
+import com.pharmakit.patient.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;

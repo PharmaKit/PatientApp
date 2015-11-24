@@ -3,23 +3,17 @@ package com.example.asyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 
-import com.example.adapters.GridViewCustomAdapter;
 import com.example.dataModel.DoctorDTO;
 import com.example.dataModel.SearchModel;
 import com.example.patient.HomePage;
-import com.example.patient.R;
-import com.example.patient.SearchResult;
 import com.example.patient.ShowMap;
 import com.example.util.Constants;
 import com.google.gson.Gson;
@@ -29,7 +23,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.GridView;
 
 public class SearchTask extends AsyncTask<SearchModel, String, String>{
 

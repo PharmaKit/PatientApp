@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.example.adapters.UploadedPrescriptionAdapter;
 import com.example.dataModel.UploadedPrescriptionData;
+import com.pharmakit.patient.R;
 
 import android.app.Fragment;
 import android.os.Bundle;

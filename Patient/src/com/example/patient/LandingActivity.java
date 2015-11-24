@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.example.adapters.CustomDrawerAdapter;
 import com.example.adapters.DrawerItem;
+import com.pharmakit.patient.R;
 
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -258,15 +259,16 @@ public class LandingActivity extends FragmentActivity {
 		Fragment fragment = null;
 
 		int itemId = item.getItemId();
-		if (itemId == R.id.action_settings) {
-			setTitle("Settings");
-		} else if (itemId == R.id.action_privacy) {
+		if (itemId == R.id.action_privacy) {
 			fragment = new TermsNCondition();
 			setTitle("Terms and Conditions");
 		} else if (itemId == R.id.action_aboutus) {
 			fragment = new AboutUs();
 			setTitle("About Us");
 		}
+		//else if (itemId == R.id.action_settings) {
+		//	setTitle("Settings");
+		//}
 		FragmentManager frgManager = getSupportFragmentManager();
 		frgManager.beginTransaction().replace(R.id.content_frame, fragment)
 		.commit();

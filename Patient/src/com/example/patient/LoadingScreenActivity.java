@@ -1,5 +1,7 @@
 package com.example.patient;
 
+import com.pharmakit.patient.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;

@@ -1,7 +1,7 @@
 package com.example.util;
 
 
-import com.example.patient.R;
+import com.pharmakit.patient.R;
 
 import android.content.Context;
 import android.util.AttributeSet;

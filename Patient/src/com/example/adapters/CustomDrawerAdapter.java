@@ -2,7 +2,7 @@ package com.example.adapters;
 
 import java.util.List;
 
-import com.example.patient.R;
+import com.pharmakit.patient.R;
 
 import android.app.Activity;
 import android.content.Context;

@@ -11,6 +11,7 @@ import org.acra.ACRA;
 
 import com.example.datamodels.serialized.LoginResponse;
 import com.google.gson.Gson;
+import com.pharmakit.patient.R;
 
 import android.app.Activity;
 import android.content.Context;

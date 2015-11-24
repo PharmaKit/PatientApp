@@ -10,6 +10,7 @@ import com.example.dataModel.PatientDescriptionDTO;
 import com.example.dataModel.PrescriptionModel;
 import com.example.dataModel.SearchModel;
 import com.example.util.ButtonFloat;
+import com.pharmakit.patient.R;
 
 import android.net.Uri;
 import android.os.Bundle;

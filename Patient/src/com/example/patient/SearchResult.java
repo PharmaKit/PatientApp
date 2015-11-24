@@ -6,6 +6,7 @@ import com.example.adapters.GridViewCustomAdapter;
 import com.example.asyncTask.SearchTask;
 import com.example.dataModel.DoctorDTO;
 import com.example.dataModel.SearchModel;
+import com.pharmakit.patient.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

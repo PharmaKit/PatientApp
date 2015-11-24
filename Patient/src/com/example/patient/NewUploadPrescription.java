@@ -2,6 +2,7 @@ package com.example.patient;
 
 import com.example.util.ButtonFloat;
 import com.example.util.OnBackPressListener;
+import com.pharmakit.patient.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

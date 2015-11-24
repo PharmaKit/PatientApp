@@ -8,7 +8,7 @@ import java.util.List;
 import com.example.dataModel.PatientDescriptionDTO;
 import com.example.dataModel.UploadedPrescriptionData;
 import com.example.patient.DoctorProfile;
-import com.example.patient.R;
+import com.pharmakit.patient.R;
 import com.example.patient.UploadDescription;
 import com.example.patient.ViewPrescription;
 

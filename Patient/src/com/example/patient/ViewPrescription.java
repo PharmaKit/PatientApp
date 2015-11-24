@@ -6,6 +6,7 @@ import com.example.adapters.PrescriptionAdapter;
 import com.example.adapters.PrescriptionTabAdapter;
 import com.example.dataModel.PatientDescriptionDTO;
 import com.example.dataModel.PrescriptionDTO;
+import com.pharmakit.patient.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

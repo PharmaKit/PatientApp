@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.example.util.ButtonFloat;
 import com.example.util.OnBackPressListener;
+import com.pharmakit.patient.R;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

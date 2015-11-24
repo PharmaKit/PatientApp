@@ -97,7 +97,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageview1"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"
@@ -149,7 +149,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageview2"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"
@@ -193,7 +193,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageview5"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"
@@ -245,7 +245,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageview3"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"
@@ -289,7 +289,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageviews4"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"

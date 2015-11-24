@@ -3,6 +3,7 @@ package com.example.patient;
 import com.example.asyncTask.FeedbackUploadTask;
 import com.example.dataModel.FeedbackModel;
 import com.example.util.SessionManager;
+import com.pharmakit.patient.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

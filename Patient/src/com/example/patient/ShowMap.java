@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pharmakit.patient.R;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

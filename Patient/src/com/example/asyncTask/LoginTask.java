@@ -30,7 +30,7 @@ import android.widget.Toast;
 import com.example.dataModel.LoginModel;
 import com.example.datamodels.serialized.LoginResponse;
 import com.example.datamodels.serialized.UserResponse;
-import com.example.patient.R;
+import com.pharmakit.patient.R;
 import com.example.util.Constants;
 import com.example.util.SessionManager;
 import com.example.patient.LandingActivity;

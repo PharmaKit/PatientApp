@@ -70,6 +70,7 @@ import com.example.datamodels.User;
 import com.example.util.ButtonFloat;
 import com.example.util.ExpandableHeightGridView;
 import com.example.util.SessionManager;
+import com.pharmakit.patient.R;
 
 /**
  * @author Archana

@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.example.dataModel.PatientDescriptionDTO;
 import com.example.dataModel.PrescriptionDTO;
-import com.example.patient.R;
+import com.pharmakit.patient.R;
 
 import android.content.Context;
 import android.graphics.Typeface;

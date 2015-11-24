@@ -97,51 +97,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:background="@drawable/roundedimageview"
-                            android:padding="2dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/images" />
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/button_states_travel"
-                            android:padding="5dp"
-                            android:text="Profile"
-                            android:textColor="@android:color/white" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/editext"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ABC XYZ"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_Size1p"
-                            android:textStyle="normal" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="MBBS"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_Size1p"
-                            android:textStyle="normal" />
-
-                        <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageview1"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"
@@ -193,7 +149,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageview2"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"
@@ -237,51 +193,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:background="@drawable/roundedimageview"
-                            android:padding="2dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/images" />
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/button_states_travel"
-                            android:padding="5dp"
-                            android:text="Profile"
-                            android:textColor="@android:color/white" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/editext"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ABC XYZ"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_Size1p"
-                            android:textStyle="normal" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="MBBS"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_Size1p"
-                            android:textStyle="normal" />
-
-                        <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageview5"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"
@@ -310,6 +222,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:background="@drawable/editext"
                         android:orientation="vertical" >
@@ -332,7 +245,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageview3"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"
@@ -376,51 +289,7 @@
                             android:textStyle="normal" />
 
                         <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:background="@drawable/roundedimageview"
-                            android:padding="2dp"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/images" />
-
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/button_states_travel"
-                            android:padding="5dp"
-                            android:text="Profile"
-                            android:textColor="@android:color/white" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/editext"
-                        android:orientation="vertical" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ABC XYZ"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_Size1p"
-                            android:textStyle="normal" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="MBBS"
-                            android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_Size1p"
-                            android:textStyle="normal" />
-
-                        <com.example.patient.SquareImageView
-                            android:id="@+id/Imageview"
+                            android:id="@+id/Imageviews4"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:background="@drawable/roundedimageview"
@@ -439,7 +308,6 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-            
         </FrameLayout>
     </LinearLayout>
 

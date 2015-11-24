@@ -4,6 +4,7 @@ import com.example.asyncTask.SearchTask;
 import com.example.asyncTask.SendPrescriptionTask;
 import com.example.dataModel.PrescriptionModel;
 import com.example.dataModel.SearchModel;
+import com.pharmakit.patient.R;
 
 import android.app.Fragment;
 import android.content.Intent;

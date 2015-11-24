@@ -1,7 +1,7 @@
 package com.example.util;
 
 
-import com.example.patient.R;
+import com.pharmakit.patient.R;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 

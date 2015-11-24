@@ -22,6 +22,7 @@ import com.example.util.ImageUploader;
 import com.example.util.OnBackPressListener;
 import com.example.util.SessionManager;
 import com.google.gson.Gson;
+import com.pharmakit.patient.R;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +31,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -220,7 +222,16 @@ public class AddressPrescription extends Fragment implements OnClickListener,OnC
 			
 			Toast.makeText(getActivity().getApplicationContext(), "The prescription(s) has been uploaded!", Toast.LENGTH_LONG).show();
 			
-			getActivity().finish();
+			NewUploadPrescription newFragment = new NewUploadPrescription();
+			Bundle bundle = new Bundle();
+			newFragment.setArguments(bundle);
+			FragmentTransaction transaction = getFragmentManager().beginTransaction();
+			// Replace whatever is in the fragment_container view with this fragment,
+			// and add the transaction to the back stack so the user can navigate back
+			transaction.replace(R.id.content_frame, newFragment);
+			transaction.addToBackStack(null);
+			// Commit the transaction
+			transaction.commit();
 		}
 	}
 
