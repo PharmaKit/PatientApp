@@ -1,0 +1,195 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/hospital1"
+    android:focusableInTouchMode="true"
+    tools:context="com.example.patient.RegistrationActivity" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/framlayoutr_margin_left"
+        android:layout_marginRight="@dimen/framelayour_margin_right"
+        android:layout_marginTop="@dimen/framelayou_margin_right"
+        android:alpha="0.8"
+        android:background="#fff" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <com.example.views.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:text="@string/register"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_Size" />
+
+            <com.example.views.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_view_margin_left"
+                android:layout_marginTop="@dimen/text_view_margin_top"
+                android:text="First Name"
+                android:textSize="18dp" />
+
+            <com.example.views.MyEditText
+                android:id="@+id/editTextFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/edittext_margin_left"
+                android:layout_marginRight="@dimen/edittext_margin_right"
+                android:layout_marginTop="@dimen/edittext_margin_top"
+                android:background="@drawable/currencyconvertereditext"
+                android:hint="Enter First Name"
+                android:singleLine="true" />
+
+            <com.example.views.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_view_margin_left"
+                android:layout_marginTop="@dimen/text_view_margin_top"
+                android:text="Last name"
+                android:textSize="18dp" />
+
+            <com.example.views.MyEditText
+                android:id="@+id/editTextLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/edittext_margin_left"
+                android:layout_marginRight="@dimen/edittext_margin_right"
+                android:layout_marginTop="@dimen/edittext_margin_top"
+                android:background="@drawable/currencyconvertereditext"
+                android:hint="Enter Last Name"
+                android:singleLine="true" />
+
+            <com.example.views.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_view_margin_left"
+                android:layout_marginTop="@dimen/text_view_margin_top"
+                android:text="Email Id"
+                android:textSize="18dp" />
+
+            <com.example.views.MyEditText
+                android:id="@+id/editTextEmailId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/edittext_margin_left"
+                android:layout_marginRight="@dimen/edittext_margin_right"
+                android:layout_marginTop="@dimen/edittext_margin_top"
+                android:background="@drawable/currencyconvertereditext"
+                android:hint="Enter Email Id"
+                android:inputType="textEmailAddress"
+                android:singleLine="true" />
+
+            <com.example.views.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_view_margin_left"
+                android:layout_marginTop="@dimen/text_view_margin_top"
+                android:text="Password"
+                android:textSize="18dp" />
+
+            <com.example.views.MyEditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/edittext_margin_left"
+                android:layout_marginRight="@dimen/edittext_margin_right"
+                android:layout_marginTop="@dimen/edittext_margin_top"
+                android:background="@drawable/currencyconvertereditext"
+                android:hint="Enter Password"
+                android:inputType="textPassword"
+                android:singleLine="true" />
+
+            <com.example.views.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_view_margin_left"
+                android:layout_marginTop="@dimen/text_view_margin_top"
+                android:text="Confirm Password"
+                android:textSize="18dp" />
+
+            <com.example.views.MyEditText
+                android:id="@+id/editTextConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/edittext_margin_left"
+                android:layout_marginRight="@dimen/edittext_margin_right"
+                android:layout_marginTop="@dimen/edittext_margin_top"
+                android:background="@drawable/currencyconvertereditext"
+                android:hint="Enter Password Again"
+                android:inputType="textPassword"
+                android:singleLine="true" />
+
+            <com.example.views.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_view_margin_left"
+                android:layout_marginTop="@dimen/text_view_margin_top"
+                android:text="Address"
+                android:textSize="18dp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/editTextAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/edittext_margin_left"
+                android:layout_marginRight="@dimen/edittext_margin_right"
+                android:layout_marginTop="@dimen/edittext_margin_top"
+                android:background="@drawable/currencyconvertereditext"
+                android:hint="Enter Address"
+                android:inputType="textMultiLine" />
+
+            <com.example.views.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/text_view_margin_left"
+                android:layout_marginTop="@dimen/text_view_margin_top"
+                android:text="Contact No"
+                android:textSize="18dp" />
+
+            <com.example.views.MyEditText
+                android:id="@+id/editTextContactNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/edittext_margin_left"
+                android:layout_marginRight="@dimen/edittext_margin_right"
+                android:layout_marginTop="@dimen/edittext_margin_top"
+                android:background="@drawable/currencyconvertereditext"
+                android:hint="Enter Contact Number"
+                android:inputType="number"
+                android:singleLine="true" />
+
+            <com.example.views.MyButton
+                android:id="@+id/buttonRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_margin_top"
+                android:layout_marginLeft="@dimen/button_margin_left"
+                android:layout_marginRight="@dimen/button_margin_right"
+                android:layout_marginTop="@dimen/button_margin_top"
+                android:background="@drawable/button_states_passenger"
+                android:text="@string/register"
+                android:textColor="#fff" />
+
+            <com.example.views.MyButton
+                android:id="@+id/buttonLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_margin_top"
+                android:layout_marginLeft="@dimen/button_margin_left"
+                android:layout_marginRight="@dimen/button_margin_right"
+                android:layout_marginTop="@dimen/button_margin_top"
+                android:background="@drawable/button_states_passenger"
+                android:text="@string/login"
+                android:textColor="#fff" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
