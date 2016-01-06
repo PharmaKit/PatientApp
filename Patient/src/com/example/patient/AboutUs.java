@@ -2,8 +2,8 @@ package com.example.patient;
 
 import com.pharmakit.patient.R;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class AboutUs extends Fragment {
-
 
 	/*
 	 * (non-Javadoc)
@@ -26,9 +25,7 @@ public class AboutUs extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_aboutus, container,
 				false);
 
-
 		return view;
 	}
 
-	
 }

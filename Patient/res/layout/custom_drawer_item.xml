@@ -25,7 +25,7 @@
                 android:paddingRight="10dp"
                 android:src="@drawable/ic_action_email" />
 
-            <TextView
+            <com.example.views.MyTextView
                 android:id="@+id/drawer_itemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

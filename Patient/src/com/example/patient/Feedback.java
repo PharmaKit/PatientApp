@@ -5,8 +5,8 @@ import com.example.dataModel.FeedbackModel;
 import com.example.util.SessionManager;
 import com.pharmakit.patient.R;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,26 +45,32 @@ public class Feedback extends Fragment {
 				.findViewById(R.id.editTextFeedbackTitle);
 
 		btnSend = (Button) view.findViewById(R.id.buttonSend);
-		
+
 		btnSend.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
-				if(editTextTitle.getText().toString().isEmpty()) {
-					Toast.makeText(getActivity(), "Please enter the title.", Toast.LENGTH_SHORT).show();
+
+				if (editTextTitle.getText().toString().isEmpty()) {
+					Toast.makeText(getActivity(), "Please enter the title.",
+							Toast.LENGTH_SHORT).show();
 					return;
 				}
-				
-				if(editTextDesc.getText().toString().isEmpty()) {
-					Toast.makeText(getActivity(), "Please enter description.", Toast.LENGTH_SHORT).show();
+
+				if (editTextDesc.getText().toString().isEmpty()) {
+					Toast.makeText(getActivity(), "Please enter description.",
+							Toast.LENGTH_SHORT).show();
 					return;
 				}
-				
-				SessionManager session = new SessionManager(getActivity().getApplicationContext());
-				FeedbackModel feedback = new FeedbackModel(session.getUserDetails(), editTextTitle.getText().toString(), editTextDesc.getText().toString());
-				
-				FeedbackUploadTask uploadTask = new FeedbackUploadTask(getActivity());
+
+				SessionManager session = new SessionManager(getActivity()
+						.getApplicationContext());
+				FeedbackModel feedback = new FeedbackModel(session
+						.getUserDetails(), editTextTitle.getText().toString(),
+						editTextDesc.getText().toString());
+
+				FeedbackUploadTask uploadTask = new FeedbackUploadTask(
+						getActivity());
 				uploadTask.execute(feedback);
 			}
 		});

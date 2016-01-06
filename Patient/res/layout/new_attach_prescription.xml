@@ -7,14 +7,14 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
 
-   <LinearLayout
+    <LinearLayout
         android:id="@+id/linearLayoutUploadPhotos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical" >
 
-        <TextView
+        <com.example.views.MyTextView
             android:id="@+id/textViewUploadedPrescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,8 +48,7 @@
             android:text="Attach Prescription"
             android:textColor="#fff" />
 
-
-        <Button
+        <com.example.views.MyButton
             android:id="@+id/buttonNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +58,7 @@
             android:textColor="#fff" />
     </LinearLayout>
 
-    <TextView
+    <com.example.views.MyTextView
         android:id="@+id/textViewNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

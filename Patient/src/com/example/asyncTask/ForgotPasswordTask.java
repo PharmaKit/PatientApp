@@ -15,6 +15,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import com.example.dataModel.LoginModel;
+import com.example.patient.ForgotPasswordActivity;
 import com.example.patient.Login;
 import com.example.util.Constants;
 import com.google.gson.Gson;
@@ -24,37 +25,42 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 
-public class ForgotPasswordTask extends AsyncTask<LoginModel, String, String>{
+public class ForgotPasswordTask extends AsyncTask<LoginModel, String, String> {
 
 	Activity _login;
 	ProgressDialog pd;
 	String jsonResposnseString;
-	public ForgotPasswordTask(Login login) {
+
+	public ForgotPasswordTask(ForgotPasswordActivity frogotPasswordActivity) {
 		// TODO Auto-generated constructor stub
 
-		_login = login;
+		_login = frogotPasswordActivity;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */
 	@Override
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		//		pd.dismiss();
-		
+		// pd.dismiss();
+
 		/*
 		 * Manipuldate according to your response
-		 * 
 		 */
-		
-		/*Intent login = new Intent(_login,Login.class);
-		_login.startActivity(login);
-		*/
+
+		/*
+		 * Intent login = new Intent(_login,Login.class);
+		 * _login.startActivity(login);
+		 */
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
 	@Override
@@ -64,54 +70,55 @@ public class ForgotPasswordTask extends AsyncTask<LoginModel, String, String>{
 		pd = new ProgressDialog(_login);
 		pd.setMessage("Please Wait..");
 		pd.setCancelable(false);
-		//pd.show();
+		// pd.show();
 	}
+
 	@Override
 	protected String doInBackground(LoginModel... params) {
 		// TODO Auto-generated method stub
 
 		Gson objGson = new Gson();
-		String request  = objGson.toJson(params[0]);
+		String request = objGson.toJson(params[0]);
 
 		HttpResponse response;
 
-		//Creating Http client
+		// Creating Http client
 		HttpClient httpclient = new DefaultHttpClient();
 
-		//Building post parametrs key and value pair
+		// Building post parametrs key and value pair
 
-		//------Modify your server url in Constants in util package-------
+		// ------Modify your server url in Constants in util package-------
 
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL+"/urc2");		
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + "/urc2");
 		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
 		nameValuePair.add(new BasicNameValuePair("jsondata", request));
 
-		//URl Encoding the POST parametrs
+		// URl Encoding the POST parametrs
 
-		try{
+		try {
 
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		//making http request
-		try{
+		// making http request
+		try {
 			System.out.println("Executing");
 			response = httpclient.execute(httpPost);
-			System.out.println("check response"+response.toString());
-			HttpEntity entity= response.getEntity();
+			System.out.println("check response" + response.toString());
+			HttpEntity entity = response.getEntity();
 			jsonResposnseString = EntityUtils.toString(entity);
 
 			/**
-			 * In 'jsonResposnseString' you will get response that you sent form server.
+			 * In 'jsonResposnseString' you will get response that you sent form
+			 * server.
 			 * 
 			 */
-			
-		}catch(ClientProtocolException e){
+
+		} catch (ClientProtocolException e) {
 			e.printStackTrace();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}

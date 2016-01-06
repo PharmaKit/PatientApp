@@ -48,5 +48,7 @@
     <dimen name="text_viewqul_top">10dp</dimen>
     <dimen name="iconpadding">5dp</dimen>
     <dimen name="button_margin_leftpres">10dp</dimen>
-  	
+    <dimen name="dialog_text_size">18dp</dimen>
+    <dimen name="dialog_button_text_size">16dp</dimen>
+
 </resources>

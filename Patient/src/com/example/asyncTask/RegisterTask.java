@@ -1,8 +1,5 @@
 package com.example.asyncTask;
 
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,31 +14,31 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.example.dataModel.LoginModel;
-import com.example.dataModel.RegisterModel;
-import com.example.patient.Login;
-import com.example.util.Constants;
-import com.google.gson.Gson;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
+import com.example.dataModel.RegisterModel;
+import com.example.patient.RegistrationActivity;
+import com.example.util.Constants;
+import com.google.gson.Gson;
+
+public class RegisterTask extends AsyncTask<RegisterModel, String, String> {
 
 	Activity _login;
 	ProgressDialog pd;
 	String jsonResposnseString;
-	
+
 	RegisterModel objRegisterModel;
-	
-	public RegisterTask(Login login) {
-		_login  = login;
+
+	public RegisterTask(RegistrationActivity registrationActivity) {
+		_login = registrationActivity;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
 	 */
 	@Override
@@ -52,14 +49,16 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
 		pd.dismiss();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.os.AsyncTask#onPreExecute()
 	 */
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
-		pd =new ProgressDialog(_login);
+		pd = new ProgressDialog(_login);
 		pd.setTitle("Registering");
 		pd.setMessage("Please Wait..");
 		pd.setCancelable(false);
@@ -71,69 +70,74 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String>{
 		// TODO Auto-generated method stub
 
 		objRegisterModel = params[0];
-		
+
 		Gson objGson = new Gson();
-		String request  = objGson.toJson(params[0]);
+		String request = objGson.toJson(params[0]);
 
 		HttpResponse response;
 
-		//Creating Http client
+		// Creating Http client
 		HttpClient httpclient = new DefaultHttpClient();
 
-		//Building post parametrs key and value pair
+		// Building post parametrs key and value pair
 
-		//------Modify your server url in Constants in util package-------
+		// ------Modify your server url in Constants in util package-------
 
-//		URL url = new URL(Constants.SERVER_URL
-//				+ Constants.PATIENT_EXTENSION);
-//		
-//		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//		
-//		try{
-//			urlConnection.setDoOutput(true);
-//			urlConnection.setChunkedStreamingMode(0);
-//			
-//			OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
-//			
-//			writeStream(out);
-//		}
-		
+		// URL url = new URL(Constants.SERVER_URL
+		// + Constants.PATIENT_EXTENSION);
+		//
+		// HttpURLConnection urlConnection = (HttpURLConnection)
+		// url.openConnection();
+		//
+		// try{
+		// urlConnection.setDoOutput(true);
+		// urlConnection.setChunkedStreamingMode(0);
+		//
+		// OutputStream out = new
+		// BufferedOutputStream(urlConnection.getOutputStream());
+		//
+		// writeStream(out);
+		// }
+
 		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
 				+ Constants.PATIENT_EXTENSION);
 
 		Log.d("Call to servlet", "Call servlet");
-		
-		
+
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(6);
-		
+
 		nameValuePairs.add(new BasicNameValuePair("tag", "register"));
-		nameValuePairs.add(new BasicNameValuePair("name", objRegisterModel.getFirstName()));
-		nameValuePairs.add(new BasicNameValuePair("email", objRegisterModel.getEmailId()));
-		nameValuePairs.add(new BasicNameValuePair("password", objRegisterModel.getPassword()));
-		nameValuePairs.add(new BasicNameValuePair("address", objRegisterModel.getAddress()));
-		nameValuePairs.add(new BasicNameValuePair("telephone", objRegisterModel.getContactNo()));
+		nameValuePairs.add(new BasicNameValuePair("name", objRegisterModel
+				.getFirstName()));
+		nameValuePairs.add(new BasicNameValuePair("email", objRegisterModel
+				.getEmailId()));
+		nameValuePairs.add(new BasicNameValuePair("password", objRegisterModel
+				.getPassword()));
+		nameValuePairs.add(new BasicNameValuePair("address", objRegisterModel
+				.getAddress()));
+		nameValuePairs.add(new BasicNameValuePair("telephone", objRegisterModel
+				.getContactNo()));
 
-		//URl Encoding the POST parametrs
+		// URl Encoding the POST parametrs
 
-		try{
+		try {
 
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		//making http request
-		try{
+		// making http request
+		try {
 			Log.d("RegisterTask", "Sending NameValuePair" + nameValuePairs);
 			response = httpclient.execute(httpPost);
-			Log.d("RegisterTask", "check response"+response.toString());
-			HttpEntity entity= response.getEntity();
+			Log.d("RegisterTask", "check response" + response.toString());
+			HttpEntity entity = response.getEntity();
 			jsonResposnseString = EntityUtils.toString(entity);
-			
-		}catch(ClientProtocolException e){
+
+		} catch (ClientProtocolException e) {
 			e.printStackTrace();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
