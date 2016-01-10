@@ -30,7 +30,7 @@ public class LandingActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-
+ 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	CustomDrawerAdapter adapter;
@@ -60,12 +60,10 @@ public class LandingActivity extends Activity {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-				GravityCompat.START);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
 		// Add Drawer Item to dataList
-		dataList.add(new DrawerItem("Add Prescription",
-				R.drawable.ic_briefcase_upload_grey600_36dp));
+		dataList.add(new DrawerItem("Add Prescription", R.drawable.ic_briefcase_upload_grey600_36dp));
 		// dataList.add(new DrawerItem("Find Doctor",
 		// R.drawable.ic_account_search_grey600_36dp));
 		// dataList.add(new DrawerItem("Saved Prescrption",
@@ -74,15 +72,13 @@ public class LandingActivity extends Activity {
 		// R.drawable.ic_content_save_all_grey600_36dp));
 		// dataList.add(new DrawerItem("Settings",
 		// R.drawable.ic_settings_grey600_36dp));
-		dataList.add(new DrawerItem("Feedback",
-				R.drawable.ic_comment_alert_outline_grey600_36dp));
+		dataList.add(new DrawerItem("Feedback", R.drawable.ic_comment_alert_outline_grey600_36dp));
 		// dataList.add(new DrawerItem("Privacy Policy",
 		// R.drawable.ic_marker_check_grey600_36dp));
 		// dataList.add(new DrawerItem("About Us",
 		// R.drawable.ic_human_male_female_grey600_36dp));
 
-		adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
-				dataList);
+		adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item, dataList);
 
 		mDrawerList.setAdapter(adapter);
 
@@ -91,8 +87,7 @@ public class LandingActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_drawer, R.string.drawer_open,
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open,
 				R.string.drawer_close) {
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(mTitle);
@@ -128,19 +123,15 @@ public class LandingActivity extends Activity {
 		switch (possition) {
 		case 0:
 			fragment = new NewUploadPrescription();
-			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
-					.getItemName());
-			args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-					dataList.get(possition).getImgResID());
+			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
+			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
 
 			break;
 
 		case 1:
 			fragment = new Feedback();
-			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
-					.getItemName());
-			args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-					dataList.get(possition).getImgResID());
+			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
+			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
 
 			// todo: we are hiding all other cases which are currently not used.
 
@@ -195,8 +186,7 @@ public class LandingActivity extends Activity {
 
 		// fragment.setArguments(args);
 		FragmentManager frgManager = getFragmentManager();
-		frgManager.beginTransaction().replace(R.id.content_frame, fragment)
-				.commit();
+		frgManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
 		mDrawerList.setItemChecked(possition, true);
 		setTitle(dataList.get(possition).getItemName());
@@ -277,17 +267,14 @@ public class LandingActivity extends Activity {
 		// setTitle("Settings");
 		// }
 		FragmentManager frgManager = getFragmentManager();
-		frgManager.beginTransaction().replace(R.id.content_frame, fragment)
-				.commit();
+		frgManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
 		return super.onOptionsItemSelected(item);
 	}
 
-	private class DrawerItemClickListener implements
-			ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			SelectItem(position);
 		}
 	}
