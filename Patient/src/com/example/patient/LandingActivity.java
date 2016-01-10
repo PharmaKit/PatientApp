@@ -22,6 +22,7 @@ import android.widget.ListView;
 
 import com.example.adapters.CustomDrawerAdapter;
 import com.example.adapters.DrawerItem;
+import com.example.util.SessionManager;
 import com.pharmakit.patient.R;
 
 @SuppressLint("NewApi")
@@ -30,13 +31,15 @@ public class LandingActivity extends Activity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
- 
+
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	CustomDrawerAdapter adapter;
 
 	List<DrawerItem> dataList;
 	Fragment fragment;
+
+	SessionManager sessionManager;
 
 	/*
 	 * @Override public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -59,6 +62,7 @@ public class LandingActivity extends Activity {
 		mTitle = mDrawerTitle = getTitle();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		sessionManager = new SessionManager(LandingActivity.this);
 
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
@@ -262,6 +266,14 @@ public class LandingActivity extends Activity {
 		} else if (itemId == R.id.action_aboutus) {
 			fragment = new AboutUs();
 			setTitle("About Us");
+		} else if (itemId == R.id.action_logout) {
+			sessionManager.logoutUser();
+
+			Intent logoutIntent = new Intent(LandingActivity.this, Login.class);
+			logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(logoutIntent);
+			finish();
+
 		}
 		// else if (itemId == R.id.action_settings) {
 		// setTitle("Settings");
