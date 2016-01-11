@@ -14,27 +14,41 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.example.dataModel.LoginModel;
+import com.example.dataModel.ResetPasswordModel;
+import com.example.datamodels.serialized.ResetPasswordResponse;
 import com.example.patient.ForgotPasswordActivity;
-import com.example.patient.Login;
-import com.example.util.Constants;
+import com.example.patient.PasswordResetCodeVerificationActivity;
 import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
-public class ForgotPasswordTask extends AsyncTask<LoginModel, String, String> {
+public class ForgotPasswordTask extends AsyncTask<ResetPasswordModel, String, String> {
 
-	Activity _login;
+	Activity _forgotPassword;
 	ProgressDialog pd;
 	String jsonResposnseString;
+	ResetPasswordModel objResetModel;
+
+	SharedPreferences sp;
+	Editor edit;
+
+	private static final String RESET_PASSWORD = "RESET_PASSWORD";
 
 	public ForgotPasswordTask(ForgotPasswordActivity frogotPasswordActivity) {
 		// TODO Auto-generated constructor stub
 
-		_login = frogotPasswordActivity;
+		_forgotPassword = frogotPasswordActivity;
+
+		sp = _forgotPassword.getSharedPreferences(RESET_PASSWORD, _forgotPassword.MODE_PRIVATE);
+		edit = sp.edit();
+
 	}
 
 	/*
@@ -46,36 +60,46 @@ public class ForgotPasswordTask extends AsyncTask<LoginModel, String, String> {
 	protected void onPostExecute(String result) {
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
-		// pd.dismiss();
+		pd.dismiss();
 
-		/*
-		 * Manipuldate according to your response
-		 */
+		Gson gson = new Gson();
 
-		/*
-		 * Intent login = new Intent(_login,Login.class);
-		 * _login.startActivity(login);
-		 */
+		ResetPasswordResponse response = gson.fromJson(result, ResetPasswordResponse.class);
+
+		if (response.success == 1) {
+
+			edit.putString("RESET_EMAIL", response.email);
+			edit.commit();
+
+			Intent resetPasswordIntent = new Intent(_forgotPassword, PasswordResetCodeVerificationActivity.class);
+			_forgotPassword.startActivity(resetPasswordIntent);
+			_forgotPassword.finish();
+		} else {
+			Toast.makeText(_forgotPassword, "Something went wrong", Toast.LENGTH_SHORT).show();
+		}
+
+		pd.dismiss();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.os.AsyncTask#onPreExecute()
-	 */
 	@Override
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
-		pd = new ProgressDialog(_login);
+		pd = new ProgressDialog(_forgotPassword);
 		pd.setMessage("Please Wait..");
 		pd.setCancelable(false);
-		// pd.show();
+		pd.show();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
-	protected String doInBackground(LoginModel... params) {
+	protected String doInBackground(ResetPasswordModel... params) {
 		// TODO Auto-generated method stub
+
+		objResetModel = params[0];
+
+		Log.e("TAG: ", "TAG: " + objResetModel.getTag());
+		Log.e("EMAIL: ", "EMAIL: " + objResetModel.getEmail());
 
 		Gson objGson = new Gson();
 		String request = objGson.toJson(params[0]);
@@ -89,9 +113,14 @@ public class ForgotPasswordTask extends AsyncTask<LoginModel, String, String> {
 
 		// ------Modify your server url in Constants in util package-------
 
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + "/urc2");
-		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
-		nameValuePair.add(new BasicNameValuePair("jsondata", request));
+		// HttpPost httpPost = new HttpPost(Constants.SERVER_URL + "/urc2");
+		// List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+		// nameValuePair.add(new BasicNameValuePair("jsondata", request));
+
+		HttpPost httpPost = new HttpPost("http://pharmakit.co/android_api/userprofile/updatepassword.php");
+		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+		nameValuePair.add(new BasicNameValuePair("tag", objResetModel.getTag()));
+		nameValuePair.add(new BasicNameValuePair("email", objResetModel.getEmail()));
 
 		// URl Encoding the POST parametrs
 
@@ -110,12 +139,6 @@ public class ForgotPasswordTask extends AsyncTask<LoginModel, String, String> {
 			HttpEntity entity = response.getEntity();
 			jsonResposnseString = EntityUtils.toString(entity);
 
-			/**
-			 * In 'jsonResposnseString' you will get response that you sent form
-			 * server.
-			 * 
-			 */
-
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -123,6 +146,6 @@ public class ForgotPasswordTask extends AsyncTask<LoginModel, String, String> {
 			e.printStackTrace();
 		}
 
-		return null;
+		return jsonResposnseString;
 	}
 }

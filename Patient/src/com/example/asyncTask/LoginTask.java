@@ -16,26 +16,24 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import com.example.dataModel.LoginModel;
+import com.example.datamodels.serialized.LoginResponse;
+import com.example.datamodels.serialized.UserResponse;
+import com.example.patient.LandingActivity;
+import com.example.patient.Login;
+import com.example.util.Constants;
+import com.example.util.SessionManager;
+import com.google.gson.Gson;
+import com.pharmakit.patient.R;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.dataModel.LoginModel;
-import com.example.datamodels.serialized.LoginResponse;
-import com.example.datamodels.serialized.UserResponse;
-import com.pharmakit.patient.R;
-import com.example.util.Constants;
-import com.example.util.SessionManager;
-import com.example.patient.LandingActivity;
-import com.example.patient.Login;
-import com.google.gson.Gson;
 
 public class LoginTask extends AsyncTask<LoginModel, String, String> {
 
@@ -61,24 +59,21 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 
 		if (response.success == 1) {
 
-			SessionManager sessionManager = new SessionManager(
-					mLogin.getApplicationContext());
+			SessionManager sessionManager = new SessionManager(mLogin.getApplicationContext());
 			UserResponse user = response.user;
 
-			sessionManager.createLoginSession(true, user.person_id, user.name,
-					"", user.email, response.address.house_no, user.telephone);
+			sessionManager.createLoginSession(true, user.person_id, user.name, "", user.email,
+					response.address.house_no, user.telephone);
 
 			// Show a welcome message to the user through toast
-			Toast.makeText(mLogin, "Welcome " + user.name, Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(mLogin, "Welcome " + user.name, Toast.LENGTH_SHORT).show();
 
 			Intent intent = new Intent(mLogin, LandingActivity.class);
 			mLogin.startActivity(intent);
 			mLogin.finish();
 		} else {
 
-			EditText mPassword = (EditText) mLogin
-					.findViewById(R.id.editTextPasswordLogin);
+			EditText mPassword = (EditText) mLogin.findViewById(R.id.editTextPasswordLogin);
 			mPassword.setError(response.error_msg);
 		}
 	}
@@ -112,18 +107,15 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 
 		// Creating HttpPost
 		// Modify your url
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
-				+ Constants.PATIENT_EXTENSION);
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + Constants.PATIENT_EXTENSION);
 
 		Log.d("Call to servlet", "Call servlet");
 
 		// Building post parameters, key and value pair
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("tag", "login"));
-		nameValuePairs.add(new BasicNameValuePair("email", objLoginModel
-				.getmUsername()));
-		nameValuePairs.add(new BasicNameValuePair("password", objLoginModel
-				.getmPassword()));
+		nameValuePairs.add(new BasicNameValuePair("email", objLoginModel.getmUsername()));
+		nameValuePairs.add(new BasicNameValuePair("password", objLoginModel.getmPassword()));
 
 		Log.d("cac", "NameValuePair" + nameValuePairs);
 		// Url Encoding the POST parameters

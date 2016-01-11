@@ -77,6 +77,7 @@ public class LandingActivity extends Activity {
 		// dataList.add(new DrawerItem("Settings",
 		// R.drawable.ic_settings_grey600_36dp));
 		dataList.add(new DrawerItem("Feedback", R.drawable.ic_comment_alert_outline_grey600_36dp));
+		dataList.add(new DrawerItem("History", R.drawable.ic_comment_alert_outline_grey600_36dp));
 		// dataList.add(new DrawerItem("Privacy Policy",
 		// R.drawable.ic_marker_check_grey600_36dp));
 		// dataList.add(new DrawerItem("About Us",
@@ -134,6 +135,11 @@ public class LandingActivity extends Activity {
 
 		case 1:
 			fragment = new Feedback();
+			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
+			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
+
+		case 2:
+			fragment = new HistoryFragment();
 			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
 			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
 
@@ -263,9 +269,16 @@ public class LandingActivity extends Activity {
 		if (itemId == R.id.action_privacy) {
 			fragment = new TermsNCondition();
 			setTitle("Terms and Conditions");
+			FragmentManager frgManager = getFragmentManager();
+			frgManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 		} else if (itemId == R.id.action_aboutus) {
 			fragment = new AboutUs();
 			setTitle("About Us");
+			FragmentManager frgManager = getFragmentManager();
+			frgManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+		} else if (itemId == R.id.action_profile) {
+			Intent profileIntent = new Intent(LandingActivity.this, UserProfileActivity.class);
+			startActivity(profileIntent);
 		} else if (itemId == R.id.action_logout) {
 			sessionManager.logoutUser();
 
@@ -278,8 +291,6 @@ public class LandingActivity extends Activity {
 		// else if (itemId == R.id.action_settings) {
 		// setTitle("Settings");
 		// }
-		FragmentManager frgManager = getFragmentManager();
-		frgManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
 		return super.onOptionsItemSelected(item);
 	}

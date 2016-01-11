@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.asyncTask.ForgotPasswordTask;
 import com.example.dataModel.LoginModel;
+import com.example.dataModel.ResetPasswordModel;
 import com.pharmakit.patient.R;
 
 public class ForgotPasswordActivity extends Activity {
@@ -35,14 +36,15 @@ public class ForgotPasswordActivity extends Activity {
 			public void onClick(View v) {
 
 				if (isValidEmail(mEmailForgot.getText().toString())) {
-					LoginModel objLoginModel = new LoginModel();
-					objLoginModel.setmUsername(mEmailForgot.getText()
-							.toString());
-					new ForgotPasswordTask(ForgotPasswordActivity.this)
-							.execute(objLoginModel);
+
+					ResetPasswordModel objResetModel = new ResetPasswordModel();
+					objResetModel.setTag("generatecode");
+					objResetModel.setEmail(mEmailForgot.getText().toString());
+
+					new ForgotPasswordTask(ForgotPasswordActivity.this).execute(objResetModel);
+
 				} else {
-					Toast.makeText(ForgotPasswordActivity.this,
-							"Please enter a valid email address",
+					Toast.makeText(ForgotPasswordActivity.this, "Please enter a valid email address",
 							Toast.LENGTH_SHORT).show();
 				}
 			}
@@ -50,9 +52,7 @@ public class ForgotPasswordActivity extends Activity {
 	}
 
 	public final static boolean isValidEmail(CharSequence target) {
-		return !TextUtils.isEmpty(target)
-				&& android.util.Patterns.EMAIL_ADDRESS.matcher(target)
-						.matches();
+		return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
 	}
 
 	@Override
