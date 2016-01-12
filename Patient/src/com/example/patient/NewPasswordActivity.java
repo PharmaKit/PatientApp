@@ -64,6 +64,7 @@ public class NewPasswordActivity extends Activity {
 						objResetModel.setTag("resetpassword");
 						objResetModel.setEmail(emailStr);
 						objResetModel.setReset_code(verificationCodeStr);
+						objResetModel.setNew_password(newPasswordString);
 
 						new NewPasswordAsyncTask(NewPasswordActivity.this).execute(objResetModel);
 
