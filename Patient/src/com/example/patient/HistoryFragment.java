@@ -20,6 +20,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,68 +54,18 @@ public class HistoryFragment extends Fragment {
 
 		mHistoryListView = (ListView) rootView.findViewById(R.id.history_list);
 
-		String[] historyRequestParams = new String[] { personId };
+		final String[] historyRequestParams = new String[] { personId };
 
-		historyList = new ArrayList<>();
+		new Handler().postDelayed(new Runnable() {
 
-		final AsyncTask<String[], String, String> task = new HistoryAsyncTask(HistoryFragment.this.getActivity())
-				.execute(historyRequestParams);
+			@Override
+			public void run() {
 
-		String result = "";
-		try {
-			result = task.get();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+				final AsyncTask<String[], String, String> task = new HistoryAsyncTask(
+						HistoryFragment.this.getActivity(), mHistoryListView).execute(historyRequestParams);
 
-		Gson gson = new Gson();
-
-		HistoryResponse response = gson.fromJson(result, HistoryResponse.class);
-
-		if (response.success == 1) {
-
-			Log.e("TAG", "HISTORY RESPONSE: " + response.success);
-
-			try {
-				JSONObject historyJsonObject = new JSONObject(result);
-
-				prescriptionsArray = historyJsonObject.getJSONArray("prescriptions");
-
-				for (int i = 0; i < prescriptionsArray.length(); i++) {
-					JSONObject prescriptionsObject = prescriptionsArray.getJSONObject(i);
-
-					String resource_id = prescriptionsObject.getString("resource_id");
-					String resource_type = prescriptionsObject.getString("resource_type");
-					String person_id = prescriptionsObject.getString("person_id");
-					String recepient_name = prescriptionsObject.getString("recepient_name");
-					String recepient_address = prescriptionsObject.getString("recepient_address");
-					String recepient_number = prescriptionsObject.getString("recepient_number");
-					String offer_type = prescriptionsObject.getString("offer_type");
-					String is_image_uploaded = prescriptionsObject.getString("is_image_uploaded");
-					String is_email_sent = prescriptionsObject.getString("is_email_sent");
-					String created_date = prescriptionsObject.getString("created_date");
-					String updated_date = prescriptionsObject.getString("updated_date");
-
-					historyList.add(new HistoryModel(person_id, resource_id, resource_type, recepient_name,
-							recepient_address, recepient_number, offer_type, is_image_uploaded, is_email_sent,
-							created_date, updated_date));
-				}
-
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-
-		} else if (response.success == 0) {
-			Log.e("TAG", "HISTORY RESPONSE: " + response.error);
-		}
-
-		adapter = new HistoryAdapter(HistoryFragment.this.getActivity(), historyList);
-		mHistoryListView.setAdapter(adapter);
+		}, 500);
 
 		mHistoryListView.setOnItemClickListener(new OnItemClickListener() {
 

@@ -38,14 +38,15 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <Button
+        <com.example.views.MyButton
             android:id="@+id/buttonUPloadPrescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_margin_top"
-            android:background="@drawable/button_states_passenger"
+            android:background="#1E88E5"
             android:drawableLeft="@drawable/ic_briefcase_upload_white_24dp"
             android:text="Attach Prescription"
+            android:paddingLeft="10dp"
             android:textColor="#fff" />
 
         <com.example.views.MyButton
@@ -53,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_margin_top"
-            android:background="@drawable/button_states_passenger"
+            android:background="#1E88E5"
             android:text="Next"
             android:textColor="#fff" />
     </LinearLayout>

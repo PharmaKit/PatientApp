@@ -16,10 +16,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import com.example.dataModel.ImageUploadArgs;
-import com.example.dataModel.LoginModel;
 import com.example.dataModel.SaveImageDetailsModel;
-import com.example.patient.Login;
+import com.example.patient.AddressPrescription;
 import com.example.util.Constants;
 import com.google.gson.Gson;
 
@@ -30,14 +28,14 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class SaveImageDetailsTask extends AsyncTask<SaveImageDetailsModel, String, String> {
-	
+
 	Activity mActivity;
 	ProgressDialog pd;
 	String jsonResponseString;
 	SaveImageDetailsModel saveImageDetailsModel;
 	SharedPreferences sp;
 
-	public SaveImageDetailsTask(Activity activity) {
+	public SaveImageDetailsTask(AddressPrescription activity) {
 		mActivity = activity;
 	}
 
@@ -58,6 +56,7 @@ public class SaveImageDetailsTask extends AsyncTask<SaveImageDetailsModel, Strin
 		pd.show();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected String doInBackground(SaveImageDetailsModel... params) {
 
@@ -74,8 +73,7 @@ public class SaveImageDetailsTask extends AsyncTask<SaveImageDetailsModel, Strin
 
 		// Creating HttpPost
 		// Modify your url
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
-				+ Constants.IMAGE_EXTENSION);
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + Constants.IMAGE_EXTENSION);
 
 		Log.d("Call to servlet", "Call servlet");
 
@@ -88,7 +86,7 @@ public class SaveImageDetailsTask extends AsyncTask<SaveImageDetailsModel, Strin
 		nameValuePairs.add(new BasicNameValuePair("recepientaddress", saveImageDetailsModel.getRecepientAddress()));
 		nameValuePairs.add(new BasicNameValuePair("recepientnumber", saveImageDetailsModel.getRecepientNumber()));
 		nameValuePairs.add(new BasicNameValuePair("offertype", saveImageDetailsModel.getOfferType()));
-		
+
 		Log.d("cac", "NameValuePair" + nameValuePairs);
 		// Url Encoding the POST parameters
 		try {
@@ -104,7 +102,7 @@ public class SaveImageDetailsTask extends AsyncTask<SaveImageDetailsModel, Strin
 
 			HttpEntity entity = response.getEntity();
 			jsonResponseString = EntityUtils.toString(entity);
-			 Log.d("Http Response:",jsonResponseString);
+			Log.d("Http Response:", jsonResponseString);
 
 		} catch (ClientProtocolException e) {
 			// writing exception to log

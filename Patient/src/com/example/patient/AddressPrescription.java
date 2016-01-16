@@ -36,11 +36,10 @@ import com.example.util.SessionManager;
 import com.google.gson.Gson;
 import com.pharmakit.patient.R;
 
-public class AddressPrescription extends Activity implements OnClickListener,
-		OnCheckedChangeListener {
+public class AddressPrescription extends Activity implements OnClickListener, OnCheckedChangeListener {
 
-	public static final String GridViewDemo_ImagePath = Environment
-			.getExternalStorageDirectory().getAbsolutePath() + "/GridView/";
+	public static final String GridViewDemo_ImagePath = Environment.getExternalStorageDirectory().getAbsolutePath()
+			+ "/GridView/";
 
 	AutoCompleteTextView editTextDoctorAdd;
 	Button buttonUpload;
@@ -59,27 +58,23 @@ public class AddressPrescription extends Activity implements OnClickListener,
 		// auto fill the address of the patient.
 		editTextDoctorAdd.setText(sessionManager.getUserDetails().getAddress());
 
-		editTextDoctorAdd.setAdapter(new PlacesAutoCompleteAdapter1(this,
-				R.layout.list_item));
-		editTextDoctorAdd
-				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+		editTextDoctorAdd.setAdapter(new PlacesAutoCompleteAdapter1(this, R.layout.list_item));
+		editTextDoctorAdd.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> adapterView,
-							View view, int i, long l) {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-						String strLocations = (String) adapterView
-								.getItemAtPosition(i);
-						editTextDoctorAdd.setText(strLocations);
+				String strLocations = (String) adapterView.getItemAtPosition(i);
+				editTextDoctorAdd.setText(strLocations);
 
-						String s = strLocations;
-						if (s.contains(",")) {
-							String parts[] = s.split("\\,");
-							System.out.print(parts[0]);
-							String s1 = parts[0];
-						}
-					}
-				});
+				String s = strLocations;
+				if (s.contains(",")) {
+					String parts[] = s.split("\\,");
+					System.out.print(parts[0]);
+					String s1 = parts[0];
+				}
+			}
+		});
 	}
 
 	// @Override
@@ -132,8 +127,7 @@ public class AddressPrescription extends Activity implements OnClickListener,
 		sessionManager = new SessionManager(this.getApplicationContext());
 		user = sessionManager.getUserDetails();
 
-		Typeface font = Typeface.createFromAsset(getAssets(),
-				"SofiaProLight.otf");
+		Typeface font = Typeface.createFromAsset(getAssets(), "SofiaProLight.otf");
 		radioButtonFifteen.setTypeface(font);
 		radioButtonThirty.setTypeface(font);
 		editTextDoctorAdd.setTypeface(font);
@@ -161,23 +155,18 @@ public class AddressPrescription extends Activity implements OnClickListener,
 
 		int id = arg0.getId();
 		if (id == R.id.buttonUpload) {
-
-			if (!radioButtonFifteen.isChecked()
-					&& !radioButtonThirty.isChecked()) {
-				Toast.makeText(AddressPrescription.this,
-						"Please select the offer", Toast.LENGTH_LONG).show();
+			if (!radioButtonFifteen.isChecked() && !radioButtonThirty.isChecked()) {
+				Toast.makeText(AddressPrescription.this, "Please select the offer", Toast.LENGTH_LONG).show();
 				return;
 			}
 
 			if (editTextDoctorAdd.getText().toString().equals("")) {
-				Toast.makeText(AddressPrescription.this,
-						"Please enter the address", Toast.LENGTH_LONG).show();
+				Toast.makeText(AddressPrescription.this, "Please enter the address", Toast.LENGTH_LONG).show();
 				return;
 			}
 
 			String address = editTextDoctorAdd.getText().toString();
-			String offer = radioButtonFifteen.isChecked() ? "3 hours delivery"
-					: "8 hours delivery";
+			String offer = radioButtonFifteen.isChecked() ? "3 hours delivery" : "8 hours delivery";
 
 			// this is where we actually upload the prescription
 
@@ -200,13 +189,11 @@ public class AddressPrescription extends Activity implements OnClickListener,
 				if (file.isDirectory())
 					continue;
 
-				SaveImageDetailsModel arguments = new SaveImageDetailsModel(
-						"jpg", user.getPersonId(), user.getFirstName() + " "
-								+ user.getLastName(), address,
-						user.getPhoneNo(), offer);
+				SaveImageDetailsModel arguments = new SaveImageDetailsModel("jpg", user.getPersonId(),
+						user.getFirstName() + " " + user.getLastName(), address, user.getPhoneNo(), offer);
 
-				AsyncTask<SaveImageDetailsModel, String, String> saveImageDetailsTask = new SaveImageDetailsTask(
-						this).execute(arguments);
+				AsyncTask<SaveImageDetailsModel, String, String> saveImageDetailsTask = new SaveImageDetailsTask(this)
+						.execute(arguments);
 				String response = null;
 				try {
 					response = saveImageDetailsTask.get();
@@ -219,17 +206,13 @@ public class AddressPrescription extends Activity implements OnClickListener,
 				}
 
 				Gson gson = new Gson();
-				SaveImageDetailsResponse imageDetails = gson.fromJson(response,
-						SaveImageDetailsResponse.class);
+				SaveImageDetailsResponse imageDetails = gson.fromJson(response, SaveImageDetailsResponse.class);
 
 				if (imageDetails.success == 1) {
 					Log.d("filename", imageDetails.resourceid + ".jpg");
 				} else {
-					Toast.makeText(
-							AddressPrescription.this,
-							"Image upload failed. Message: "
-									+ imageDetails.error_msg, Toast.LENGTH_LONG)
-							.show();
+					Toast.makeText(AddressPrescription.this, "Image upload failed. Message: " + imageDetails.error_msg,
+							Toast.LENGTH_LONG).show();
 					return;
 				}
 
@@ -238,15 +221,13 @@ public class AddressPrescription extends Activity implements OnClickListener,
 				args.filename = imageDetails.resourceid + ".jpg";
 				args.mimeType = "image/jpeg";
 				try {
-					args.url = new URL(
-							"http://pharmakit.co/android_api/prescription/upload.php");
+					args.url = new URL("http://pharmakit.co/android_api/prescription/upload.php");
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
-				AsyncTask<ImageUploadArgs, String, String> task = new ImageUploadTask(
-						this).execute(args);
+				AsyncTask<ImageUploadArgs, String, String> task = new ImageUploadTask(this).execute(args);
 				synchronized (task) {
 
 					try {
@@ -264,29 +245,12 @@ public class AddressPrescription extends Activity implements OnClickListener,
 
 			ClearAllCapturedImages();
 
-			Toast.makeText(AddressPrescription.this,
-					"The prescription(s) has been uploaded!", Toast.LENGTH_LONG)
+			Toast.makeText(AddressPrescription.this, "The prescription(s) has been uploaded!", Toast.LENGTH_LONG)
 					.show();
 
-			Intent newUploadPrescriptionIntent = new Intent(
-					AddressPrescription.this, LandingActivity.class);
-			newUploadPrescriptionIntent
-					.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			Intent newUploadPrescriptionIntent = new Intent(AddressPrescription.this, LandingActivity.class);
+			newUploadPrescriptionIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(newUploadPrescriptionIntent);
-
-			// NewUploadPrescription newFragment = new NewUploadPrescription();
-			// Bundle bundle = new Bundle();
-			// newFragment.setArguments(bundle);
-			// FragmentTransaction transaction = getFragmentManager()
-			// .beginTransaction();
-			// // Replace whatever is in the fragment_container view with this
-			// // fragment,
-			// // and add the transaction to the back stack so the user can
-			// // navigate back
-			// transaction.replace(R.id.content_frame, newFragment);
-			// transaction.addToBackStack(null);
-			// // Commit the transaction
-			// transaction.commit();
 		}
 	}
 
@@ -300,8 +264,7 @@ public class AddressPrescription extends Activity implements OnClickListener,
 				if (file.isDirectory())
 					continue;
 				if (!file.delete()) {
-					Log.d("file-deletion", "file-deletion failed for file "
-							+ file.getAbsolutePath());
+					Log.d("file-deletion", "file-deletion failed for file " + file.getAbsolutePath());
 				}
 			}
 		}

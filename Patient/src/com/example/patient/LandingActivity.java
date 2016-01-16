@@ -138,57 +138,58 @@ public class LandingActivity extends Activity {
 			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
 			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
 
+			break;
 		case 2:
 			fragment = new HistoryFragment();
 			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
 			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
 
-			// todo: we are hiding all other cases which are currently not used.
-
-			// case 1:
-			// fragment = new FindDoctor();
-			// args.putString(UploadDescription.ITEM_NAME,
-			// dataList.get(possition)
-			// .getItemName());
-			// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-			// dataList.get(possition)
-			// .getImgResID());
-			//
-			// break;
-			// case 2:
-			// fragment = new SavedPrescription();
-			// args.putString(UploadDescription.ITEM_NAME,
-			// dataList.get(possition)
-			// .getItemName());
-			// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-			// dataList.get(possition)
-			// .getImgResID());
-			//
-			//
-			// break;
-			//
-			// case 3:
-			// fragment = new UploadedPrescription();
-			// args.putString(UploadDescription.ITEM_NAME,
-			// dataList.get(possition)
-			// .getItemName());
-			// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-			// dataList.get(possition)
-			// .getImgResID());
-			//
-			//
-			// break;
-			//
-			// case 4:
-			// fragment = new Feedback();
-			// args.putString(UploadDescription.ITEM_NAME,
-			// dataList.get(possition)
-			// .getItemName());
-			// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-			// dataList.get(possition)
-			// .getImgResID());
-
 			break;
+
+		// todo: we are hiding all other cases which are currently not used.
+
+		// case 1:
+		// fragment = new FindDoctor();
+		// args.putString(UploadDescription.ITEM_NAME,
+		// dataList.get(possition)
+		// .getItemName());
+		// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
+		// dataList.get(possition)
+		// .getImgResID());
+		//
+		// break;
+		// case 2:
+		// fragment = new SavedPrescription();
+		// args.putString(UploadDescription.ITEM_NAME,
+		// dataList.get(possition)
+		// .getItemName());
+		// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
+		// dataList.get(possition)
+		// .getImgResID());
+		//
+		//
+		// break;
+		//
+		// case 3:
+		// fragment = new UploadedPrescription();
+		// args.putString(UploadDescription.ITEM_NAME,
+		// dataList.get(possition)
+		// .getItemName());
+		// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
+		// dataList.get(possition)
+		// .getImgResID());
+		//
+		//
+		// break;
+		//
+		// case 4:
+		// fragment = new Feedback();
+		// args.putString(UploadDescription.ITEM_NAME,
+		// dataList.get(possition)
+		// .getItemName());
+		// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
+		// dataList.get(possition)
+		// .getImgResID());
 
 		default:
 			break;

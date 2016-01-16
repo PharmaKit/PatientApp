@@ -17,8 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:text="No Prescription Uploaded"
+            android:padding="15dp"
+            android:text="To Upload New Prescription click on &apos;+&apos; Button"
             android:textSize="18sp" />
     </LinearLayout>
 

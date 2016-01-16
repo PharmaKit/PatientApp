@@ -50,7 +50,7 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
-		Log.d("response json is ", "" + result);
+		Log.e("response json is ", "" + result);
 		pd.dismiss();
 
 		Gson gson = new Gson();
@@ -88,6 +88,7 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 		pd.show();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected String doInBackground(LoginModel... params) {
 
@@ -109,7 +110,7 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 		// Modify your url
 		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + Constants.PATIENT_EXTENSION);
 
-		Log.d("Call to servlet", "Call servlet");
+		Log.d("Call to servlet", "Call  servlet");
 
 		// Building post parameters, key and value pair
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -132,7 +133,7 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 
 			HttpEntity entity = response.getEntity();
 			jsonResponseString = EntityUtils.toString(entity);
-			// Log.d("Http Response:",jsonResponseString);
+			Log.e("Http Response:", jsonResponseString);
 
 		} catch (ClientProtocolException e) {
 			// writing exception to log

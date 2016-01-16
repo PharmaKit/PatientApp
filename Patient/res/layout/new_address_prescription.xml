@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/button_margin_top"
-            android:background="@drawable/button_states_passenger"
+            android:background="#1E88E5"
             android:text="Upload"
             android:textColor="#fff" />
     </LinearLayout>

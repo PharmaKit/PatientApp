@@ -61,12 +61,11 @@ public class AttachPrescription extends Activity implements OnClickListener {
 	private static final int PICK_FROM_FILE = 3;
 	Button buttonUploadPrescription, buttonNext;
 
-	private SimpleDateFormat dateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss");
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	private List<String> listOfImagesPath;
 
-	public static final String GridViewDemo_ImagePath = Environment
-			.getExternalStorageDirectory().getAbsolutePath() + "/GridView/";
+	public static final String GridViewDemo_ImagePath = Environment.getExternalStorageDirectory().getAbsolutePath()
+			+ "/GridView/";
 
 	BitmapFactory.Options bfOptions;
 	FileInputStream fs = null;
@@ -109,8 +108,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 
 		if (listOfImagesPath != null && listOfImagesPath.size() != 0) {
 		} else {
-			textViewUploadedPrescrition
-					.setText("No Prescription Uploded Yet!!!");
+			textViewUploadedPrescrition.setText("No Prescription Uploded Yet!!!");
 		}
 
 		buttonUploadPrescription.setOnClickListener(this);
@@ -138,8 +136,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 			deleteExistingDirectory();
 		} else if (id == R.id.buttonNext) {
 
-			Intent addressPrescriptionIntent = new Intent(
-					AttachPrescription.this, AddressPrescription.class);
+			Intent addressPrescriptionIntent = new Intent(AttachPrescription.this, AddressPrescription.class);
 			startActivity(addressPrescriptionIntent);
 
 			// AddressPrescription newFragment = new AddressPrescription();
@@ -205,15 +202,13 @@ public class AttachPrescription extends Activity implements OnClickListener {
 			// }
 
 			File fileTemp = new File(GridViewDemo_ImagePath + "image.jpg");
-			Bitmap photo = decodeSampledBitmapFromFile(
-					fileTemp.getAbsolutePath(), 480, 800);
+			Bitmap photo = decodeSampledBitmapFromFile(fileTemp.getAbsolutePath(), 480, 800);
 
 			ByteArrayOutputStream stream = new ByteArrayOutputStream();
 			photo.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 			byte[] image = stream.toByteArray();
 
-			String filename = GridViewDemo_ImagePath
-					+ dateFormat.format(new Date()) + ".jpg";
+			String filename = GridViewDemo_ImagePath + dateFormat.format(new Date()) + ".jpg";
 			FileOutputStream os = null;
 			boolean success = true;
 
@@ -244,8 +239,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 
 			listOfImagesPath = RetriveCapturedImagePath();
 
-			Log.d("lisofImages",
-					"size in camera view" + listOfImagesPath.size());
+			Log.d("lisofImages", "size in camera view" + listOfImagesPath.size());
 
 			refreshImageGridView();
 		} else if (resultCode == RESULT_OK && requestCode == PICK_FROM_FILE) {
@@ -283,8 +277,9 @@ public class AttachPrescription extends Activity implements OnClickListener {
 		}
 	}
 
-	public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth,
-			int reqHeight) { // BEST QUALITY MATCH
+	public static Bitmap decodeSampledBitmapFromFile(String path, int reqWidth, int reqHeight) { // BEST
+																									// QUALITY
+																									// MATCH
 
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -321,6 +316,8 @@ public class AttachPrescription extends Activity implements OnClickListener {
 
 		if (listOfImagesPath != null && listOfImagesPath.size() != 0) {
 
+			buttonNext.setVisibility(View.VISIBLE);
+
 			for (int i = 0; i < listOfImagesPath.size(); i++) {
 
 				File file = new File(listOfImagesPath.get(i).toString());
@@ -335,22 +332,18 @@ public class AttachPrescription extends Activity implements OnClickListener {
 				}
 
 				if (file.exists() && file.length() > 500000) {
-					double compressionRatio = (500000.0 / (double) file
-							.length()) * 100.0;
+					double compressionRatio = (500000.0 / (double) file.length()) * 100.0;
 
-					Bitmap bMap = BitmapFactory.decodeFile(listOfImagesPath
-							.get(i).toString());
+					Bitmap bMap = BitmapFactory.decodeFile(listOfImagesPath.get(i).toString());
 
 					FileOutputStream out = null;
 					try {
-						out = new FileOutputStream(listOfImagesPath.get(i)
-								.toString());
+						out = new FileOutputStream(listOfImagesPath.get(i).toString());
 					} catch (FileNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					bMap.compress(Bitmap.CompressFormat.JPEG,
-							(int) compressionRatio, out);
+					bMap.compress(Bitmap.CompressFormat.JPEG, (int) compressionRatio, out);
 					try {
 						out.close();
 					} catch (IOException e1) {
@@ -362,12 +355,10 @@ public class AttachPrescription extends Activity implements OnClickListener {
 				// Let's create the missing ImageView
 
 				// Now the layout parameters, these are a little tricky at first
-				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-						400, 500);
+				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(400, 500);
 
 				FrameLayout framelayout = new FrameLayout(this);
-				framelayout.setLayoutParams(new LayoutParams(
-						LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
+				framelayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT));
 
 				ImageView image = new ImageView(this);
 				image.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -377,8 +368,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 					fs = new FileInputStream(file);
 
 					if (fs != null) {
-						bm = BitmapFactory.decodeFileDescriptor(fs.getFD(),
-								null, bfOptions);
+						bm = BitmapFactory.decodeFileDescriptor(fs.getFD(), null, bfOptions);
 						image.setImageBitmap(bm);
 					}
 				} catch (IOException e) {
@@ -396,8 +386,8 @@ public class AttachPrescription extends Activity implements OnClickListener {
 				ImageView imageView = new ImageView(this);
 				imageView.setScaleType(ImageView.ScaleType.MATRIX);
 				imageView.setImageResource(R.drawable.ic_close_white_18dp);
-				LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(
-						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				LinearLayout.LayoutParams layoutParamsImage = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
+						LayoutParams.WRAP_CONTENT);
 				layoutParamsImage.gravity = Gravity.LEFT;
 				imageView.setLayoutParams(layoutParamsImage);
 				imageView.setId(i);
@@ -433,7 +423,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 			// byte[] b = baos.toByteArray();
 			// encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
 		} else {
-
+			buttonNext.setVisibility(View.GONE);
 			textViewUploadedPrescrition.setText("Uploded Prescriptions");
 		}
 	}
@@ -517,8 +507,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 	 * @author paulburke
 	 */
 	public static boolean isExternalStorageDocument(Uri uri) {
-		return "com.android.externalstorage.documents".equals(uri
-				.getAuthority());
+		return "com.android.externalstorage.documents".equals(uri.getAuthority());
 	}
 
 	/**
@@ -528,8 +517,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 	 * @author paulburke
 	 */
 	public static boolean isDownloadsDocument(Uri uri) {
-		return "com.android.providers.downloads.documents".equals(uri
-				.getAuthority());
+		return "com.android.providers.downloads.documents".equals(uri.getAuthority());
 	}
 
 	/**
@@ -539,8 +527,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 	 * @author paulburke
 	 */
 	public static boolean isMediaDocument(Uri uri) {
-		return "com.android.providers.media.documents".equals(uri
-				.getAuthority());
+		return "com.android.providers.media.documents".equals(uri.getAuthority());
 	}
 
 	/**
@@ -549,8 +536,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 	 * @return Whether the Uri authority is Google Photos.
 	 */
 	public static boolean isGooglePhotosUri(Uri uri) {
-		return "com.google.android.apps.photos.content".equals(uri
-				.getAuthority());
+		return "com.google.android.apps.photos.content".equals(uri.getAuthority());
 	}
 
 	public String getPath(Uri uri, Activity context) {
@@ -601,8 +587,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 				final String type = split[0];
 
 				if ("primary".equalsIgnoreCase(type)) {
-					return Environment.getExternalStorageDirectory() + "/"
-							+ split[1];
+					return Environment.getExternalStorageDirectory() + "/" + split[1];
 				}
 
 				// TODO handle non-primary volumes
@@ -611,8 +596,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 			else if (isDownloadsDocument(uri)) {
 
 				final String id = DocumentsContract.getDocumentId(uri);
-				final Uri contentUri = ContentUris.withAppendedId(
-						Uri.parse("content://downloads/public_downloads"),
+				final Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),
 						Long.valueOf(id));
 
 				return getDataColumn(context, contentUri, null, null);
@@ -635,8 +619,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 				final String selection = "_id=?";
 				final String[] selectionArgs = new String[] { split[1] };
 
-				return getDataColumn(context, contentUri, selection,
-						selectionArgs);
+				return getDataColumn(context, contentUri, selection, selectionArgs);
 			}
 		}
 		// MediaStore (and general)
@@ -654,15 +637,13 @@ public class AttachPrescription extends Activity implements OnClickListener {
 		} else {
 
 			String result;
-			Cursor cursor = this.getContentResolver().query(uri, null, null,
-					null, null);
+			Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
 			if (cursor == null) { // Source is Dropbox or other similar local
 									// file path
 				result = uri.getPath();
 			} else {
 				cursor.moveToFirst();
-				int idx = cursor
-						.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+				int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
 				result = cursor.getString(idx);
 				cursor.close();
 			}
@@ -674,16 +655,14 @@ public class AttachPrescription extends Activity implements OnClickListener {
 
 	private static final boolean DEBUG = false; // Set to true to enable logging
 
-	public static String getDataColumn(Context context, Uri uri,
-			String selection, String[] selectionArgs) {
+	public static String getDataColumn(Context context, Uri uri, String selection, String[] selectionArgs) {
 
 		Cursor cursor = null;
 		final String column = "_data";
 		final String[] projection = { column };
 
 		try {
-			cursor = context.getContentResolver().query(uri, projection,
-					selection, selectionArgs, null);
+			cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
 			if (cursor != null && cursor.moveToFirst()) {
 				if (DEBUG)
 					DatabaseUtils.dumpCursor(cursor);
@@ -700,8 +679,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 
 	private void selectImage() {
 
-		final CharSequence[] items = { "Take Photo", "Choose from Library",
-				"Cancel" };
+		final CharSequence[] items = { "Take Photo", "Choose from Library", "Cancel" };
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Add Photo!");
@@ -710,8 +688,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 			public void onClick(DialogInterface dialog, int item) {
 				if (items[item].equals("Take Photo")) {
 
-					Intent intent = new Intent(
-							"android.media.action.IMAGE_CAPTURE");
+					Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 					File file = new File(GridViewDemo_ImagePath + "image.jpg");
 					intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
 					startActivityForResult(intent, PICK_FROM_CAMERA);
@@ -744,9 +721,7 @@ public class AttachPrescription extends Activity implements OnClickListener {
 					Intent intent = new Intent();
 					intent.setType("image/*");
 					intent.setAction(Intent.ACTION_GET_CONTENT);
-					startActivityForResult(
-							Intent.createChooser(intent, "Select File"),
-							PICK_FROM_FILE);
+					startActivityForResult(Intent.createChooser(intent, "Select File"), PICK_FROM_FILE);
 				} else if (items[item].equals("Cancel")) {
 					dialog.dismiss();
 				}

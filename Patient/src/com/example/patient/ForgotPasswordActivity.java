@@ -1,5 +1,9 @@
 package com.example.patient;
 
+import com.example.asyncTask.ForgotPasswordTask;
+import com.example.dataModel.ResetPasswordModel;
+import com.pharmakit.patient.R;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,11 +14,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import com.example.asyncTask.ForgotPasswordTask;
-import com.example.dataModel.LoginModel;
-import com.example.dataModel.ResetPasswordModel;
-import com.pharmakit.patient.R;
 
 public class ForgotPasswordActivity extends Activity {
 
