@@ -47,11 +47,11 @@ public class HistoryAsyncTask extends AsyncTask<String[], String, String> {
 
 	private static final String RESET_PASSWORD = "RESET_PASSWORD";
 
-	public HistoryAsyncTask(Activity historyFragment, ListView mHistoryListView) {
+	public HistoryAsyncTask(Activity historyFragment, ListView mHistoryListView, ArrayList<HistoryModel> historyList) {
 		// TODO Auto-generated constructor stub
 
 		this.mHistoryListView = mHistoryListView;
-		historyList = new ArrayList<>();
+		this.historyList = historyList;
 		this.historyFragment = historyFragment;
 
 		sp = historyFragment.getSharedPreferences(RESET_PASSWORD, historyFragment.MODE_PRIVATE);

@@ -45,6 +45,8 @@ public class HistoryFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		
+		historyList = new ArrayList<HistoryModel>();
 
 		View rootView = inflater.inflate(R.layout.history_layout_fragment, container, false);
 
@@ -62,7 +64,7 @@ public class HistoryFragment extends Fragment {
 			public void run() {
 
 				final AsyncTask<String[], String, String> task = new HistoryAsyncTask(
-						HistoryFragment.this.getActivity(), mHistoryListView).execute(historyRequestParams);
+						HistoryFragment.this.getActivity(), mHistoryListView, historyList).execute(historyRequestParams);
 
 			}
 		}, 500);
