@@ -1,28 +1,38 @@
 package com.example.patient;
 
+import com.example.asyncTask.ChangePasswordAsyncTask;
+import com.example.asyncTask.UserProfileAsyncTask;
+import com.example.dataModel.ChangePasswordModel;
+import com.example.dataModel.UserProfileModel;
 import com.example.datamodels.User;
 import com.example.util.SessionManager;
 import com.pharmakit.patient.R;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class UserProfileActivity extends Activity {
 
 	EditText mFirstName, mLastName, mEmailId, mContactNo, mPassword, mConfirmPassword;
 	AutoCompleteTextView mAddress;
-	Button mSave;
+	Button mSave, mChangePassword;
 
 	SessionManager sessionManager;
 	User user;
+	Dialog changePasswordDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +54,82 @@ public class UserProfileActivity extends Activity {
 				sessionManager.createLoginSession(true, user.getPersonId(), mFirstName.getText().toString(),
 						mLastName.getText().toString(), mEmailId.getText().toString(), mAddress.getText().toString(),
 						mContactNo.getText().toString());
+
+				UserProfileModel userProfile = new UserProfileModel("" + user.getPersonId(),
+						mEmailId.getText().toString(), mFirstName.getText().toString(), mLastName.getText().toString(),
+						mContactNo.getText().toString(), mAddress.getText().toString());
+
+				new UserProfileAsyncTask(UserProfileActivity.this).execute(userProfile);
 			}
 		});
 
+		mChangePassword.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				changePasswordDialog();
+			}
+		});
+	}
+
+	private void changePasswordDialog() {
+		changePasswordDialog = new Dialog(UserProfileActivity.this);
+		changePasswordDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		changePasswordDialog.setContentView(R.layout.change_password_dialog);
+		changePasswordDialog.setCancelable(false);
+		changePasswordDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+
+		final EditText currentPassword = (EditText) changePasswordDialog.findViewById(R.id.current_password_edit);
+		final EditText newPassword = (EditText) changePasswordDialog.findViewById(R.id.new_password_edit);
+		final EditText confirmNewPassword = (EditText) changePasswordDialog
+				.findViewById(R.id.confirm_new_password_edit);
+
+		Button mChangePasswordOk = (Button) changePasswordDialog.findViewById(R.id.change_password_ok);
+		Button mChangePasswordCancel = (Button) changePasswordDialog.findViewById(R.id.change_password_cancel);
+
+		mChangePasswordCancel.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				changePasswordDialog.dismiss();
+			}
+		});
+
+		// LOGIN BUTTON
+		mChangePasswordOk.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				String currentPasswordStr = currentPassword.getText().toString();
+				String newPasswordStr = newPassword.getText().toString();
+				String confirmNewPasswordStr = confirmNewPassword.getText().toString();
+
+				if (currentPasswordStr.isEmpty() || newPasswordStr.isEmpty() || confirmNewPasswordStr.isEmpty()) {
+					Toast.makeText(UserProfileActivity.this, "Please enter all the field", Toast.LENGTH_SHORT).show();
+				} else {
+					if (newPasswordStr.compareTo(confirmNewPasswordStr) == 0) {
+
+						ChangePasswordModel changePasswordModel = new ChangePasswordModel(
+								sessionManager.getUserDetails().getEmailAddress(), currentPasswordStr, newPasswordStr);
+
+						new ChangePasswordAsyncTask(UserProfileActivity.this).execute(changePasswordModel);
+
+					} else {
+						confirmNewPassword.setError("Passwords do not match");
+					}
+				}
+
+				changePasswordDialog.dismiss();
+			}
+		});
+
+		changePasswordDialog.show();
 	}
 
 	private void init() {
+
+		Typeface font = Typeface.createFromAsset(getAssets(), "SofiaProLight.otf");
 
 		sessionManager = new SessionManager(UserProfileActivity.this);
 		user = sessionManager.getUserDetails();
@@ -62,6 +142,9 @@ public class UserProfileActivity extends Activity {
 		mAddress = (AutoCompleteTextView) findViewById(R.id.profile_editTextAddress);
 		mPassword = (EditText) findViewById(R.id.profile_editTextPassword);
 		mConfirmPassword = (EditText) findViewById(R.id.profile_editTextConfirmPassword);
+		mChangePassword = (Button) findViewById(R.id.profile_changePassword);
+
+		mAddress.setTypeface(font);
 
 		mAddress.setAdapter(new PlacesAutoCompleteAdapter1(this, R.layout.list_item));
 		mAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {

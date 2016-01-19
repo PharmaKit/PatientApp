@@ -171,6 +171,18 @@
                 android:singleLine="true" />
 
             <com.example.views.MyButton
+                android:id="@+id/profile_changePassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/button_margin_top"
+                android:layout_marginLeft="@dimen/button_margin_left"
+                android:layout_marginRight="@dimen/button_margin_right"
+                android:layout_marginTop="@dimen/button_margin_top"
+                android:background="@drawable/button_states_passenger"
+                android:text="Change Password"
+                android:textColor="#fff" />
+
+            <com.example.views.MyButton
                 android:id="@+id/profile_buttonsave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
