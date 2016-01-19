@@ -18,6 +18,7 @@ import com.example.dataModel.ResetPasswordModel;
 import com.example.datamodels.serialized.ResetPasswordResponse;
 import com.example.patient.NewPasswordActivity;
 import com.example.patient.PasswordResetCodeVerificationActivity;
+import com.example.util.Constants;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -30,7 +31,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
-public class PasswordResetCodeVerificationAsyncTask extends AsyncTask<ResetPasswordModel, String, String> {
+public class PasswordResetCodeVerificationAsyncTask extends
+		AsyncTask<ResetPasswordModel, String, String> {
 
 	Activity _passwordReset;
 	ProgressDialog pd;
@@ -48,7 +50,8 @@ public class PasswordResetCodeVerificationAsyncTask extends AsyncTask<ResetPassw
 
 		_passwordReset = passwordResetCodeVerificationAsyncTaskActivity;
 
-		sp = _passwordReset.getSharedPreferences(RESET_PASSWORD, _passwordReset.MODE_PRIVATE);
+		sp = _passwordReset.getSharedPreferences(RESET_PASSWORD,
+				_passwordReset.MODE_PRIVATE);
 		edit = sp.edit();
 	}
 
@@ -65,7 +68,8 @@ public class PasswordResetCodeVerificationAsyncTask extends AsyncTask<ResetPassw
 
 		Gson gson = new Gson();
 
-		ResetPasswordResponse response = gson.fromJson(result, ResetPasswordResponse.class);
+		ResetPasswordResponse response = gson.fromJson(result,
+				ResetPasswordResponse.class);
 
 		if (response.success == 1) {
 
@@ -73,11 +77,13 @@ public class PasswordResetCodeVerificationAsyncTask extends AsyncTask<ResetPassw
 			edit.putString("VERIFICATION_CODE", objResetModel.getReset_code());
 			edit.commit();
 
-			Intent resetPasswordIntent = new Intent(_passwordReset, NewPasswordActivity.class);
+			Intent resetPasswordIntent = new Intent(_passwordReset,
+					NewPasswordActivity.class);
 			_passwordReset.startActivity(resetPasswordIntent);
 			_passwordReset.finish();
 		} else {
-			Toast.makeText(_passwordReset, "Something went wrong", Toast.LENGTH_SHORT).show();
+			Toast.makeText(_passwordReset, "Something went wrong",
+					Toast.LENGTH_SHORT).show();
 		}
 
 		pd.dismiss();
@@ -120,11 +126,15 @@ public class PasswordResetCodeVerificationAsyncTask extends AsyncTask<ResetPassw
 		// List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
 		// nameValuePair.add(new BasicNameValuePair("jsondata", request));
 
-		HttpPost httpPost = new HttpPost("http://pharmakit.co/android_api/userprofile/updatepassword.php");
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ "/android_api/userprofile/updatepassword.php");
 		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
-		nameValuePair.add(new BasicNameValuePair("tag", objResetModel.getTag()));
-		nameValuePair.add(new BasicNameValuePair("email", objResetModel.getEmail()));
-		nameValuePair.add(new BasicNameValuePair("reset_code", objResetModel.getReset_code()));
+		nameValuePair
+				.add(new BasicNameValuePair("tag", objResetModel.getTag()));
+		nameValuePair.add(new BasicNameValuePair("email", objResetModel
+				.getEmail()));
+		nameValuePair.add(new BasicNameValuePair("reset_code", objResetModel
+				.getReset_code()));
 
 		// URl Encoding the POST parametrs
 

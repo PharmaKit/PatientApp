@@ -1,9 +1,13 @@
 package com.example.asyncTask;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,18 +20,24 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import com.example.dataModel.ImageUploadArgs;
 import com.example.dataModel.SaveImageDetailsModel;
+import com.example.datamodels.serialized.SaveImageDetailsResponse;
 import com.example.patient.AddressPrescription;
+import com.example.patient.LandingActivity;
 import com.example.util.Constants;
 import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
-public class SaveImageDetailsTask extends AsyncTask<SaveImageDetailsModel, String, String> {
+public class SaveImageDetailsTask extends
+		AsyncTask<SaveImageDetailsModel, String, String> {
 
 	Activity mActivity;
 	ProgressDialog pd;
@@ -35,15 +45,48 @@ public class SaveImageDetailsTask extends AsyncTask<SaveImageDetailsModel, Strin
 	SaveImageDetailsModel saveImageDetailsModel;
 	SharedPreferences sp;
 
-	public SaveImageDetailsTask(AddressPrescription activity) {
+	File file;
+
+	public SaveImageDetailsTask(AddressPrescription activity, File file) {
 		mActivity = activity;
+		this.file = file;
 	}
 
 	@Override
 	protected void onPostExecute(String result) {
 		super.onPostExecute(result);
 		Log.d("response json is ", "" + result);
+
+		Gson gson = new Gson();
+		SaveImageDetailsResponse imageDetails = gson.fromJson(result,
+				SaveImageDetailsResponse.class);
+
+		if (imageDetails.success == 1) {
+			Log.d("filename", imageDetails.resourceid + ".jpg");
+		} else {
+			Toast.makeText(mActivity,
+					"Image upload failed. Message: " + imageDetails.error_msg,
+					Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		ImageUploadArgs args = new ImageUploadArgs();
+		args.file = file;
+		args.filename = imageDetails.resourceid + ".jpg";
+		args.mimeType = "image/jpeg";
+		try {
+			args.url = new URL(Constants.SERVER_URL
+					+ "/android_api/prescription/upload.php");
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		AsyncTask<ImageUploadArgs, String, String> task = new ImageUploadTask(
+				mActivity).execute(args);
+
 		pd.dismiss();
+
 	}
 
 	@Override
@@ -73,19 +116,26 @@ public class SaveImageDetailsTask extends AsyncTask<SaveImageDetailsModel, Strin
 
 		// Creating HttpPost
 		// Modify your url
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + Constants.IMAGE_EXTENSION);
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ Constants.IMAGE_EXTENSION);
 
 		Log.d("Call to servlet", "Call servlet");
 
 		// Building post parameters, key and value pair
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("tag", "save"));
-		nameValuePairs.add(new BasicNameValuePair("resourcetype", saveImageDetailsModel.getResourceType()));
-		nameValuePairs.add(new BasicNameValuePair("personid", Long.toString(saveImageDetailsModel.getPersonId())));
-		nameValuePairs.add(new BasicNameValuePair("recepientname", saveImageDetailsModel.getRecepientName()));
-		nameValuePairs.add(new BasicNameValuePair("recepientaddress", saveImageDetailsModel.getRecepientAddress()));
-		nameValuePairs.add(new BasicNameValuePair("recepientnumber", saveImageDetailsModel.getRecepientNumber()));
-		nameValuePairs.add(new BasicNameValuePair("offertype", saveImageDetailsModel.getOfferType()));
+		nameValuePairs.add(new BasicNameValuePair("resourcetype",
+				saveImageDetailsModel.getResourceType()));
+		nameValuePairs.add(new BasicNameValuePair("personid", Long
+				.toString(saveImageDetailsModel.getPersonId())));
+		nameValuePairs.add(new BasicNameValuePair("recepientname",
+				saveImageDetailsModel.getRecepientName()));
+		nameValuePairs.add(new BasicNameValuePair("recepientaddress",
+				saveImageDetailsModel.getRecepientAddress()));
+		nameValuePairs.add(new BasicNameValuePair("recepientnumber",
+				saveImageDetailsModel.getRecepientNumber()));
+		nameValuePairs.add(new BasicNameValuePair("offertype",
+				saveImageDetailsModel.getOfferType()));
 
 		Log.d("cac", "NameValuePair" + nameValuePairs);
 		// Url Encoding the POST parameters

@@ -19,6 +19,7 @@ import com.example.datamodels.serialized.ResetPasswordResponse;
 import com.example.patient.Login;
 import com.example.patient.NewPasswordActivity;
 import com.example.patient.PasswordResetCodeVerificationActivity;
+import com.example.util.Constants;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -28,7 +29,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-public class NewPasswordAsyncTask extends AsyncTask<ResetPasswordModel, String, String> {
+public class NewPasswordAsyncTask extends
+		AsyncTask<ResetPasswordModel, String, String> {
 
 	Activity _newPassword;
 	ProgressDialog pd;
@@ -54,7 +56,8 @@ public class NewPasswordAsyncTask extends AsyncTask<ResetPasswordModel, String, 
 
 		Gson gson = new Gson();
 
-		ResetPasswordResponse response = gson.fromJson(result, ResetPasswordResponse.class);
+		ResetPasswordResponse response = gson.fromJson(result,
+				ResetPasswordResponse.class);
 
 		if (response.success == 1) {
 			Intent resetPasswordIntent = new Intent(_newPassword, Login.class);
@@ -62,7 +65,8 @@ public class NewPasswordAsyncTask extends AsyncTask<ResetPasswordModel, String, 
 			_newPassword.startActivity(resetPasswordIntent);
 			_newPassword.finish();
 		} else {
-			Toast.makeText(_newPassword, "Something went wrong", Toast.LENGTH_SHORT).show();
+			Toast.makeText(_newPassword, "Something went wrong",
+					Toast.LENGTH_SHORT).show();
 		}
 
 		pd.dismiss();
@@ -88,7 +92,8 @@ public class NewPasswordAsyncTask extends AsyncTask<ResetPasswordModel, String, 
 		Log.e("TAG: ", "TAG: " + objResetModel.getTag());
 		Log.e("EMAIL: ", "EMAIL: " + objResetModel.getEmail());
 		Log.e("RESET CODE: ", "RESET CODE: " + objResetModel.getReset_code());
-		Log.e("NEW PASSWORD: ", "NEW PASSWORD: " + objResetModel.getNew_password());
+		Log.e("NEW PASSWORD: ",
+				"NEW PASSWORD: " + objResetModel.getNew_password());
 
 		Gson objGson = new Gson();
 		String request = objGson.toJson(params[0]);
@@ -106,12 +111,17 @@ public class NewPasswordAsyncTask extends AsyncTask<ResetPasswordModel, String, 
 		// List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
 		// nameValuePair.add(new BasicNameValuePair("jsondata", request));
 
-		HttpPost httpPost = new HttpPost("http://pharmakit.co/android_api/userprofile/updatepassword.php");
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ "/android_api/userprofile/updatepassword.php");
 		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
-		nameValuePair.add(new BasicNameValuePair("tag", objResetModel.getTag()));
-		nameValuePair.add(new BasicNameValuePair("email", objResetModel.getEmail()));
-		nameValuePair.add(new BasicNameValuePair("reset_code", objResetModel.getReset_code()));
-		nameValuePair.add(new BasicNameValuePair("new_password", objResetModel.getNew_password()));
+		nameValuePair
+				.add(new BasicNameValuePair("tag", objResetModel.getTag()));
+		nameValuePair.add(new BasicNameValuePair("email", objResetModel
+				.getEmail()));
+		nameValuePair.add(new BasicNameValuePair("reset_code", objResetModel
+				.getReset_code()));
+		nameValuePair.add(new BasicNameValuePair("new_password", objResetModel
+				.getNew_password()));
 
 		// URl Encoding the POST parametrs
 

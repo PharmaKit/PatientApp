@@ -18,6 +18,7 @@ import org.json.JSONStringer;
 import com.example.dataModel.ChangePasswordModel;
 import com.example.dataModel.UserProfileModel;
 import com.example.patient.UserProfileActivity;
+import com.example.util.Constants;
 import com.example.util.SessionManager;
 import com.google.gson.Gson;
 
@@ -29,7 +30,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
-public class ChangePasswordAsyncTask extends AsyncTask<ChangePasswordModel, String, String> {
+public class ChangePasswordAsyncTask extends
+		AsyncTask<ChangePasswordModel, String, String> {
 
 	Activity userProfile;
 	ProgressDialog pd;
@@ -63,8 +65,11 @@ public class ChangePasswordAsyncTask extends AsyncTask<ChangePasswordModel, Stri
 		JSONStringer userProfileJsonStringer = new JSONStringer();
 
 		try {
-			userProfileJsonStringer.object().key("email").value(objChangePasswordModel.getEmail())
-					.key("currentPassword").value(objChangePasswordModel.getCurrentPassword()).key("newPassword")
+			userProfileJsonStringer.object().key("email")
+					.value(objChangePasswordModel.getEmail())
+					.key("currentPassword")
+					.value(objChangePasswordModel.getCurrentPassword())
+					.key("newPassword")
 					.value(objChangePasswordModel.getNewPassword()).endObject();
 		} catch (JSONException e1) {
 			e1.printStackTrace();
@@ -81,11 +86,13 @@ public class ChangePasswordAsyncTask extends AsyncTask<ChangePasswordModel, Stri
 
 		// Creating HttpPost
 		// Modify your url
-		HttpPost httpPost = new HttpPost("http://www.medikeen.com/android_api/userprofile/changepassword.php");
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ "/android_api/userprofile/changepassword.php");
 		httpPost.setHeader("Content-type", "application/json");
 
 		try {
-			StringEntity stringEntity = new StringEntity(userProfileJsonStringer.toString());
+			StringEntity stringEntity = new StringEntity(
+					userProfileJsonStringer.toString());
 
 			httpPost.setEntity(stringEntity);
 		} catch (UnsupportedEncodingException e) {
@@ -118,18 +125,22 @@ public class ChangePasswordAsyncTask extends AsyncTask<ChangePasswordModel, Stri
 		super.onPostExecute(result);
 
 		try {
-			JSONObject userProfileJsonResponse = new JSONObject(jsonResponseString);
+			JSONObject userProfileJsonResponse = new JSONObject(
+					jsonResponseString);
 
 			String success = userProfileJsonResponse.getString("success");
 			String error = userProfileJsonResponse.getString("error");
-			String errorMessage = userProfileJsonResponse.getString("errorMessage");
+			String errorMessage = userProfileJsonResponse
+					.getString("errorMessage");
 
 			if (success.contains("true")) {
 
-				Toast.makeText(userProfile, "Password changed", Toast.LENGTH_SHORT).show();
+				Toast.makeText(userProfile, "Password changed",
+						Toast.LENGTH_SHORT).show();
 
 			} else {
-				Toast.makeText(userProfile, errorMessage, Toast.LENGTH_SHORT).show();
+				Toast.makeText(userProfile, errorMessage, Toast.LENGTH_SHORT)
+						.show();
 			}
 
 		} catch (JSONException e) {

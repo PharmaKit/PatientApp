@@ -59,21 +59,24 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 
 		if (response.success == 1) {
 
-			SessionManager sessionManager = new SessionManager(mLogin.getApplicationContext());
+			SessionManager sessionManager = new SessionManager(
+					mLogin.getApplicationContext());
 			UserResponse user = response.user;
 
-			sessionManager.createLoginSession(true, user.person_id, user.name, "", user.email,
-					response.address.house_no, user.telephone);
+			sessionManager.createLoginSession(true, user.person_id, user.name,
+					"", user.email, response.address.house_no, user.telephone);
 
 			// Show a welcome message to the user through toast
-			Toast.makeText(mLogin, "Welcome " + user.name, Toast.LENGTH_SHORT).show();
+			Toast.makeText(mLogin, "Welcome " + user.name, Toast.LENGTH_SHORT)
+					.show();
 
 			Intent intent = new Intent(mLogin, LandingActivity.class);
 			mLogin.startActivity(intent);
 			mLogin.finish();
 		} else {
 
-			EditText mPassword = (EditText) mLogin.findViewById(R.id.editTextPasswordLogin);
+			EditText mPassword = (EditText) mLogin
+					.findViewById(R.id.editTextPasswordLogin);
 			mPassword.setError(response.error_msg);
 		}
 	}
@@ -108,15 +111,18 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 
 		// Creating HttpPost
 		// Modify your url
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + Constants.PATIENT_EXTENSION);
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ Constants.PATIENT_EXTENSION);
 
 		Log.d("Call to servlet", "Call  servlet");
 
 		// Building post parameters, key and value pair
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 		nameValuePairs.add(new BasicNameValuePair("tag", "login"));
-		nameValuePairs.add(new BasicNameValuePair("email", objLoginModel.getmUsername()));
-		nameValuePairs.add(new BasicNameValuePair("password", objLoginModel.getmPassword()));
+		nameValuePairs.add(new BasicNameValuePair("email", objLoginModel
+				.getmUsername()));
+		nameValuePairs.add(new BasicNameValuePair("password", objLoginModel
+				.getmPassword()));
 
 		Log.d("cac", "NameValuePair" + nameValuePairs);
 		// Url Encoding the POST parameters

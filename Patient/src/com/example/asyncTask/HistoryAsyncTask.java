@@ -18,6 +18,7 @@ import com.example.adapters.HistoryAdapter;
 import com.example.dataModel.HistoryModel;
 import com.example.datamodels.serialized.HistoryResponse;
 import com.example.patient.HistoryFragment;
+import com.example.util.Constants;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -47,14 +48,16 @@ public class HistoryAsyncTask extends AsyncTask<String[], String, String> {
 
 	private static final String RESET_PASSWORD = "RESET_PASSWORD";
 
-	public HistoryAsyncTask(Activity historyFragment, ListView mHistoryListView, ArrayList<HistoryModel> historyList) {
+	public HistoryAsyncTask(Activity historyFragment,
+			ListView mHistoryListView, ArrayList<HistoryModel> historyList) {
 		// TODO Auto-generated constructor stub
 
 		this.mHistoryListView = mHistoryListView;
 		this.historyList = historyList;
 		this.historyFragment = historyFragment;
 
-		sp = historyFragment.getSharedPreferences(RESET_PASSWORD, historyFragment.MODE_PRIVATE);
+		sp = historyFragment.getSharedPreferences(RESET_PASSWORD,
+				historyFragment.MODE_PRIVATE);
 		edit = sp.edit();
 	}
 
@@ -94,12 +97,13 @@ public class HistoryAsyncTask extends AsyncTask<String[], String, String> {
 		// List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
 		// nameValuePair.add(new BasicNameValuePair("jsondata", request));
 
-		HttpPost httpPost = new HttpPost(
-				"http://www.medikeen.com/android_api/prescription/prescriptions.php?id=" + historyInputParams[0]);
-				// List<NameValuePair> nameValuePair = new
-				// ArrayList<NameValuePair>();
-				// nameValuePair.add(new BasicNameValuePair("id",
-				// historyInputParams[0]));
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ "/android_api/prescription/prescriptions.php?id="
+				+ historyInputParams[0]);
+		// List<NameValuePair> nameValuePair = new
+		// ArrayList<NameValuePair>();
+		// nameValuePair.add(new BasicNameValuePair("id",
+		// historyInputParams[0]));
 
 		// URl Encoding the POST parametrs
 		try {
@@ -167,26 +171,40 @@ public class HistoryAsyncTask extends AsyncTask<String[], String, String> {
 			try {
 				JSONObject historyJsonObject = new JSONObject(result);
 
-				prescriptionsArray = historyJsonObject.getJSONArray("prescriptions");
+				prescriptionsArray = historyJsonObject
+						.getJSONArray("prescriptions");
 
 				for (int i = 0; i < prescriptionsArray.length(); i++) {
-					JSONObject prescriptionsObject = prescriptionsArray.getJSONObject(i);
+					JSONObject prescriptionsObject = prescriptionsArray
+							.getJSONObject(i);
 
-					String resource_id = prescriptionsObject.getString("resource_id");
-					String resource_type = prescriptionsObject.getString("resource_type");
-					String person_id = prescriptionsObject.getString("person_id");
-					String recepient_name = prescriptionsObject.getString("recepient_name");
-					String recepient_address = prescriptionsObject.getString("recepient_address");
-					String recepient_number = prescriptionsObject.getString("recepient_number");
-					String offer_type = prescriptionsObject.getString("offer_type");
-					String is_image_uploaded = prescriptionsObject.getString("is_image_uploaded");
-					String is_email_sent = prescriptionsObject.getString("is_email_sent");
-					String created_date = prescriptionsObject.getString("created_date");
-					String updated_date = prescriptionsObject.getString("updated_date");
+					String resource_id = prescriptionsObject
+							.getString("resource_id");
+					String resource_type = prescriptionsObject
+							.getString("resource_type");
+					String person_id = prescriptionsObject
+							.getString("person_id");
+					String recepient_name = prescriptionsObject
+							.getString("recepient_name");
+					String recepient_address = prescriptionsObject
+							.getString("recepient_address");
+					String recepient_number = prescriptionsObject
+							.getString("recepient_number");
+					String offer_type = prescriptionsObject
+							.getString("offer_type");
+					String is_image_uploaded = prescriptionsObject
+							.getString("is_image_uploaded");
+					String is_email_sent = prescriptionsObject
+							.getString("is_email_sent");
+					String created_date = prescriptionsObject
+							.getString("created_date");
+					String updated_date = prescriptionsObject
+							.getString("updated_date");
 
-					historyList.add(new HistoryModel(person_id, resource_id, resource_type, recepient_name,
-							recepient_address, recepient_number, offer_type, is_image_uploaded, is_email_sent,
-							created_date, updated_date));
+					historyList.add(new HistoryModel(person_id, resource_id,
+							resource_type, recepient_name, recepient_address,
+							recepient_number, offer_type, is_image_uploaded,
+							is_email_sent, created_date, updated_date));
 				}
 
 			} catch (JSONException e) {

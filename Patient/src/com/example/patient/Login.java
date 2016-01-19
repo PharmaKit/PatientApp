@@ -2,6 +2,12 @@ package com.example.patient;
 
 import java.util.Random;
 
+import com.example.asyncTask.LoginTask;
+import com.example.dataModel.LoginModel;
+import com.example.datamodels.User;
+import com.example.util.SessionManager;
+import com.pharmakit.patient.R;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -26,12 +32,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.asyncTask.LoginTask;
-import com.example.dataModel.LoginModel;
-import com.example.datamodels.User;
-import com.example.util.SessionManager;
-import com.pharmakit.patient.R;
 
 public class Login extends Activity implements OnClickListener {
 
@@ -67,15 +67,12 @@ public class Login extends Activity implements OnClickListener {
 		textViewforgot.setOnClickListener(this);
 
 		// check if user is already logged in and try to login again.
-		SessionManager sessionManager = new SessionManager(
-				getApplicationContext());
+		SessionManager sessionManager = new SessionManager(getApplicationContext());
 
 		// we need to validate if the password is changed or it is right.
 		if (sessionManager.isLoggedIn()) {
 			User user = sessionManager.getUserDetails();
-			Toast.makeText(getApplicationContext(),
-					"Welcome " + user.getFirstName(), Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(getApplicationContext(), "Welcome " + user.getFirstName(), Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(Login.this, LandingActivity.class);
 			startActivity(intent);
 			finish();
@@ -83,9 +80,7 @@ public class Login extends Activity implements OnClickListener {
 	}
 
 	public final static boolean isValidEmail(CharSequence target) {
-		return !TextUtils.isEmpty(target)
-				&& android.util.Patterns.EMAIL_ADDRESS.matcher(target)
-						.matches();
+		return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
 	}
 
 	private void init() {
@@ -126,22 +121,17 @@ public class Login extends Activity implements OnClickListener {
 			}
 
 			if (isValidEmail(userName)) {
-				AsyncTask<LoginModel, String, String> task = new LoginTask(
-						Login.this).execute(loginModel);
+				AsyncTask<LoginModel, String, String> task = new LoginTask(Login.this).execute(loginModel);
 			} else {
-				Toast.makeText(Login.this,
-						"Please enter a valid email address",
-						Toast.LENGTH_SHORT).show();
+				Toast.makeText(Login.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
 			}
 		} else if (id == R.id.textViewCreate) {
 
-			Intent registrationPageIntent = new Intent(Login.this,
-					RegistrationActivity.class);
+			Intent registrationPageIntent = new Intent(Login.this, RegistrationActivity.class);
 			startActivity(registrationPageIntent);
 
 		} else if (id == R.id.textViewforgot) {
-			Intent forgotPasswordIntent = new Intent(Login.this,
-					ForgotPasswordActivity.class);
+			Intent forgotPasswordIntent = new Intent(Login.this, ForgotPasswordActivity.class);
 			startActivity(forgotPasswordIntent);
 		}
 	}
@@ -161,11 +151,9 @@ public class Login extends Activity implements OnClickListener {
 		String SENT = "SMS_SENT";
 		String DELIVERED = "SMS_DELIVERED";
 
-		PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(
-				SENT), 0);
+		PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
 
-		PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0,
-				new Intent(DELIVERED), 0);
+		PendingIntent deliveredPI = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
 
 		// ---when the SMS has been sent---
 		registerReceiver(new BroadcastReceiver() {
@@ -173,24 +161,19 @@ public class Login extends Activity implements OnClickListener {
 			public void onReceive(Context arg0, Intent arg1) {
 				switch (getResultCode()) {
 				case Activity.RESULT_OK:
-					Toast.makeText(getBaseContext(), "SMS sent",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "SMS sent", Toast.LENGTH_SHORT).show();
 					break;
 				case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-					Toast.makeText(getBaseContext(), "Generic failure",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Generic failure", Toast.LENGTH_SHORT).show();
 					break;
 				case SmsManager.RESULT_ERROR_NO_SERVICE:
-					Toast.makeText(getBaseContext(), "No service",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "No service", Toast.LENGTH_SHORT).show();
 					break;
 				case SmsManager.RESULT_ERROR_NULL_PDU:
-					Toast.makeText(getBaseContext(), "Null PDU",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Null PDU", Toast.LENGTH_SHORT).show();
 					break;
 				case SmsManager.RESULT_ERROR_RADIO_OFF:
-					Toast.makeText(getBaseContext(), "Radio off",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "Radio off", Toast.LENGTH_SHORT).show();
 					break;
 				}
 			}
@@ -202,20 +185,17 @@ public class Login extends Activity implements OnClickListener {
 			public void onReceive(Context arg0, Intent arg1) {
 				switch (getResultCode()) {
 				case Activity.RESULT_OK:
-					Toast.makeText(getBaseContext(), "SMS delivered",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "SMS delivered", Toast.LENGTH_SHORT).show();
 					break;
 				case Activity.RESULT_CANCELED:
-					Toast.makeText(getBaseContext(), "SMS not delivered",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getBaseContext(), "SMS not delivered", Toast.LENGTH_SHORT).show();
 					break;
 				}
 			}
 		}, new IntentFilter(DELIVERED));
 
 		SmsManager sms = SmsManager.getDefault();
-		sms.sendTextMessage(stringPhone, null, "Your OTP is: " + randomInt,
-				sentPI, deliveredPI);
+		sms.sendTextMessage(stringPhone, null, "Your OTP is: " + randomInt, sentPI, deliveredPI);
 
 		createDialogForOTP(randomInt);
 	}
@@ -227,52 +207,43 @@ public class Login extends Activity implements OnClickListener {
 		alertDialog.setMessage("Enter OTP");
 
 		final EditText input = new EditText(Login.this);
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LinearLayout.LayoutParams.MATCH_PARENT,
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
 				LinearLayout.LayoutParams.MATCH_PARENT);
 
 		input.setLayoutParams(lp);
 
 		alertDialog.setView(input);
 
-		alertDialog.setPositiveButton("YES",
-				new DialogInterface.OnClickListener() {
+		alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
-					public void onClick(DialogInterface dialog, int which) {
+			public void onClick(DialogInterface dialog, int which) {
 
-						int OTPpassword = Integer.parseInt(input.getText()
-								.toString());
+				int OTPpassword = Integer.parseInt(input.getText().toString());
 
-						Log.d("OTP", "" + OTPpassword);
+				Log.d("OTP", "" + OTPpassword);
 
-						if (OTPpassword != -1) {
+				if (OTPpassword != -1) {
 
-							Log.d("OTP1", "" + OTPpassword);
+					Log.d("OTP1", "" + OTPpassword);
 
-							if (OTP == OTPpassword) {
-								Toast.makeText(getApplicationContext(),
-										"OTP Matched", Toast.LENGTH_SHORT)
-										.show();
-								Intent objLanding = new Intent(Login.this,
-										LandingActivity.class);
-								startActivity(objLanding);
-							}
-
-							else {
-								Toast.makeText(getApplicationContext(),
-										"Wrong OTP!", Toast.LENGTH_SHORT)
-										.show();
-							}
-						}
+					if (OTP == OTPpassword) {
+						Toast.makeText(getApplicationContext(), "OTP Matched", Toast.LENGTH_SHORT).show();
+						Intent objLanding = new Intent(Login.this, LandingActivity.class);
+						startActivity(objLanding);
 					}
-				});
 
-		alertDialog.setNegativeButton("NO",
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.cancel();
+					else {
+						Toast.makeText(getApplicationContext(), "Wrong OTP!", Toast.LENGTH_SHORT).show();
 					}
-				});
+				}
+			}
+		});
+
+		alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.cancel();
+			}
+		});
 
 		alertDialog.show();
 	}

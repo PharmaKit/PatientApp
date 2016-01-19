@@ -18,6 +18,7 @@ import com.example.dataModel.ResetPasswordModel;
 import com.example.datamodels.serialized.ResetPasswordResponse;
 import com.example.patient.ForgotPasswordActivity;
 import com.example.patient.PasswordResetCodeVerificationActivity;
+import com.example.util.Constants;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -117,7 +118,7 @@ public class ForgotPasswordTask extends AsyncTask<ResetPasswordModel, String, St
 		// List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
 		// nameValuePair.add(new BasicNameValuePair("jsondata", request));
 
-		HttpPost httpPost = new HttpPost("http://pharmakit.co/android_api/userprofile/updatepassword.php");
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + "/android_api/userprofile/updatepassword.php");
 		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
 		nameValuePair.add(new BasicNameValuePair("tag", objResetModel.getTag()));
 		nameValuePair.add(new BasicNameValuePair("email", objResetModel.getEmail()));

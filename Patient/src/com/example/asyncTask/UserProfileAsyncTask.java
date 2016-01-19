@@ -17,6 +17,7 @@ import org.json.JSONStringer;
 
 import com.example.dataModel.UserProfileModel;
 import com.example.patient.UserProfileActivity;
+import com.example.util.Constants;
 import com.example.util.SessionManager;
 import com.google.gson.Gson;
 
@@ -28,7 +29,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
-public class UserProfileAsyncTask extends AsyncTask<UserProfileModel, String, String> {
+public class UserProfileAsyncTask extends
+		AsyncTask<UserProfileModel, String, String> {
 
 	Activity userProfile;
 	ProgressDialog pd;
@@ -62,11 +64,13 @@ public class UserProfileAsyncTask extends AsyncTask<UserProfileModel, String, St
 		JSONStringer userProfileJsonStringer = new JSONStringer();
 
 		try {
-			userProfileJsonStringer.object().key("personId").value(objUserProfileModel.getPersonId()).key("email")
-					.value(objUserProfileModel.getEmail()).key("firstName").value(objUserProfileModel.getFirstName())
-					.key("lastName").value(objUserProfileModel.getLastName()).key("phone")
-					.value(objUserProfileModel.getPhone()).key("address").value(objUserProfileModel.getAddress())
-					.endObject();
+			userProfileJsonStringer.object().key("personId")
+					.value(objUserProfileModel.getPersonId()).key("email")
+					.value(objUserProfileModel.getEmail()).key("firstName")
+					.value(objUserProfileModel.getFirstName()).key("lastName")
+					.value(objUserProfileModel.getLastName()).key("phone")
+					.value(objUserProfileModel.getPhone()).key("address")
+					.value(objUserProfileModel.getAddress()).endObject();
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -83,11 +87,13 @@ public class UserProfileAsyncTask extends AsyncTask<UserProfileModel, String, St
 
 		// Creating HttpPost
 		// Modify your url
-		HttpPost httpPost = new HttpPost("http://www.medikeen.com/android_api/userprofile/updateprofile.php");
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ "/android_api/userprofile/updateprofile.php");
 		httpPost.setHeader("Content-type", "application/json");
 
 		try {
-			StringEntity stringEntity = new StringEntity(userProfileJsonStringer.toString());
+			StringEntity stringEntity = new StringEntity(
+					userProfileJsonStringer.toString());
 
 			httpPost.setEntity(stringEntity);
 		} catch (UnsupportedEncodingException e) {
@@ -120,13 +126,15 @@ public class UserProfileAsyncTask extends AsyncTask<UserProfileModel, String, St
 		super.onPostExecute(result);
 
 		try {
-			JSONObject userProfileJsonResponse = new JSONObject(jsonResponseString);
+			JSONObject userProfileJsonResponse = new JSONObject(
+					jsonResponseString);
 
 			String success = userProfileJsonResponse.getString("success");
 			String error = userProfileJsonResponse.getString("error");
 			String userJson = userProfileJsonResponse.getString("user");
 			String addressJson = userProfileJsonResponse.getString("address");
-			String errorMessage = userProfileJsonResponse.getString("errorMessage");
+			String errorMessage = userProfileJsonResponse
+					.getString("errorMessage");
 
 			if (success.contains("true")) {
 
@@ -147,13 +155,16 @@ public class UserProfileAsyncTask extends AsyncTask<UserProfileModel, String, St
 
 				String address = addressJsonResponse.getString("1");
 
-				sessionManager.createLoginSession(true, Long.parseLong(personId), firstName, lastName, email, address,
-						phone);
+				sessionManager.createLoginSession(true,
+						Long.parseLong(personId), firstName, lastName, email,
+						address, phone);
 
-				Toast.makeText(userProfile, "User profile updated", Toast.LENGTH_SHORT).show();
+				Toast.makeText(userProfile, "User profile updated",
+						Toast.LENGTH_SHORT).show();
 
 			} else {
-				Toast.makeText(userProfile, errorMessage, Toast.LENGTH_SHORT).show();
+				Toast.makeText(userProfile, errorMessage, Toast.LENGTH_SHORT)
+						.show();
 			}
 
 		} catch (JSONException e) {

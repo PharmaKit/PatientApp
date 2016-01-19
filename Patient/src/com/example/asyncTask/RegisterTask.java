@@ -65,6 +65,7 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String> {
 		pd.show();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected String doInBackground(RegisterModel... params) {
 		// TODO Auto-generated method stub
@@ -99,24 +100,18 @@ public class RegisterTask extends AsyncTask<RegisterModel, String, String> {
 		// writeStream(out);
 		// }
 
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
-				+ Constants.PATIENT_EXTENSION);
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + Constants.PATIENT_EXTENSION);
 
 		Log.d("Call to servlet", "Call servlet");
 
 		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(6);
 
 		nameValuePairs.add(new BasicNameValuePair("tag", "register"));
-		nameValuePairs.add(new BasicNameValuePair("name", objRegisterModel
-				.getFirstName()));
-		nameValuePairs.add(new BasicNameValuePair("email", objRegisterModel
-				.getEmailId()));
-		nameValuePairs.add(new BasicNameValuePair("password", objRegisterModel
-				.getPassword()));
-		nameValuePairs.add(new BasicNameValuePair("address", objRegisterModel
-				.getAddress()));
-		nameValuePairs.add(new BasicNameValuePair("telephone", objRegisterModel
-				.getContactNo()));
+		nameValuePairs.add(new BasicNameValuePair("name", objRegisterModel.getFirstName()));
+		nameValuePairs.add(new BasicNameValuePair("email", objRegisterModel.getEmailId()));
+		nameValuePairs.add(new BasicNameValuePair("password", objRegisterModel.getPassword()));
+		nameValuePairs.add(new BasicNameValuePair("address", objRegisterModel.getAddress()));
+		nameValuePairs.add(new BasicNameValuePair("telephone", objRegisterModel.getContactNo()));
 
 		// URl Encoding the POST parametrs
 
