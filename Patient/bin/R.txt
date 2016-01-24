@@ -646,7 +646,7 @@ int string title_activity_symptoms 0x7f05001f
 int string title_activity_tests 0x7f050021
 int string title_activity_update__running_disease 0x7f05001c
 int string title_activity_user_profile 0x7f0500a6
-int string title_pharmakit_menu 0x7f05008a
+int string title_medikeen_menu 0x7f05008a
 int string uDesc 0x7f050096
 int string wDesc 0x7f050099
 int string wallet_buy_button_place_holder 0x7f050089

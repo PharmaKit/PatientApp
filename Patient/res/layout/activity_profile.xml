@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.example.patient.SquareImageView
+    <com.medikeen.patient.SquareImageView
         android:id="@+id/ImageviewPhysician"
         android:layout_width="150dp"
         android:layout_height="150dp"

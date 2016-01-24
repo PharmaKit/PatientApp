@@ -12,7 +12,7 @@
         android:layout_centerInParent="true"
         android:orientation="vertical" >
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:id="@+id/textViewEmpty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         android:orientation="vertical"
         android:visibility="gone" >
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Enter Delivery Address:"
@@ -63,7 +63,7 @@
                 android:text="@string/eighthr" />
         </RadioGroup>
 
-        <com.example.views.MyButton
+        <com.medikeen.views.MyButton
             android:id="@+id/buttonNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
         android:orientation="vertical"
         android:visibility="gone" >
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:id="@+id/textViewUploadedPrescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <com.example.views.MyButton
+        <com.medikeen.views.MyButton
             android:id="@+id/buttonUPloadPrescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
             android:text="Attach Prescription"
             android:textColor="#fff" />
 
-        <com.example.views.MyButton
+        <com.medikeen.views.MyButton
             android:id="@+id/buttonSendPrescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
             android:textColor="#fff" />
     </LinearLayout>
 
-    <com.example.util.ButtonFloat
+    <com.medikeen.util.ButtonFloat
         android:id="@+id/buttonFloat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
         materialdesign:animate="true"
         materialdesign:iconDrawable="@drawable/ic_action_new" />
 
-    <com.example.views.MyTextView
+    <com.medikeen.views.MyTextView
         android:id="@+id/textViewNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

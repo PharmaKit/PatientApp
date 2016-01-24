@@ -9,7 +9,7 @@
         android:orientation="vertical"
         android:padding="10dp" >
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -17,7 +17,7 @@
             android:textSize="21sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -25,7 +25,7 @@
             android:text="@string/titleDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -33,7 +33,7 @@
             android:text="@string/desc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -42,7 +42,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -50,7 +50,7 @@
             android:text="@string/elDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -59,7 +59,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -67,7 +67,7 @@
             android:text="@string/srDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -76,7 +76,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -84,7 +84,7 @@
             android:text="@string/phDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -93,7 +93,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -101,7 +101,7 @@
             android:text="@string/scDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -110,7 +110,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -118,7 +118,7 @@
             android:text="@string/uDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -127,7 +127,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -135,7 +135,7 @@
             android:text="@string/pcDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -144,7 +144,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -152,7 +152,7 @@
             android:text="@string/tDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -161,7 +161,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -169,7 +169,7 @@
             android:text="@string/wDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -178,7 +178,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -186,7 +186,7 @@
             android:text="@string/lDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -195,7 +195,7 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -203,7 +203,7 @@
             android:text="@string/iDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -212,7 +212,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -220,7 +220,7 @@
             android:text="@string/gDesc"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
@@ -229,7 +229,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

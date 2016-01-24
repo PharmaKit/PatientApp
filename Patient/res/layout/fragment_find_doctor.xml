@@ -52,7 +52,7 @@
                             android:textSize="@dimen/text_Size1p"
                             android:textStyle="normal" />
 
-                        <com.example.patient.SquareImageView
+                        <com.medikeen.patient.SquareImageView
                             android:id="@+id/Imageview"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -96,7 +96,7 @@
                             android:textSize="@dimen/text_Size1p"
                             android:textStyle="normal" />
 
-                        <com.example.patient.SquareImageView
+                        <com.medikeen.patient.SquareImageView
                             android:id="@+id/Imageview1"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
@@ -148,7 +148,7 @@
                             android:textSize="@dimen/text_Size1p"
                             android:textStyle="normal" />
 
-                        <com.example.patient.SquareImageView
+                        <com.medikeen.patient.SquareImageView
                             android:id="@+id/Imageview2"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
@@ -192,7 +192,7 @@
                             android:textSize="@dimen/text_Size1p"
                             android:textStyle="normal" />
 
-                        <com.example.patient.SquareImageView
+                        <com.medikeen.patient.SquareImageView
                             android:id="@+id/Imageview5"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
@@ -244,7 +244,7 @@
                             android:textSize="@dimen/text_Size1p"
                             android:textStyle="normal" />
 
-                        <com.example.patient.SquareImageView
+                        <com.medikeen.patient.SquareImageView
                             android:id="@+id/Imageview3"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
@@ -288,7 +288,7 @@
                             android:textSize="@dimen/text_Size1p"
                             android:textStyle="normal" />
 
-                        <com.example.patient.SquareImageView
+                        <com.medikeen.patient.SquareImageView
                             android:id="@+id/Imageviews4"
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"

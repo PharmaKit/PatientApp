@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:orientation="vertical" >
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:id="@+id/textViewUploadedPrescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             </LinearLayout>
         </HorizontalScrollView>
 
-        <com.example.views.MyButton
+        <com.medikeen.views.MyButton
             android:id="@+id/buttonUPloadPrescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             android:paddingLeft="10dp"
             android:textColor="#fff" />
 
-        <com.example.views.MyButton
+        <com.medikeen.views.MyButton
             android:id="@+id/buttonNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
             android:textColor="#fff" />
     </LinearLayout>
 
-    <com.example.views.MyTextView
+    <com.medikeen.views.MyTextView
         android:id="@+id/textViewNote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

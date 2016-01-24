@@ -30,7 +30,7 @@
             android:textSize="@dimen/text_Size1p"
             android:textStyle="normal" />
 
-        <com.example.patient.SquareImageView
+        <com.medikeen.patient.SquareImageView
             android:id="@+id/Imageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

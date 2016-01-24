@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:orientation="vertical" >
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -57,7 +57,7 @@
                 android:text="@string/eighthr" />
         </RadioGroup>
 
-        <com.example.views.MyButton
+        <com.medikeen.views.MyButton
             android:id="@+id/buttonUpload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

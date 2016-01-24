@@ -18,7 +18,7 @@
         android:layout_marginLeft="10dp"
         android:orientation="vertical" >
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:id="@+id/rec_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:textColor="#424242"
             android:textSize="20sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:id="@+id/rec_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:textColor="#9E9E9E"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:id="@+id/rec_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             android:textColor="#9E9E9E"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:id="@+id/rec_offer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
             android:textColor="#9E9E9E"
             android:textSize="14sp" />
 
-        <com.example.views.MyTextView
+        <com.medikeen.views.MyTextView
             android:id="@+id/rec_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
