@@ -12,6 +12,8 @@
 
 # generated files
 Patient/bin
+CommonLibrary/bin
+google-play-services_lib/bin
 gen/
 
 # Local configuration file (sdk path, etc)
