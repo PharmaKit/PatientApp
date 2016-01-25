@@ -237,14 +237,6 @@ public class AddressPrescription extends Activity implements OnClickListener,
 			// Intent(AddressPrescription.this, LandingActivity.class);
 			// newUploadPrescriptionIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			// startActivity(newUploadPrescriptionIntent);
-			
-			ClearAllCapturedImages();
-
-			Toast.makeText(getApplicationContext(), "The prescription(s) has been uploaded!", Toast.LENGTH_LONG).show();
-
-			Intent newUploadPrescriptionIntent = new Intent(getApplicationContext(), LandingActivity.class);
-			newUploadPrescriptionIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			getApplicationContext().startActivity(newUploadPrescriptionIntent);
 		}
 	}
 
