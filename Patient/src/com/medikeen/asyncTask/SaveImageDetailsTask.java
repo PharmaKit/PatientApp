@@ -23,6 +23,7 @@ import org.apache.http.util.EntityUtils;
 import com.medikeen.dataModel.ImageUploadArgs;
 import com.medikeen.dataModel.SaveImageDetailsModel;
 import com.medikeen.datamodels.serialized.SaveImageDetailsResponse;
+import com.medikeen.interfaces.IImageUploadedEventListener;
 import com.medikeen.patient.AddressPrescription;
 import com.medikeen.patient.LandingActivity;
 import com.medikeen.util.Constants;
@@ -44,12 +45,14 @@ public class SaveImageDetailsTask extends
 	String jsonResponseString;
 	SaveImageDetailsModel saveImageDetailsModel;
 	SharedPreferences sp;
+	IImageUploadedEventListener uploadedEventListener;
 
 	File file;
 
-	public SaveImageDetailsTask(AddressPrescription activity, File file) {
+	public SaveImageDetailsTask(AddressPrescription activity, File file, IImageUploadedEventListener uploadedEventListener) {
 		mActivity = activity;
 		this.file = file;
+		this.uploadedEventListener = uploadedEventListener;
 	}
 
 	@Override
@@ -83,8 +86,9 @@ public class SaveImageDetailsTask extends
 		}
 
 		AsyncTask<ImageUploadArgs, String, String> task = new ImageUploadTask(
-				mActivity).execute(args);
-
+				mActivity);
+		((ImageUploadTask) task).setOnImageUploadedEventListener(uploadedEventListener);
+		task.execute(args);
 		pd.dismiss();
 
 	}

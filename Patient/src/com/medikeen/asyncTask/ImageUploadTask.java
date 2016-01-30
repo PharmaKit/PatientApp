@@ -3,10 +3,12 @@ package com.medikeen.asyncTask;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.medikeen.dataModel.ImageUploadArgs;
 import com.medikeen.dataModel.LoginModel;
+import com.medikeen.interfaces.IImageUploadedEventListener;
 import com.medikeen.patient.AddressPrescription;
 import com.medikeen.patient.LandingActivity;
 import com.medikeen.util.ImageUploader;
@@ -25,12 +27,17 @@ public class ImageUploadTask extends AsyncTask<ImageUploadArgs, String, String> 
 	Context mContext;
 	ProgressDialog mDialog;
 	String jsonResposnseString;
+	ArrayList<IImageUploadedEventListener> listeners = new ArrayList<IImageUploadedEventListener> ();
 
 	public static final String GridViewDemo_ImagePath = Environment.getExternalStorageDirectory().getAbsolutePath()
 			+ "/GridView/";
 
 	public ImageUploadTask(Context c) {
 		mContext = c;
+	}
+	
+	public void setOnImageUploadedEventListener(IImageUploadedEventListener listener) {
+		this.listeners.add(listener);
 	}
 
 	@Override
@@ -64,13 +71,19 @@ public class ImageUploadTask extends AsyncTask<ImageUploadArgs, String, String> 
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
 
-		ClearAllCapturedImages();
+		//ClearAllCapturedImages();
+		
+		for(IImageUploadedEventListener listener : listeners) {
+			if(listener != null) {
+				listener.onImageUploaded();
+			}
+		}
 
-		Toast.makeText(mContext, "The prescription(s) has been uploaded!", Toast.LENGTH_LONG).show();
+		//Toast.makeText(mContext, "The prescription(s) has been uploaded!", Toast.LENGTH_LONG).show();
 
-		Intent newUploadPrescriptionIntent = new Intent(mContext, LandingActivity.class);
-		newUploadPrescriptionIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		mContext.startActivity(newUploadPrescriptionIntent);
+		//Intent newUploadPrescriptionIntent = new Intent(mContext, LandingActivity.class);
+		//newUploadPrescriptionIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		//mContext.startActivity(newUploadPrescriptionIntent);
 
 		mDialog.dismiss();
 	}

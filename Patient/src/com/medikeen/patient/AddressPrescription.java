@@ -49,7 +49,9 @@ public class AddressPrescription extends Activity implements OnClickListener,
 	RadioGroup radioGroupOffer;
 	SessionManager sessionManager;
 	User user;
-	ArrayList<IImageUploadedEventListener> listeners;
+	int totalImages;
+	int uploadedImages;
+	IImageUploadedEventListener uploadedEventListener;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,8 +59,7 @@ public class AddressPrescription extends Activity implements OnClickListener,
 		setContentView(R.layout.new_address_prescription);
 
 		init();
-		
-		listeners = new ArrayList<IImageUploadedEventListener>();
+	
 
 		// auto fill the address of the patient.
 		editTextDoctorAdd.setText(sessionManager.getUserDetails().getAddress());
@@ -84,6 +85,25 @@ public class AddressPrescription extends Activity implements OnClickListener,
 						}
 					}
 				});
+		uploadedEventListener = new IImageUploadedEventListener() {
+			public void onImageUploaded() {
+				uploadedImages++;
+				Log.d("IImageUploadedEventListener", "uploadedImages:" + uploadedImages + " totalImages:" +totalImages);
+				if(uploadedImages>=totalImages) {
+					 ClearAllCapturedImages();
+					
+					 Toast.makeText(AddressPrescription.this, "The prescription(s) has been uploaded!", Toast.LENGTH_LONG)
+					 .show();
+					
+					 Intent newUploadPrescriptionIntent = new
+					 Intent(AddressPrescription.this, LandingActivity.class);
+					 newUploadPrescriptionIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					 startActivity(newUploadPrescriptionIntent);
+				}
+				
+			}
+		};
+		
 	}
 
 	private void init() {
@@ -149,6 +169,9 @@ public class AddressPrescription extends Activity implements OnClickListener,
 			// this is where we actually upload the prescription
 
 			List<String> images = RetriveCapturedImagePath();
+			
+			totalImages = images.size();
+			uploadedImages = 0;
 
 			for (String image : images) {
 
@@ -173,7 +196,7 @@ public class AddressPrescription extends Activity implements OnClickListener,
 						user.getPhoneNo(), offer);
 
 				AsyncTask<SaveImageDetailsModel, String, String> saveImageDetailsTask = new SaveImageDetailsTask(
-						AddressPrescription.this, file).execute(arguments);
+						AddressPrescription.this, file, uploadedEventListener).execute(arguments);
 				// String response = null;
 				// try {
 				// response = saveImageDetailsTask.get();

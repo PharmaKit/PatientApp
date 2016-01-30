@@ -484,16 +484,18 @@ public class AttachPrescription extends Activity implements OnClickListener {
 		File f = new File(GridViewDemo_ImagePath);
 		if (f.exists()) {
 			File[] files = f.listFiles();
-			Arrays.sort(files);
+			if(files != null) {
+				Arrays.sort(files);
 
-			for (int i = 0; i < files.length; i++) {
-				File file = files[i];
-				if (file.isDirectory())
-					continue;
-				if (file.length() > 0) {
-					tFileList.add(file.getPath());
-				} else {
-					file.delete();
+				for (int i = 0; i < files.length; i++) {
+					File file = files[i];
+					if (file.isDirectory())
+						continue;
+					if (file.length() > 0) {
+						tFileList.add(file.getPath());
+					} else {
+						file.delete();
+					}
 				}
 			}
 		}
