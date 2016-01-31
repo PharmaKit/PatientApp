@@ -66,5 +66,6 @@
     <string name="title_activity_new_password">NewPasswordActivity</string>
     <string name="title_activity_user_profile">UserProfileActivity</string>
     <string name="title_activity_history_detail">HistoryDetailActivity</string>
+    <string name="title_activity_otp">OtpActivity</string>
 
 </resources>

@@ -31,6 +31,7 @@ public class PasswordResetCodeVerificationActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_password_reset_code_verification);
+		getActionBar().hide();
 
 		sp = getSharedPreferences(RESET_PASSWORD, MODE_PRIVATE);
 		edit = sp.edit();

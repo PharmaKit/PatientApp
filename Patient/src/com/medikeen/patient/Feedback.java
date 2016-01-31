@@ -5,8 +5,8 @@ import com.medikeen.dataModel.FeedbackModel;
 import com.medikeen.util.SessionManager;
 import com.medikeen.patient.R;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +26,9 @@ public class Feedback extends Fragment {
 	 * android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.fragment_feedback, container,
-				false);
+		View view = inflater.inflate(R.layout.fragment_feedback, container, false);
 
 		init(view);
 
@@ -39,10 +37,8 @@ public class Feedback extends Fragment {
 
 	private void init(View view) {
 
-		editTextDesc = (EditText) view
-				.findViewById(R.id.editTextFeedbackDescription);
-		editTextTitle = (EditText) view
-				.findViewById(R.id.editTextFeedbackTitle);
+		editTextDesc = (EditText) view.findViewById(R.id.editTextFeedbackDescription);
+		editTextTitle = (EditText) view.findViewById(R.id.editTextFeedbackTitle);
 
 		btnSend = (Button) view.findViewById(R.id.buttonSend);
 
@@ -52,25 +48,20 @@ public class Feedback extends Fragment {
 			public void onClick(View v) {
 
 				if (editTextTitle.getText().toString().isEmpty()) {
-					Toast.makeText(getActivity(), "Please enter the title.",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), "Please enter the title.", Toast.LENGTH_SHORT).show();
 					return;
 				}
 
 				if (editTextDesc.getText().toString().isEmpty()) {
-					Toast.makeText(getActivity(), "Please enter description.",
-							Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), "Please enter description.", Toast.LENGTH_SHORT).show();
 					return;
 				}
 
-				SessionManager session = new SessionManager(getActivity()
-						.getApplicationContext());
-				FeedbackModel feedback = new FeedbackModel(session
-						.getUserDetails(), editTextTitle.getText().toString(),
+				SessionManager session = new SessionManager(getActivity().getApplicationContext());
+				FeedbackModel feedback = new FeedbackModel(session.getUserDetails(), editTextTitle.getText().toString(),
 						editTextDesc.getText().toString());
 
-				FeedbackUploadTask uploadTask = new FeedbackUploadTask(
-						getActivity());
+				FeedbackUploadTask uploadTask = new FeedbackUploadTask(getActivity());
 				uploadTask.execute(feedback);
 			}
 		});

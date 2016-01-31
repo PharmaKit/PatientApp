@@ -6,7 +6,6 @@ import com.medikeen.dataModel.ChangePasswordModel;
 import com.medikeen.dataModel.UserProfileModel;
 import com.medikeen.datamodels.User;
 import com.medikeen.util.SessionManager;
-import com.medikeen.patient.R;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -38,6 +37,8 @@ public class UserProfileActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_profile);
+
+		getActionBar().hide();
 
 		init();
 
@@ -168,7 +169,7 @@ public class UserProfileActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.user_profile, menu);
+		// getMenuInflater().inflate(R.menu.user_profile, menu);
 		return true;
 	}
 

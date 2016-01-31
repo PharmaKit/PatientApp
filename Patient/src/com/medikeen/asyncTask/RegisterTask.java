@@ -14,15 +14,15 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import com.google.gson.Gson;
+import com.medikeen.dataModel.RegisterModel;
+import com.medikeen.patient.RegistrationActivity;
+import com.medikeen.util.Constants;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
-
-import com.medikeen.dataModel.RegisterModel;
-import com.medikeen.patient.RegistrationActivity;
-import com.medikeen.util.Constants;
-import com.google.gson.Gson;
 
 public class RegisterTask extends AsyncTask<RegisterModel, String, String> {
 

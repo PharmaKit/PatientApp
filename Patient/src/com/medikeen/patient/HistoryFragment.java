@@ -1,27 +1,19 @@
 package com.medikeen.patient;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.medikeen.adapters.HistoryAdapter;
 import com.medikeen.asyncTask.HistoryAsyncTask;
 import com.medikeen.dataModel.HistoryModel;
-import com.medikeen.datamodels.serialized.HistoryResponse;
 import com.medikeen.util.SessionManager;
-import com.google.gson.Gson;
-import com.medikeen.patient.HistoryDetailActivity;
-import com.medikeen.patient.R;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

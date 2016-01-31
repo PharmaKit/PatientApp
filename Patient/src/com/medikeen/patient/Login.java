@@ -37,7 +37,7 @@ public class Login extends Activity implements OnClickListener {
 
 	EditText mUsername, mPassword, mEmailForgot;
 	TextView textViewCreateAccount, textViewforgot;
-	Button mLogin, mforgot;
+	Button mLogin, mforgot, mCreateAccountBtn;
 	ImageButton buttonSearch;
 	SharedPreferences sp;
 
@@ -60,11 +60,14 @@ public class Login extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
+		getActionBar().hide();
+
 		init();
 
-		textViewCreateAccount.setOnClickListener(this);
+		// textViewCreateAccount.setOnClickListener(this);
 		mLogin.setOnClickListener(this);
 		textViewforgot.setOnClickListener(this);
+		mCreateAccountBtn.setOnClickListener(this);
 
 		// check if user is already logged in and try to login again.
 		SessionManager sessionManager = new SessionManager(getApplicationContext());
@@ -84,6 +87,7 @@ public class Login extends Activity implements OnClickListener {
 	}
 
 	private void init() {
+		mCreateAccountBtn = (Button) findViewById(R.id.textViewCreateBtn);
 		mUsername = (EditText) findViewById(R.id.editTextUsernameLogin);
 		mPassword = (EditText) findViewById(R.id.editTextPasswordLogin);
 		mLogin = (Button) findViewById(R.id.buttonLoginLogin);
@@ -133,6 +137,11 @@ public class Login extends Activity implements OnClickListener {
 		} else if (id == R.id.textViewforgot) {
 			Intent forgotPasswordIntent = new Intent(Login.this, ForgotPasswordActivity.class);
 			startActivity(forgotPasswordIntent);
+		} else if (id == R.id.textViewCreateBtn) {
+
+			Intent registrationPageIntent = new Intent(Login.this, RegistrationActivity.class);
+			startActivity(registrationPageIntent);
+
 		}
 	}
 

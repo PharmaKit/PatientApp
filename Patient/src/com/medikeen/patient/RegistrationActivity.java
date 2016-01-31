@@ -2,13 +2,18 @@ package com.medikeen.patient;
 
 import java.util.concurrent.ExecutionException;
 
+import com.google.gson.Gson;
+import com.medikeen.asyncTask.RegisterTask;
+import com.medikeen.dataModel.RegisterModel;
+import com.medikeen.datamodels.serialized.RegistrationResponse;
+import com.medikeen.util.SessionManager;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,13 +27,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.medikeen.asyncTask.RegisterTask;
-import com.medikeen.dataModel.RegisterModel;
-import com.medikeen.datamodels.serialized.RegistrationResponse;
-import com.medikeen.util.SessionManager;
-import com.google.gson.Gson;
-import com.medikeen.patient.R;
-
 public class RegistrationActivity extends Activity implements OnClickListener {
 
 	EditText mFirstName, mLastName, mEmailId, mContactNo, mPassword, mConfirmPassword;
@@ -39,6 +37,8 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_registration);
+
+		getActionBar().hide();
 
 		init();
 
@@ -160,7 +160,7 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 							mLastName.getText().toString(), mEmailId.getText().toString(),
 							mAddress.getText().toString(), mContactNo.getText().toString());
 
-					Intent intent = new Intent(RegistrationActivity.this, LandingActivity.class);
+					Intent intent = new Intent(RegistrationActivity.this, OtpActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 				} else if (response.success == 0) {

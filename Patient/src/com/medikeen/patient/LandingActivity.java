@@ -3,30 +3,27 @@ package com.medikeen.patient;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.medikeen.adapters.CustomDrawerAdapter;
+import com.medikeen.adapters.DrawerItem;
+import com.medikeen.util.SessionManager;
+
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.medikeen.adapters.CustomDrawerAdapter;
-import com.medikeen.adapters.DrawerItem;
-import com.medikeen.util.SessionManager;
-import com.medikeen.patient.R;
-
 @SuppressLint("NewApi")
-public class LandingActivity extends Activity {
+public class LandingActivity extends FragmentActivity {
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -67,21 +64,13 @@ public class LandingActivity extends Activity {
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
 		// Add Drawer Item to dataList
-		dataList.add(new DrawerItem("Add Prescription", R.drawable.ic_briefcase_upload_grey600_36dp));
-		// dataList.add(new DrawerItem("Find Doctor",
-		// R.drawable.ic_account_search_grey600_36dp));
-		// dataList.add(new DrawerItem("Saved Prescrption",
-		// R.drawable.ic_content_save_all_grey600_36dp));
-		// dataList.add(new DrawerItem("Prescrption History",
-		// R.drawable.ic_content_save_all_grey600_36dp));
-		// dataList.add(new DrawerItem("Settings",
-		// R.drawable.ic_settings_grey600_36dp));
-		dataList.add(new DrawerItem("Feedback", R.drawable.ic_comment_alert_outline_grey600_36dp));
-		dataList.add(new DrawerItem("History", R.drawable.ic_comment_alert_outline_grey600_36dp));
-		// dataList.add(new DrawerItem("Privacy Policy",
-		// R.drawable.ic_marker_check_grey600_36dp));
-		// dataList.add(new DrawerItem("About Us",
-		// R.drawable.ic_human_male_female_grey600_36dp));
+		dataList.add(new DrawerItem("Home", R.drawable.home));
+		dataList.add(new DrawerItem("Feedback", R.drawable.feedback));
+		// dataList.add(new DrawerItem("History", R.drawable.history));
+		dataList.add(new DrawerItem("Terms and Conditions", R.drawable.terms_and_conditions));
+		dataList.add(new DrawerItem("About us", R.drawable.about_us));
+		dataList.add(new DrawerItem("Profile", R.drawable.profile));
+		dataList.add(new DrawerItem("Logout", R.drawable.logout));
 
 		adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item, dataList);
 
@@ -118,7 +107,7 @@ public class LandingActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		// getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
@@ -127,10 +116,9 @@ public class LandingActivity extends Activity {
 		Bundle args = new Bundle();
 		switch (possition) {
 		case 0:
-			fragment = new NewUploadPrescription();
+			fragment = new HomeFragment();
 			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
 			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
-
 			break;
 
 		case 1:
@@ -140,64 +128,39 @@ public class LandingActivity extends Activity {
 
 			break;
 		case 2:
-			fragment = new HistoryFragment();
+			fragment = new TermsNCondition();
 			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
 			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
-
 			break;
+		case 3:
+			fragment = new AboutUs();
+			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
+			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
+			break;
+		case 4:
+			Intent profileIntent = new Intent(LandingActivity.this, UserProfileActivity.class);
+			startActivity(profileIntent);
+			break;
+		case 5:
+			sessionManager.logoutUser();
 
-		// todo: we are hiding all other cases which are currently not used.
-
-		// case 1:
-		// fragment = new FindDoctor();
-		// args.putString(UploadDescription.ITEM_NAME,
-		// dataList.get(possition)
-		// .getItemName());
-		// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-		// dataList.get(possition)
-		// .getImgResID());
-		//
-		// break;
-		// case 2:
-		// fragment = new SavedPrescription();
-		// args.putString(UploadDescription.ITEM_NAME,
-		// dataList.get(possition)
-		// .getItemName());
-		// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-		// dataList.get(possition)
-		// .getImgResID());
-		//
-		//
-		// break;
-		//
-		// case 3:
-		// fragment = new UploadedPrescription();
-		// args.putString(UploadDescription.ITEM_NAME,
-		// dataList.get(possition)
-		// .getItemName());
-		// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-		// dataList.get(possition)
-		// .getImgResID());
-		//
-		//
-		// break;
-		//
-		// case 4:
-		// fragment = new Feedback();
-		// args.putString(UploadDescription.ITEM_NAME,
-		// dataList.get(possition)
-		// .getItemName());
-		// args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
-		// dataList.get(possition)
-		// .getImgResID());
+			Intent logoutIntent = new Intent(LandingActivity.this, Login.class);
+			logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(logoutIntent);
+			finish();
 
 		default:
 			break;
 		}
 
-		// fragment.setArguments(args);
-		FragmentManager frgManager = getFragmentManager();
-		frgManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+		android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.content_frame, fragment);
+		ft.commit();
+
+		// // fragment.setArguments(args);
+		// FragmentManager frgManager = getSupportFragmentManager();
+		// frgManager.beginTransaction().replace(R.id.content_frame,
+		// fragment).commit();
 
 		mDrawerList.setItemChecked(possition, true);
 		setTitle(dataList.get(possition).getItemName());
@@ -207,31 +170,8 @@ public class LandingActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-
 		super.onBackPressed();
 
-		// System.out.println("back press");
-		//
-		/*
-		 * if(!((NewUploadPrescription)fragment).onBackPressed()){
-		 * super.onBackPressed(); }
-		 */
-
-		// try {
-		// if (!fragment.getChildFragmentManager().popBackStackImmediate()) {
-		// super.onBackPressed();
-		// }
-		// } catch (Exception e) {
-		//
-		// Log.e("BACK PRESS EXCEPTION: ", "BACK PRESS EXCEPTION: " + e);
-		//
-		// super.onBackPressed();
-		// Intent startMain = new Intent(Intent.ACTION_MAIN);
-		// startMain.addCategory(Intent.CATEGORY_HOME);
-		// startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		// startActivity(startMain);
-		//
-		// }
 	}
 
 	@Override
@@ -264,31 +204,33 @@ public class LandingActivity extends Activity {
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
 			return true;
 		}
-		Fragment fragment = null;
-
-		int itemId = item.getItemId();
-		if (itemId == R.id.action_privacy) {
-			fragment = new TermsNCondition();
-			setTitle("Terms and Conditions");
-			FragmentManager frgManager = getFragmentManager();
-			frgManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-		} else if (itemId == R.id.action_aboutus) {
-			fragment = new AboutUs();
-			setTitle("About Us");
-			FragmentManager frgManager = getFragmentManager();
-			frgManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-		} else if (itemId == R.id.action_profile) {
-			Intent profileIntent = new Intent(LandingActivity.this, UserProfileActivity.class);
-			startActivity(profileIntent);
-		} else if (itemId == R.id.action_logout) {
-			sessionManager.logoutUser();
-
-			Intent logoutIntent = new Intent(LandingActivity.this, Login.class);
-			logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(logoutIntent);
-			finish();
-
-		}
+		// Fragment fragment = null;
+		//
+		// int itemId = item.getItemId();
+		// if (itemId == R.id.action_privacy) {
+		// fragment = new TermsNCondition();
+		// setTitle("Terms and Conditions");
+		// FragmentManager frgManager = getFragmentManager();
+		// frgManager.beginTransaction().replace(R.id.content_frame,
+		// fragment).commit();
+		// } else if (itemId == R.id.action_aboutus) {
+		// fragment = new AboutUs();
+		// setTitle("About Us");
+		// FragmentManager frgManager = getFragmentManager();
+		// frgManager.beginTransaction().replace(R.id.content_frame,
+		// fragment).commit();
+		// } else if (itemId == R.id.action_profile) {
+		// Intent profileIntent = new Intent(LandingActivity.this,
+		// UserProfileActivity.class);
+		// startActivity(profileIntent);
+		// } else if (itemId == R.id.action_logout) {
+		// sessionManager.logoutUser();
+		//
+		// Intent logoutIntent = new Intent(LandingActivity.this, Login.class);
+		// logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		// startActivity(logoutIntent);
+		// finish();
+		// }
 		// else if (itemId == R.id.action_settings) {
 		// setTitle("Settings");
 		// }
