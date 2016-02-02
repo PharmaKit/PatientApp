@@ -16,22 +16,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#000000"
+            android:background="#ffffff"
             android:gravity="center"
             android:padding="20dp"
             android:text="New Prescription"
-            android:textColor="#ffffff" />
+            android:textColor="#1E88E5" />
 
         <TextView
             android:id="@+id/history_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#ffffff"
+            android:background="#1E88E5"
             android:gravity="center"
             android:padding="20dp"
             android:text="History"
-            android:textColor="#000000" />
+            android:textColor="#ffffff" />
     </LinearLayout>
 
     <View
@@ -39,11 +39,22 @@
         android:layout_height="2dp"
         android:background="#1E88E5" />
 
-    <android.support.v4.view.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/viewPager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+    <ViewSwitcher
+        android:id="@+id/viewSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <FrameLayout
+            android:id="@+id/frame_new_pres"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </FrameLayout>
+    </ViewSwitcher>
 
 </LinearLayout>
