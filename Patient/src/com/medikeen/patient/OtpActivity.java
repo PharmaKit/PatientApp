@@ -1,7 +1,6 @@
 package com.medikeen.patient;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,6 +9,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.medikeen.asyncTask.OTPVerificationAsyncTask;
+import com.medikeen.dataModel.OTPModel;
 
 public class OtpActivity extends Activity {
 
@@ -30,23 +32,24 @@ public class OtpActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				Intent i = new Intent(OtpActivity.this, LandingActivity.class);
-				i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(i);
+				// Intent i = new Intent(OtpActivity.this,
+				// LandingActivity.class);
+				// i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				// startActivity(i);
 
-				// String otpStr = mOtp.getText().toString();
-				//
-				// if (otpStr.isEmpty()) {
-				//
-				// } else {
-				// OTPModel otpmodel = new OTPModel();
-				// otpmodel.setTag("verifyOTP");
-				// otpmodel.setOtp("" + otpStr);
-				// otpmodel.setAuthorizationKey("123");
-				//
-				// new
-				// OTPVerificationAsyncTask(OtpActivity.this).execute(otpmodel);
-				// }
+				String otpStr = mOtp.getText().toString();
+
+				if (otpStr.isEmpty()) {
+
+				} else {
+					OTPModel otpmodel = new OTPModel();
+					otpmodel.setTag("verifyOTP");
+					otpmodel.setOtp("" + otpStr);
+					otpmodel.setAuthorizationKey("123");
+
+					new OTPVerificationAsyncTask(OtpActivity.this)
+							.execute(otpmodel);
+				}
 
 			}
 		});

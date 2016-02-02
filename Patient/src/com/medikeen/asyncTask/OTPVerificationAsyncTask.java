@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.medikeen.dataModel.OTPModel;
 import com.medikeen.datamodels.serialized.OTPResponse;
 import com.medikeen.datamodels.serialized.ResetPasswordResponse;
+import com.medikeen.patient.LandingActivity;
 import com.medikeen.patient.NewPasswordActivity;
 import com.medikeen.patient.OtpActivity;
 import com.medikeen.util.Constants;
@@ -35,7 +36,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-public class OTPVerificationAsyncTask extends AsyncTask<OTPModel, String, String> {
+public class OTPVerificationAsyncTask extends
+		AsyncTask<OTPModel, String, String> {
 
 	Activity _passwordReset;
 	ProgressDialog pd;
@@ -68,11 +70,14 @@ public class OTPVerificationAsyncTask extends AsyncTask<OTPModel, String, String
 
 		if (response.success == 1) {
 
-			Intent resetPasswordIntent = new Intent(_passwordReset, NewPasswordActivity.class);
+			Intent resetPasswordIntent = new Intent(_passwordReset,
+					LandingActivity.class);
+			resetPasswordIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			_passwordReset.startActivity(resetPasswordIntent);
 			_passwordReset.finish();
 		} else {
-			Toast.makeText(_passwordReset, "Something went wrong", Toast.LENGTH_SHORT).show();
+			Toast.makeText(_passwordReset, "Something went wrong",
+					Toast.LENGTH_SHORT).show();
 		}
 
 		pd.dismiss();
@@ -98,29 +103,23 @@ public class OTPVerificationAsyncTask extends AsyncTask<OTPModel, String, String
 		Gson objGson = new Gson();
 		String request = objGson.toJson(params[0]);
 
-		JSONStringer otpJsonStringer = new JSONStringer();
-
-		try {
-			otpJsonStringer.object().key("tag").value(objOTPModel.getTag()).key("otp").value(objOTPModel.getOtp())
-					.key("authorizationKey").value(objOTPModel.getAuthorizationKey()).endObject();
-		} catch (JSONException e1) {
-			e1.printStackTrace();
-		}
-
 		HttpResponse response;
 
 		// Creating Http client
 		HttpClient httpclient = new DefaultHttpClient();
 
-		HttpPost httpPost = new HttpPost(Constants.SERVER_URL + "/android_api/patient.php");
-		httpPost.setHeader("Content-type", "application/json");
+		HttpPost httpPost = new HttpPost(Constants.SERVER_URL
+				+ "/android_api/patient.php");
+		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
+		nameValuePair.add(new BasicNameValuePair("tag", objOTPModel.getTag()));
+		nameValuePair.add(new BasicNameValuePair("otp", objOTPModel.getOtp()));
+		nameValuePair.add(new BasicNameValuePair("authorizationKey",
+				objOTPModel.getAuthorizationKey()));
 
 		// URl Encoding the POST parametrs
 
 		try {
-			StringEntity stringEntity = new StringEntity(otpJsonStringer.toString());
-
-			httpPost.setEntity(stringEntity);
+			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
 		} catch (UnsupportedEncodingException e) {
 			// writing error to Log
 			e.printStackTrace();

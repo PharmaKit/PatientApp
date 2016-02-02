@@ -3,10 +3,12 @@ package com.medikeen.patient;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.medikeen.util.ButtonFloat;
 import com.medikeen.patient.R;
@@ -18,9 +20,15 @@ public class NewUploadPrescription extends Fragment implements OnClickListener {
 	AttachPrescription newFragment = null;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.activity_uploadaprescription, container, false);
+		View view = inflater.inflate(R.layout.activity_uploadaprescription,
+				container, false);
+
+		TextView medikeen = (TextView) view.findViewById(R.id.medikeen);
+		medikeen.setText(Html
+				.fromHtml("<font color=\"#1E88E5\">M</font>edi<font color=\"#E53935\">K</font>een"));
 
 		init(view);
 
@@ -29,7 +37,8 @@ public class NewUploadPrescription extends Fragment implements OnClickListener {
 
 	private void init(View view) {
 
-		buttonAddPrescription = (ButtonFloat) view.findViewById(R.id.buttonFloat);
+		buttonAddPrescription = (ButtonFloat) view
+				.findViewById(R.id.buttonFloat);
 
 		buttonAddPrescription.setOnClickListener(this);
 
@@ -55,7 +64,8 @@ public class NewUploadPrescription extends Fragment implements OnClickListener {
 			// // Commit the transaction
 			// transaction.commit();
 
-			Intent attachPrescriptionsIntent = new Intent(NewUploadPrescription.this.getActivity(),
+			Intent attachPrescriptionsIntent = new Intent(
+					NewUploadPrescription.this.getActivity(),
 					AttachPrescription.class);
 			startActivity(attachPrescriptionsIntent);
 

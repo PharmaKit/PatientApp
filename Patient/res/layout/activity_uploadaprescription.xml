@@ -7,10 +7,19 @@
 
     <LinearLayout
         android:id="@+id/emptyView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:orientation="vertical" >
+
+        <com.medikeen.views.MyTextView
+            android:id="@+id/medikeen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MediKeen"
+            android:gravity="center"
+            android:textSize="60sp" />
 
         <com.medikeen.views.MyTextView
             android:id="@+id/textViewEmpty"

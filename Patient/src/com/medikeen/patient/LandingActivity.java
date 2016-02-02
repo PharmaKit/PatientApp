@@ -61,18 +61,21 @@ public class LandingActivity extends FragmentActivity {
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		sessionManager = new SessionManager(LandingActivity.this);
 
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
 
 		// Add Drawer Item to dataList
 		dataList.add(new DrawerItem("Home", R.drawable.home));
 		dataList.add(new DrawerItem("Feedback", R.drawable.feedback));
 		// dataList.add(new DrawerItem("History", R.drawable.history));
-		dataList.add(new DrawerItem("Terms and Conditions", R.drawable.terms_and_conditions));
+		dataList.add(new DrawerItem("Terms and Conditions",
+				R.drawable.terms_and_conditions));
 		dataList.add(new DrawerItem("About us", R.drawable.about_us));
 		dataList.add(new DrawerItem("Profile", R.drawable.profile));
 		dataList.add(new DrawerItem("Logout", R.drawable.logout));
 
-		adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item, dataList);
+		adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item,
+				dataList);
 
 		mDrawerList.setAdapter(adapter);
 
@@ -81,7 +84,8 @@ public class LandingActivity extends FragmentActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
 
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_drawer, R.string.drawer_open,
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_drawer, R.string.drawer_open,
 				R.string.drawer_close) {
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(mTitle);
@@ -117,28 +121,37 @@ public class LandingActivity extends FragmentActivity {
 		switch (possition) {
 		case 0:
 			fragment = new HomeFragment();
-			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
-			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
+			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
+					.getItemName());
+			args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
+					dataList.get(possition).getImgResID());
 			break;
 
 		case 1:
 			fragment = new Feedback();
-			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
-			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
+			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
+					.getItemName());
+			args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
+					dataList.get(possition).getImgResID());
 
 			break;
 		case 2:
 			fragment = new TermsNCondition();
-			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
-			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
+			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
+					.getItemName());
+			args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
+					dataList.get(possition).getImgResID());
 			break;
 		case 3:
 			fragment = new AboutUs();
-			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition).getItemName());
-			args.putInt(UploadDescription.IMAGE_RESOURCE_ID, dataList.get(possition).getImgResID());
+			args.putString(UploadDescription.ITEM_NAME, dataList.get(possition)
+					.getItemName());
+			args.putInt(UploadDescription.IMAGE_RESOURCE_ID,
+					dataList.get(possition).getImgResID());
 			break;
 		case 4:
-			Intent profileIntent = new Intent(LandingActivity.this, UserProfileActivity.class);
+			Intent profileIntent = new Intent(LandingActivity.this,
+					UserProfileActivity.class);
 			startActivity(profileIntent);
 			break;
 		case 5:
@@ -153,7 +166,8 @@ public class LandingActivity extends FragmentActivity {
 			break;
 		}
 
-		android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager()
+				.beginTransaction();
 		ft.replace(R.id.content_frame, fragment);
 		ft.commit();
 
@@ -238,9 +252,11 @@ public class LandingActivity extends FragmentActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
 			SelectItem(position);
 		}
 	}
