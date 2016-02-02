@@ -127,7 +127,7 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 				objRegisterModel.setLastName(mLastName.getText().toString());
 				objRegisterModel.setEmailId(mEmailId.getText().toString());
 				objRegisterModel.setPassword(mPassword.getText().toString());
-				objRegisterModel.setContactNo(mContactNo.getText().toString());
+				objRegisterModel.setContactNo("91" + mContactNo.getText().toString());
 				objRegisterModel.setAddress(mAddress.getText().toString());
 				objRegisterModel.setUserName(mConfirmPassword.getText().toString());
 

@@ -50,6 +50,7 @@
                 android:layout_marginRight="@dimen/edittext_margin_right"
                 android:layout_marginTop="@dimen/edittext_margin_top"
                 android:background="@android:color/transparent"
+                android:cursorVisible="true"
                 android:hint="Enter OTP"
                 android:inputType="phone"
                 android:paddingBottom="15dp"
@@ -76,7 +77,7 @@
             android:layout_marginTop="30dp"
             android:background="#1E88E5"
             android:gravity="center"
-            android:text="Send Password"
+            android:text="Verify OTP"
             android:textColor="#fff" />
     </LinearLayout>
 
