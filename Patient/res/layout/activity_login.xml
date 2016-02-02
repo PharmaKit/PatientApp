@@ -68,7 +68,8 @@
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp"
                     android:textColor="#ffffff"
-                    android:textColorHint="#EEEEEE" />
+                    android:textColorHint="#EEEEEE"
+                    android:textCursorDrawable="@null" />
 
                 <View
                     android:layout_width="match_parent"
@@ -105,7 +106,8 @@
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp"
                     android:textColor="#ffffff"
-                    android:textColorHint="#EEEEEE" />
+                    android:textColorHint="#EEEEEE"
+                    android:textCursorDrawable="@null" />
 
                 <View
                     android:id="@+id/password_bottom_border"

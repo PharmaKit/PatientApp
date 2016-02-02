@@ -29,7 +29,8 @@ import android.widget.TextView;
 
 public class RegistrationActivity extends Activity implements OnClickListener {
 
-	EditText mFirstName, mLastName, mEmailId, mContactNo, mPassword, mConfirmPassword;
+	EditText mFirstName, mLastName, mEmailId, mContactNo, mPassword,
+			mConfirmPassword;
 	AutoCompleteTextView mAddress;
 	Button mRegister, mLoginRegister;
 
@@ -58,11 +59,13 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 		mPassword = (EditText) findViewById(R.id.editTextPassword);
 		mConfirmPassword = (EditText) findViewById(R.id.editTextConfirmPassword);
 
-		mAddress.setAdapter(new PlacesAutoCompleteAdapter1(this, R.layout.list_item));
+		mAddress.setAdapter(new PlacesAutoCompleteAdapter1(this,
+				R.layout.list_item));
 		mAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+			public void onItemClick(AdapterView<?> adapterView, View view,
+					int i, long l) {
 
 				String strLocations = (String) adapterView.getItemAtPosition(i);
 				mAddress.setText(strLocations);
@@ -117,7 +120,8 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 			} else if (mAddress.getText().toString().equalsIgnoreCase("")) {
 				showdialog();
 
-			} else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
+			} else if (mConfirmPassword.getText().toString()
+					.equalsIgnoreCase("")) {
 				showdialog();
 
 			} else {
@@ -127,76 +131,82 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 				objRegisterModel.setLastName(mLastName.getText().toString());
 				objRegisterModel.setEmailId(mEmailId.getText().toString());
 				objRegisterModel.setPassword(mPassword.getText().toString());
-				objRegisterModel.setContactNo("91" + mContactNo.getText().toString());
 				objRegisterModel.setAddress(mAddress.getText().toString());
-				objRegisterModel.setUserName(mConfirmPassword.getText().toString());
+				objRegisterModel.setUserName(mConfirmPassword.getText()
+						.toString());
 
-				final AsyncTask<RegisterModel, String, String> task = new RegisterTask(RegistrationActivity.this)
-						.execute(objRegisterModel);
+				String contactStr = mContactNo.getText().toString();
 
-				// new Thread(new Runnable() {
-				//
-				// @Override
-				// public void run() {
-				String result = "";
-				try {
-					result = task.get();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (contactStr.length() < 10) {
+					mContactNo.setError("Please enter a valid number");
+				} else {
+					objRegisterModel.setContactNo("91"
+							+ mContactNo.getText().toString());
+
+					final AsyncTask<RegisterModel, String, String> task = new RegisterTask(
+							RegistrationActivity.this)
+							.execute(objRegisterModel);
+
+					String result = "";
+					try {
+						result = task.get();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ExecutionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					Gson gson = new Gson();
+
+					RegistrationResponse response = gson.fromJson(result,
+							RegistrationResponse.class);
+
+					if (response.success == 1) {
+
+						SessionManager session = new SessionManager(
+								getApplicationContext());
+						session.createLoginSession(true,
+								response.user.person_id, mFirstName.getText()
+										.toString(), mLastName.getText()
+										.toString(), mEmailId.getText()
+										.toString(), mAddress.getText()
+										.toString(), mContactNo.getText()
+										.toString());
+
+						Intent intent = new Intent(RegistrationActivity.this,
+								OtpActivity.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(intent);
+					} else if (response.success == 0) {
+						showErrorDialog(response.error_msg, "Login", "Cancel");
+					}
 				}
 
-				Gson gson = new Gson();
-
-				RegistrationResponse response = gson.fromJson(result, RegistrationResponse.class);
-
-				if (response.success == 1) {
-
-					SessionManager session = new SessionManager(getApplicationContext());
-					session.createLoginSession(true, response.user.person_id, mFirstName.getText().toString(),
-							mLastName.getText().toString(), mEmailId.getText().toString(),
-							mAddress.getText().toString(), mContactNo.getText().toString());
-
-					Intent intent = new Intent(RegistrationActivity.this, OtpActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-				} else if (response.success == 0) {
-					showErrorDialog(response.error_msg, "Login", "Cancel");
-				}
-				// }
-
-				// }).start();
-
-				/**
-				 * Create Session manager
-				 */
-
-				// todo: password should not be sent from the cell phone itself.
-				// it should be sent from the server.
-
-				// sendOTP(mContactNo.getText().toString());
 			}
 		} else if (id == R.id.buttonLogin) {
 			RegistrationActivity.this.onBackPressed();
 		}
 	}
 
-	private void showErrorDialog(String error_msg, String ok_button_string, String cancel_button_string) {
+	private void showErrorDialog(String error_msg, String ok_button_string,
+			String cancel_button_string) {
 		final Dialog mErrorDialog = new Dialog(RegistrationActivity.this);
 		mErrorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		mErrorDialog.setContentView(R.layout.register_error_dialog);
 		mErrorDialog.setCancelable(false);
 		mErrorDialog.setCanceledOnTouchOutside(false);
-		mErrorDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		mErrorDialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-		TextView mErrorMsg = (TextView) mErrorDialog.findViewById(R.id.error_msg);
+		TextView mErrorMsg = (TextView) mErrorDialog
+				.findViewById(R.id.error_msg);
 		mErrorMsg.setText(error_msg);
 
 		Button mButtonOk = (Button) mErrorDialog.findViewById(R.id.button_ok);
-		Button mButtonCancel = (Button) mErrorDialog.findViewById(R.id.button_cancel);
+		Button mButtonCancel = (Button) mErrorDialog
+				.findViewById(R.id.button_cancel);
 
 		mButtonOk.setText(ok_button_string);
 		mButtonCancel.setText(cancel_button_string);
@@ -226,7 +236,8 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 	@SuppressWarnings("deprecation")
 	private void showdialog() {
 
-		AlertDialog alertDialog = new AlertDialog.Builder(RegistrationActivity.this).create();
+		AlertDialog alertDialog = new AlertDialog.Builder(
+				RegistrationActivity.this).create();
 
 		// Setting Dialog Title
 		alertDialog.setTitle("Warning");

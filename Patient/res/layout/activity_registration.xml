@@ -64,7 +64,8 @@
                     android:paddingTop="15dp"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textColorHint="#eeeeee" />
+                    android:textColorHint="#eeeeee"
+                    android:textCursorDrawable="@null" />
 
                 <View
                     android:layout_width="match_parent"
@@ -102,7 +103,8 @@
                     android:paddingTop="15dp"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textColorHint="#eeeeee" />
+                    android:textColorHint="#eeeeee"
+                    android:textCursorDrawable="@null" />
 
                 <View
                     android:layout_width="match_parent"
@@ -140,7 +142,8 @@
                     android:paddingTop="15dp"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textColorHint="#eeeeee" />
+                    android:textColorHint="#eeeeee"
+                    android:textCursorDrawable="@null" />
 
                 <View
                     android:layout_width="match_parent"
@@ -178,7 +181,8 @@
                     android:paddingTop="15dp"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textColorHint="#eeeeee" />
+                    android:textColorHint="#eeeeee"
+                    android:textCursorDrawable="@null" />
 
                 <View
                     android:layout_width="match_parent"
@@ -216,7 +220,8 @@
                     android:paddingTop="15dp"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textColorHint="#eeeeee" />
+                    android:textColorHint="#eeeeee"
+                    android:textCursorDrawable="@null" />
 
                 <View
                     android:layout_width="match_parent"
@@ -253,7 +258,8 @@
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp"
                     android:textColor="@android:color/white"
-                    android:textColorHint="#eeeeee" />
+                    android:textColorHint="#eeeeee"
+                    android:textCursorDrawable="@null" />
 
                 <View
                     android:layout_width="match_parent"
@@ -287,11 +293,13 @@
                     android:background="@android:color/transparent"
                     android:hint="Contact Number"
                     android:inputType="number"
+                    android:maxLength="10"
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp"
                     android:singleLine="true"
                     android:textColor="@android:color/white"
-                    android:textColorHint="#eeeeee" />
+                    android:textColorHint="#eeeeee"
+                    android:textCursorDrawable="@null" />
 
                 <View
                     android:layout_width="match_parent"
