@@ -32,10 +32,8 @@ public class HomeFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.home_fragment, container,
 				false);
 
-		final TextView new_pres_text = (TextView) rootView
-				.findViewById(R.id.new_pres_text);
-		final TextView history_text = (TextView) rootView
-				.findViewById(R.id.history_text);
+		new_pres_text = (TextView) rootView.findViewById(R.id.new_pres_text);
+		history_text = (TextView) rootView.findViewById(R.id.history_text);
 
 		viewSwitcher = (ViewSwitcher) rootView.findViewById(R.id.viewSwitcher);
 		newPres = (FrameLayout) rootView.findViewById(R.id.frame_new_pres);
@@ -50,12 +48,14 @@ public class HomeFragment extends Fragment {
 		ftNewPres.commit();
 
 		// HISTORY
-		historyFragment = new NewUploadPrescription();
+		historyFragment = new HistoryFragment();
 
 		android.support.v4.app.FragmentTransaction ftHistory = getActivity()
 				.getSupportFragmentManager().beginTransaction();
 		ftHistory.replace(R.id.frame_history, historyFragment);
 		ftHistory.commit();
+
+		changeColor(0);
 
 		new_pres_text.setOnClickListener(new OnClickListener() {
 
@@ -63,9 +63,6 @@ public class HomeFragment extends Fragment {
 			public void onClick(View v) {
 
 				viewSwitcher.showNext();
-
-				new_pres_text.setClickable(false);
-				history_text.setClickable(true);
 
 				changeColor(0);
 
@@ -79,9 +76,6 @@ public class HomeFragment extends Fragment {
 
 				viewSwitcher.showPrevious();
 
-				new_pres_text.setClickable(false);
-				history_text.setClickable(true);
-
 				changeColor(1);
 			}
 		});
@@ -91,12 +85,24 @@ public class HomeFragment extends Fragment {
 
 	private void changeColor(int pos) {
 		if (pos == 0) {
+
+			new_pres_text.setClickable(false);
+			new_pres_text.setEnabled(false);
+			history_text.setClickable(true);
+			history_text.setEnabled(true);
+
 			new_pres_text.setTextColor(Color.parseColor("#1E88E5"));
 			new_pres_text.setBackgroundColor(Color.parseColor("#ffffff"));
 
 			history_text.setTextColor(Color.parseColor("#ffffff"));
 			history_text.setBackgroundColor(Color.parseColor("#1E88E5"));
 		} else if (pos == 1) {
+
+			new_pres_text.setClickable(true);
+			new_pres_text.setEnabled(true);
+			history_text.setClickable(false);
+			history_text.setEnabled(false);
+
 			new_pres_text.setTextColor(Color.parseColor("#ffffff"));
 			new_pres_text.setBackgroundColor(Color.parseColor("#1E88E5"));
 

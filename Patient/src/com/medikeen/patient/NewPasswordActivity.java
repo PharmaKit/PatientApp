@@ -52,11 +52,15 @@ public class NewPasswordActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				String newPasswordString = mNewPassword.getText().toString();
-				String confirmPasswordString = mConfirmPassword.getText().toString();
+				String confirmPasswordString = mConfirmPassword.getText()
+						.toString();
 
-				if (newPasswordString.equals("") || newPasswordString.isEmpty() || confirmPasswordString.equals("")
+				if (newPasswordString.equals("") || newPasswordString.isEmpty()
+						|| confirmPasswordString.equals("")
 						|| confirmPasswordString.isEmpty()) {
-					Toast.makeText(NewPasswordActivity.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+					Toast.makeText(NewPasswordActivity.this,
+							"Please enter all the fields", Toast.LENGTH_SHORT)
+							.show();
 				} else {
 					if (newPasswordString.compareTo(confirmPasswordString) == 0) {
 
@@ -66,7 +70,8 @@ public class NewPasswordActivity extends Activity {
 						objResetModel.setReset_code(verificationCodeStr);
 						objResetModel.setNew_password(newPasswordString);
 
-						new NewPasswordAsyncTask(NewPasswordActivity.this).execute(objResetModel);
+						new NewPasswordAsyncTask(NewPasswordActivity.this)
+								.execute(objResetModel);
 
 					} else {
 						mConfirmPassword.setError("Passwords do not match");

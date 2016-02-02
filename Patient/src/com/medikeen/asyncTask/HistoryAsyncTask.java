@@ -69,7 +69,7 @@ public class HistoryAsyncTask extends AsyncTask<String[], String, String> {
 		pd.setMessage("Please wait while we are loading your history");
 		pd.setTitle("History");
 		pd.setCancelable(false);
-		pd.show();
+//		pd.show();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -219,6 +219,6 @@ public class HistoryAsyncTask extends AsyncTask<String[], String, String> {
 		adapter = new HistoryAdapter(historyFragment, historyList);
 		mHistoryListView.setAdapter(adapter);
 
-		pd.dismiss();
+//		pd.dismiss();
 	}
 }

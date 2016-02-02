@@ -36,11 +36,13 @@ public class HistoryFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 
 		historyList = new ArrayList<HistoryModel>();
 
-		View rootView = inflater.inflate(R.layout.history_layout_fragment, container, false);
+		View rootView = inflater.inflate(R.layout.history_layout_fragment,
+				container, false);
 
 		sessionManager = new SessionManager(HistoryFragment.this.getActivity());
 
@@ -56,8 +58,8 @@ public class HistoryFragment extends Fragment {
 			public void run() {
 
 				final AsyncTask<String[], String, String> task = new HistoryAsyncTask(
-						HistoryFragment.this.getActivity(), mHistoryListView, historyList)
-								.execute(historyRequestParams);
+						HistoryFragment.this.getActivity(), mHistoryListView,
+						historyList).execute(historyRequestParams);
 
 			}
 		}, 500);
@@ -65,11 +67,14 @@ public class HistoryFragment extends Fragment {
 		mHistoryListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent historyDetailIntent = new Intent(HistoryFragment.this.getActivity(),
-						HistoryDetailActivity.class);
-				historyDetailIntent.putExtra("resource_id", historyList.get(position).getResourceId());
-				historyDetailIntent.putExtra("resource_type", historyList.get(position).getResourceType());
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent historyDetailIntent = new Intent(HistoryFragment.this
+						.getActivity(), HistoryDetailActivity.class);
+				historyDetailIntent.putExtra("resource_id",
+						historyList.get(position).getResourceId());
+				historyDetailIntent.putExtra("resource_type",
+						historyList.get(position).getResourceType());
 				startActivity(historyDetailIntent);
 			}
 		});
