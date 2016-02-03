@@ -6,4 +6,5 @@ public class RegistrationResponse {
 	public int success;
 	public String uid;
 	public UserResponse user;
+	public int isActivated;
 }

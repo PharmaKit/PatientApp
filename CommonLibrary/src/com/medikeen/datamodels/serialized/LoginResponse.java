@@ -8,4 +8,5 @@ public class LoginResponse {
 	public UserResponse user;
 	public String error_msg;
 	public AddressResponse address;
+	public int isActivated;
 }

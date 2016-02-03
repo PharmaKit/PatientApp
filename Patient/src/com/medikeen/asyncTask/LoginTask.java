@@ -21,10 +21,12 @@ import com.medikeen.datamodels.serialized.LoginResponse;
 import com.medikeen.datamodels.serialized.UserResponse;
 import com.medikeen.patient.LandingActivity;
 import com.medikeen.patient.Login;
+import com.medikeen.patient.OtpActivity;
 import com.medikeen.util.Constants;
 import com.medikeen.util.SessionManager;
 import com.google.gson.Gson;
 import com.medikeen.patient.R;
+import com.medikeen.patient.RegistrationActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -57,22 +59,34 @@ public class LoginTask extends AsyncTask<LoginModel, String, String> {
 
 		LoginResponse response = gson.fromJson(result, LoginResponse.class);
 
-		if (response.success == 1) {
+		if (response.success == 1) {		
+			
+			if(response.isActivated == 1) {
+				SessionManager sessionManager = new SessionManager(
+						mLogin.getApplicationContext());
+				UserResponse user = response.user;
 
-			SessionManager sessionManager = new SessionManager(
-					mLogin.getApplicationContext());
-			UserResponse user = response.user;
+				sessionManager.createLoginSession(true, user.person_id, user.name,
+						"", user.email, response.address.house_no, user.telephone);
 
-			sessionManager.createLoginSession(true, user.person_id, user.name,
-					"", user.email, response.address.house_no, user.telephone);
-
-			// Show a welcome message to the user through toast
-			Toast.makeText(mLogin, "Welcome " + user.name, Toast.LENGTH_SHORT)
-					.show();
-
-			Intent intent = new Intent(mLogin, LandingActivity.class);
-			mLogin.startActivity(intent);
-			mLogin.finish();
+				// Show a welcome message to the user through toast
+				Toast.makeText(mLogin, "Welcome " + user.name, Toast.LENGTH_SHORT)
+						.show();
+				
+				Intent intent = new Intent(mLogin,
+						LandingActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				mLogin.startActivity(intent);
+				mLogin.finish();
+			}
+			else {
+				Intent intent = new Intent(mLogin,
+						OtpActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				mLogin.startActivity(intent);
+				mLogin.finish();
+			}
+			
 		} else {
 
 			EditText mPassword = (EditText) mLogin
