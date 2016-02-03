@@ -1,6 +1,9 @@
 package com.medikeen.patient;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -10,13 +13,17 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.medikeen.asyncTask.LoginTask;
 import com.medikeen.asyncTask.OTPVerificationAsyncTask;
+import com.medikeen.dataModel.LoginModel;
 import com.medikeen.dataModel.OTPModel;
+import com.medikeen.util.ConnectionDetector;
 
 public class OtpActivity extends Activity {
 
 	public static EditText mOtp;
 	Button mVerifyOtp;
+	OTPModel otpmodel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +49,75 @@ public class OtpActivity extends Activity {
 				if (otpStr.isEmpty()) {
 
 				} else {
-					OTPModel otpmodel = new OTPModel();
+					otpmodel = new OTPModel();
 					otpmodel.setTag("verifyOTP");
 					otpmodel.setOtp("" + otpStr);
 					otpmodel.setAuthorizationKey("123");
 
-					new OTPVerificationAsyncTask(OtpActivity.this)
-							.execute(otpmodel);
+					AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+							.execute();
+
+					boolean resultConn = false;
+					try {
+						resultConn = taskConn.get();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					if (resultConn == true) {
+
+						new OTPVerificationAsyncTask(OtpActivity.this)
+								.execute(otpmodel);
+					} else {
+						createDialogForInternetConnection();
+					}
 				}
 
 			}
 		});
+	}
+
+	private void createDialogForInternetConnection() {
+
+		final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+				OtpActivity.this);
+		alertDialog.setTitle("No internet connection.");
+		alertDialog
+				.setMessage("Please check your internet setting and try again!");
+
+		alertDialog.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.setNegativeButton("RETRY",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+								.execute();
+
+						boolean resultConn = false;
+						try {
+							resultConn = taskConn.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (resultConn == true) {
+
+							new OTPVerificationAsyncTask(OtpActivity.this)
+									.execute(otpmodel);
+						} else {
+							createDialogForInternetConnection();
+						}
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.show();
 	}
 
 	public void receivedSms(String message) {

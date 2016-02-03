@@ -1,10 +1,16 @@
 package com.medikeen.patient;
 
 import com.medikeen.asyncTask.ForgotPasswordTask;
+import com.medikeen.asyncTask.LoginTask;
+import com.medikeen.dataModel.LoginModel;
 import com.medikeen.dataModel.ResetPasswordModel;
 import com.medikeen.patient.R;
+import com.medikeen.util.ConnectionDetector;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -20,6 +26,8 @@ public class ForgotPasswordActivity extends Activity {
 	EditText mEmailForgot;
 	Button mforgot;
 	String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
+	ResetPasswordModel objResetModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,22 +45,81 @@ public class ForgotPasswordActivity extends Activity {
 
 				if (isValidEmail(mEmailForgot.getText().toString())) {
 
-					ResetPasswordModel objResetModel = new ResetPasswordModel();
+					objResetModel = new ResetPasswordModel();
 					objResetModel.setTag("generatecode");
 					objResetModel.setEmail(mEmailForgot.getText().toString());
 
-					new ForgotPasswordTask(ForgotPasswordActivity.this).execute(objResetModel);
+					AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+							.execute();
 
+					boolean resultConn = false;
+					try {
+						resultConn = taskConn.get();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					if (resultConn == true) {
+						new ForgotPasswordTask(ForgotPasswordActivity.this)
+								.execute(objResetModel);
+					} else {
+						createDialogForInternetConnection();
+					}
 				} else {
-					Toast.makeText(ForgotPasswordActivity.this, "Please enter a valid email address",
+					Toast.makeText(ForgotPasswordActivity.this,
+							"Please enter a valid email address",
 							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
 	}
 
+	private void createDialogForInternetConnection() {
+
+		final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+				ForgotPasswordActivity.this);
+		alertDialog.setTitle("No internet connection.");
+		alertDialog
+				.setMessage("Please check your internet setting and try again!");
+
+		alertDialog.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.setNegativeButton("RETRY",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+								.execute();
+
+						boolean resultConn = false;
+						try {
+							resultConn = taskConn.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (resultConn == true) {
+							new ForgotPasswordTask(ForgotPasswordActivity.this)
+									.execute(objResetModel);
+						} else {
+							createDialogForInternetConnection();
+						}
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.show();
+	}
+
 	public final static boolean isValidEmail(CharSequence target) {
-		return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+		return !TextUtils.isEmpty(target)
+				&& android.util.Patterns.EMAIL_ADDRESS.matcher(target)
+						.matches();
 	}
 
 	@Override

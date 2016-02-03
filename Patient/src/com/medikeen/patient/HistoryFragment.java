@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import com.medikeen.adapters.HistoryAdapter;
 import com.medikeen.asyncTask.HistoryAsyncTask;
 import com.medikeen.dataModel.HistoryModel;
+import com.medikeen.util.ConnectionDetector;
 import com.medikeen.util.SessionManager;
 
 import android.content.Intent;
@@ -57,9 +58,25 @@ public class HistoryFragment extends Fragment {
 			@Override
 			public void run() {
 
-				final AsyncTask<String[], String, String> task = new HistoryAsyncTask(
-						HistoryFragment.this.getActivity(), mHistoryListView,
-						historyList).execute(historyRequestParams);
+				AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+						.execute();
+
+				boolean resultConn = false;
+				try {
+					resultConn = taskConn.get();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (resultConn == true) {
+
+					final AsyncTask<String[], String, String> task = new HistoryAsyncTask(
+							HistoryFragment.this.getActivity(),
+							mHistoryListView, historyList)
+							.execute(historyRequestParams);
+				} else {
+					// createDialogForInternetConnection();
+				}
 
 			}
 		}, 500);

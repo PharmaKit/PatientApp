@@ -26,8 +26,8 @@ public class HistoryDetailActivity extends Activity {
 		historyImage = (ImageView) findViewById(R.id.history_image);
 
 		Picasso.with(HistoryDetailActivity.this)
-				.load("http://www.medikeen.com/android_api/prescription/uploads/" + resourceId + "." + resourceType)
-				.into(historyImage);
+				.load("http://www.medikeen.com/android_api/prescription/uploads/"
+						+ resourceId + "." + resourceType).into(historyImage);
 
 	}
 

@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.medikeen.asyncTask.LoginTask;
 import com.medikeen.dataModel.LoginModel;
 import com.medikeen.datamodels.User;
+import com.medikeen.util.ConnectionDetector;
 import com.medikeen.util.SessionManager;
 
 public class Login extends Activity implements OnClickListener {
@@ -39,6 +40,7 @@ public class Login extends Activity implements OnClickListener {
 	Button mLogin, mforgot, mCreateAccountBtn;
 	ImageButton buttonSearch;
 	SharedPreferences sp;
+	LoginModel loginModel;
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -111,7 +113,7 @@ public class Login extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		int id = v.getId();
 		if (id == R.id.buttonLoginLogin) {
-			final LoginModel loginModel = new LoginModel();
+			loginModel = new LoginModel();
 			String userName = mUsername.getText().toString();
 			String password = mPassword.getText().toString();
 
@@ -129,8 +131,24 @@ public class Login extends Activity implements OnClickListener {
 			}
 
 			if (isValidEmail(userName)) {
-				AsyncTask<LoginModel, String, String> task = new LoginTask(
-						Login.this).execute(loginModel);
+
+				AsyncTask<Void, Boolean, Boolean> connectionDetectorTask = new ConnectionDetector()
+						.execute();
+
+				boolean result = false;
+				try {
+					result = connectionDetectorTask.get();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (result) {
+					AsyncTask<LoginModel, String, String> task = new LoginTask(
+							Login.this).execute(loginModel);
+				} else {
+					createDialogForInternetConnection();
+				}
+
 			} else {
 				Toast.makeText(Login.this,
 						"Please enter a valid email address",
@@ -153,6 +171,48 @@ public class Login extends Activity implements OnClickListener {
 			startActivity(registrationPageIntent);
 
 		}
+	}
+
+	private void createDialogForInternetConnection() {
+
+		final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+				Login.this);
+		alertDialog.setTitle("No internet connection.");
+		alertDialog
+				.setMessage("Please check your internet setting and try again!");
+
+		alertDialog.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.setNegativeButton("RETRY",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						AsyncTask<Void, Boolean, Boolean> connectionDetectorTask = new ConnectionDetector()
+								.execute();
+
+						boolean result = false;
+						try {
+							result = connectionDetectorTask.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (result) {
+							AsyncTask<LoginModel, String, String> task = new LoginTask(
+									Login.this).execute(loginModel);
+						} else {
+							createDialogForInternetConnection();
+						}
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.show();
 	}
 
 	@SuppressWarnings({ "deprecation", "unused" })
