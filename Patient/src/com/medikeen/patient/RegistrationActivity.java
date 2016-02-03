@@ -181,15 +181,15 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 
 						if (response.success == 1) {
 
-							SessionManager session = new SessionManager(
-									getApplicationContext());
-							session.createLoginSession(true,
-									response.user.person_id, mFirstName
-											.getText().toString(), mLastName
-											.getText().toString(), mEmailId
-											.getText().toString(), mAddress
-											.getText().toString(), mContactNo
-											.getText().toString());
+							//SessionManager session = new SessionManager(
+							//			getApplicationContext());
+							//	session.createLoginSession(true,
+							//			response.user.person_id, mFirstName.getText()
+							//					.toString(), mLastName.getText()
+							//			.toString(), mEmailId.getText()
+							//					.toString(), mAddress.getText()
+							// .toString(), mContactNo.getText()
+							//					.toString());
 
 							Intent intent = new Intent(
 									RegistrationActivity.this,

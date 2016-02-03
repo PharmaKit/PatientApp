@@ -164,8 +164,10 @@ public class AttachPrescription extends Activity implements OnClickListener {
 		File dir = new File(GridViewDemo_ImagePath);
 		if (dir.isDirectory()) {
 			String[] children = dir.list();
-			for (int i = 0; i < children.length; i++) {
-				new File(dir, children[i]).delete();
+			if(children!= null) {
+				for (int i = 0; i < children.length; i++) {
+					new File(dir, children[i]).delete();
+				}
 			}
 		}
 	}
