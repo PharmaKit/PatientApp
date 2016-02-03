@@ -1,16 +1,21 @@
 package com.medikeen.patient;
 
 import com.medikeen.asyncTask.ChangePasswordAsyncTask;
+import com.medikeen.asyncTask.OTPVerificationAsyncTask;
 import com.medikeen.asyncTask.UserProfileAsyncTask;
 import com.medikeen.dataModel.ChangePasswordModel;
 import com.medikeen.dataModel.UserProfileModel;
 import com.medikeen.datamodels.User;
+import com.medikeen.util.ConnectionDetector;
 import com.medikeen.util.SessionManager;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,13 +30,16 @@ import android.widget.Toast;
 
 public class UserProfileActivity extends Activity {
 
-	EditText mFirstName, mLastName, mEmailId, mContactNo, mPassword, mConfirmPassword;
+	EditText mFirstName, mLastName, mEmailId, mContactNo, mPassword,
+			mConfirmPassword;
 	AutoCompleteTextView mAddress;
 	Button mSave, mChangePassword;
 
 	SessionManager sessionManager;
 	User user;
 	Dialog changePasswordDialog;
+	UserProfileModel userProfile;
+	ChangePasswordModel changePasswordModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +60,35 @@ public class UserProfileActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				sessionManager.createLoginSession(true, user.getPersonId(), mFirstName.getText().toString(),
-						mLastName.getText().toString(), mEmailId.getText().toString(), mAddress.getText().toString(),
-						mContactNo.getText().toString());
+				sessionManager.createLoginSession(true, user.getPersonId(),
+						mFirstName.getText().toString(), mLastName.getText()
+								.toString(), mEmailId.getText().toString(),
+						mAddress.getText().toString(), mContactNo.getText()
+								.toString());
 
-				UserProfileModel userProfile = new UserProfileModel("" + user.getPersonId(),
-						mEmailId.getText().toString(), mFirstName.getText().toString(), mLastName.getText().toString(),
-						mContactNo.getText().toString(), mAddress.getText().toString());
+				userProfile = new UserProfileModel("" + user.getPersonId(),
+						mEmailId.getText().toString(), mFirstName.getText()
+								.toString(), mLastName.getText().toString(),
+						mContactNo.getText().toString(), mAddress.getText()
+								.toString());
 
-				new UserProfileAsyncTask(UserProfileActivity.this).execute(userProfile);
+				AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+						.execute();
+
+				boolean resultConn = false;
+				try {
+					resultConn = taskConn.get();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (resultConn == true) {
+
+					new UserProfileAsyncTask(UserProfileActivity.this)
+							.execute(userProfile);
+				} else {
+					createDialogForInternetConnection();
+				}
 			}
 		});
 
@@ -73,20 +101,112 @@ public class UserProfileActivity extends Activity {
 		});
 	}
 
+	private void createDialogForInternetConnection() {
+
+		final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+				UserProfileActivity.this);
+		alertDialog.setTitle("No internet connection.");
+		alertDialog
+				.setMessage("Please check your internet setting and try again!");
+
+		alertDialog.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.setNegativeButton("RETRY",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+								.execute();
+
+						boolean resultConn = false;
+						try {
+							resultConn = taskConn.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (resultConn == true) {
+
+							new UserProfileAsyncTask(UserProfileActivity.this)
+									.execute(userProfile);
+						} else {
+							createDialogForInternetConnection();
+						}
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.show();
+	}
+
+	private void createDialogForInternetConnectionChangePassword() {
+
+		final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+				UserProfileActivity.this);
+		alertDialog.setTitle("No internet connection.");
+		alertDialog
+				.setMessage("Please check your internet setting and try again!");
+
+		alertDialog.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.setNegativeButton("RETRY",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+								.execute();
+
+						boolean resultConn = false;
+						try {
+							resultConn = taskConn.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (resultConn == true) {
+
+							new ChangePasswordAsyncTask(
+									UserProfileActivity.this)
+									.execute(changePasswordModel);
+						} else {
+							createDialogForInternetConnectionChangePassword();
+						}
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.show();
+	}
+
 	private void changePasswordDialog() {
 		changePasswordDialog = new Dialog(UserProfileActivity.this);
 		changePasswordDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		changePasswordDialog.setContentView(R.layout.change_password_dialog);
 		changePasswordDialog.setCancelable(false);
-		changePasswordDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+		changePasswordDialog.getWindow().setBackgroundDrawable(
+				new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
-		final EditText currentPassword = (EditText) changePasswordDialog.findViewById(R.id.current_password_edit);
-		final EditText newPassword = (EditText) changePasswordDialog.findViewById(R.id.new_password_edit);
+		final EditText currentPassword = (EditText) changePasswordDialog
+				.findViewById(R.id.current_password_edit);
+		final EditText newPassword = (EditText) changePasswordDialog
+				.findViewById(R.id.new_password_edit);
 		final EditText confirmNewPassword = (EditText) changePasswordDialog
 				.findViewById(R.id.confirm_new_password_edit);
 
-		Button mChangePasswordOk = (Button) changePasswordDialog.findViewById(R.id.change_password_ok);
-		Button mChangePasswordCancel = (Button) changePasswordDialog.findViewById(R.id.change_password_cancel);
+		Button mChangePasswordOk = (Button) changePasswordDialog
+				.findViewById(R.id.change_password_ok);
+		Button mChangePasswordCancel = (Button) changePasswordDialog
+				.findViewById(R.id.change_password_cancel);
 
 		mChangePasswordCancel.setOnClickListener(new OnClickListener() {
 
@@ -102,20 +222,43 @@ public class UserProfileActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				String currentPasswordStr = currentPassword.getText().toString();
+				String currentPasswordStr = currentPassword.getText()
+						.toString();
 				String newPasswordStr = newPassword.getText().toString();
-				String confirmNewPasswordStr = confirmNewPassword.getText().toString();
+				String confirmNewPasswordStr = confirmNewPassword.getText()
+						.toString();
 
-				if (currentPasswordStr.isEmpty() || newPasswordStr.isEmpty() || confirmNewPasswordStr.isEmpty()) {
-					Toast.makeText(UserProfileActivity.this, "Please enter all the field", Toast.LENGTH_SHORT).show();
+				if (currentPasswordStr.isEmpty() || newPasswordStr.isEmpty()
+						|| confirmNewPasswordStr.isEmpty()) {
+					Toast.makeText(UserProfileActivity.this,
+							"Please enter all the field", Toast.LENGTH_SHORT)
+							.show();
 				} else {
 					if (newPasswordStr.compareTo(confirmNewPasswordStr) == 0) {
 
-						ChangePasswordModel changePasswordModel = new ChangePasswordModel(
-								sessionManager.getUserDetails().getEmailAddress(), currentPasswordStr, newPasswordStr);
+						changePasswordModel = new ChangePasswordModel(
+								sessionManager.getUserDetails()
+										.getEmailAddress(), currentPasswordStr,
+								newPasswordStr);
 
-						new ChangePasswordAsyncTask(UserProfileActivity.this).execute(changePasswordModel);
+						AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+								.execute();
 
+						boolean resultConn = false;
+						try {
+							resultConn = taskConn.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (resultConn == true) {
+
+							new ChangePasswordAsyncTask(
+									UserProfileActivity.this)
+									.execute(changePasswordModel);
+						} else {
+							createDialogForInternetConnectionChangePassword();
+						}
 					} else {
 						confirmNewPassword.setError("Passwords do not match");
 					}
@@ -130,7 +273,8 @@ public class UserProfileActivity extends Activity {
 
 	private void init() {
 
-		Typeface font = Typeface.createFromAsset(getAssets(), "SofiaProLight.otf");
+		Typeface font = Typeface.createFromAsset(getAssets(),
+				"SofiaProLight.otf");
 
 		sessionManager = new SessionManager(UserProfileActivity.this);
 		user = sessionManager.getUserDetails();
@@ -147,11 +291,13 @@ public class UserProfileActivity extends Activity {
 
 		mAddress.setTypeface(font);
 
-		mAddress.setAdapter(new PlacesAutoCompleteAdapter1(this, R.layout.list_item));
+		mAddress.setAdapter(new PlacesAutoCompleteAdapter1(this,
+				R.layout.list_item));
 		mAddress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+			public void onItemClick(AdapterView<?> adapterView, View view,
+					int i, long l) {
 
 				String strLocations = (String) adapterView.getItemAtPosition(i);
 				mAddress.setText(strLocations);

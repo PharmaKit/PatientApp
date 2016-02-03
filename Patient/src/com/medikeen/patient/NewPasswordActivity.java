@@ -1,16 +1,21 @@
 package com.medikeen.patient;
 
 import com.medikeen.asyncTask.NewPasswordAsyncTask;
+import com.medikeen.asyncTask.OTPVerificationAsyncTask;
 import com.medikeen.asyncTask.PasswordResetCodeVerificationAsyncTask;
 import com.medikeen.dataModel.ResetPasswordModel;
 import com.medikeen.patient.R;
 import com.medikeen.patient.R.id;
 import com.medikeen.patient.R.layout;
 import com.medikeen.patient.R.menu;
+import com.medikeen.util.ConnectionDetector;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +33,7 @@ public class NewPasswordActivity extends Activity {
 	SharedPreferences sp;
 	Editor edit;
 	String emailStr, verificationCodeStr;
+	ResetPasswordModel objResetModel;
 
 	private static final String RESET_PASSWORD = "RESET_PASSWORD";
 
@@ -64,15 +70,28 @@ public class NewPasswordActivity extends Activity {
 				} else {
 					if (newPasswordString.compareTo(confirmPasswordString) == 0) {
 
-						ResetPasswordModel objResetModel = new ResetPasswordModel();
+						objResetModel = new ResetPasswordModel();
 						objResetModel.setTag("resetpassword");
 						objResetModel.setEmail(emailStr);
 						objResetModel.setReset_code(verificationCodeStr);
 						objResetModel.setNew_password(newPasswordString);
 
-						new NewPasswordAsyncTask(NewPasswordActivity.this)
-								.execute(objResetModel);
+						AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+								.execute();
 
+						boolean resultConn = false;
+						try {
+							resultConn = taskConn.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (resultConn == true) {
+							new NewPasswordAsyncTask(NewPasswordActivity.this)
+									.execute(objResetModel);
+						} else {
+							createDialogForInternetConnection();
+						}
 					} else {
 						mConfirmPassword.setError("Passwords do not match");
 					}
@@ -80,6 +99,48 @@ public class NewPasswordActivity extends Activity {
 
 			}
 		});
+	}
+
+	private void createDialogForInternetConnection() {
+
+		final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+				NewPasswordActivity.this);
+		alertDialog.setTitle("No internet connection.");
+		alertDialog
+				.setMessage("Please check your internet setting and try again!");
+
+		alertDialog.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.setNegativeButton("RETRY",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+								.execute();
+
+						boolean resultConn = false;
+						try {
+							resultConn = taskConn.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (resultConn == true) {
+							new NewPasswordAsyncTask(NewPasswordActivity.this)
+									.execute(objResetModel);
+						} else {
+							createDialogForInternetConnection();
+						}
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.show();
 	}
 
 	@Override

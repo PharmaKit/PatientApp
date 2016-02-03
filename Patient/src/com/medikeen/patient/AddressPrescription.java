@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -27,12 +29,14 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Toast;
 
 import com.medikeen.asyncTask.ImageUploadTask;
+import com.medikeen.asyncTask.OTPVerificationAsyncTask;
 import com.medikeen.asyncTask.SaveImageDetailsTask;
 import com.medikeen.dataModel.ImageUploadArgs;
 import com.medikeen.dataModel.SaveImageDetailsModel;
 import com.medikeen.datamodels.User;
 import com.medikeen.datamodels.serialized.SaveImageDetailsResponse;
 import com.medikeen.interfaces.IImageUploadedEventListener;
+import com.medikeen.util.ConnectionDetector;
 import com.medikeen.util.SessionManager;
 import com.google.gson.Gson;
 import com.medikeen.patient.R;
@@ -59,7 +63,6 @@ public class AddressPrescription extends Activity implements OnClickListener,
 		setContentView(R.layout.new_address_prescription);
 
 		init();
-	
 
 		// auto fill the address of the patient.
 		editTextDoctorAdd.setText(sessionManager.getUserDetails().getAddress());
@@ -85,25 +88,29 @@ public class AddressPrescription extends Activity implements OnClickListener,
 						}
 					}
 				});
+
 		uploadedEventListener = new IImageUploadedEventListener() {
 			public void onImageUploaded() {
 				uploadedImages++;
-				Log.d("IImageUploadedEventListener", "uploadedImages:" + uploadedImages + " totalImages:" +totalImages);
-				if(uploadedImages>=totalImages) {
-					 ClearAllCapturedImages();
-					
-					 Toast.makeText(AddressPrescription.this, "The prescription(s) has been uploaded!", Toast.LENGTH_LONG)
-					 .show();
-					
-					 Intent newUploadPrescriptionIntent = new
-					 Intent(AddressPrescription.this, LandingActivity.class);
-					 newUploadPrescriptionIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					 startActivity(newUploadPrescriptionIntent);
+				Log.d("IImageUploadedEventListener", "uploadedImages:"
+						+ uploadedImages + " totalImages:" + totalImages);
+				if (uploadedImages >= totalImages) {
+					ClearAllCapturedImages();
+
+					Toast.makeText(AddressPrescription.this,
+							"The prescription(s) has been uploaded!",
+							Toast.LENGTH_LONG).show();
+
+					Intent newUploadPrescriptionIntent = new Intent(
+							AddressPrescription.this, LandingActivity.class);
+					newUploadPrescriptionIntent
+							.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(newUploadPrescriptionIntent);
 				}
-				
+
 			}
 		};
-		
+
 	}
 
 	private void init() {
@@ -144,6 +151,32 @@ public class AddressPrescription extends Activity implements OnClickListener,
 		return tFileList;
 	}
 
+	private void createDialogForInternetConnection() {
+
+		final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+				AddressPrescription.this);
+		alertDialog.setTitle("No internet connection.");
+		alertDialog
+				.setMessage("Please check your internet setting and try again!");
+
+		alertDialog.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.setNegativeButton("RETRY",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.show();
+	}
+
 	@Override
 	public void onClick(View arg0) {
 
@@ -162,6 +195,25 @@ public class AddressPrescription extends Activity implements OnClickListener,
 				return;
 			}
 
+			AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+					.execute();
+
+			boolean resultConn = false;
+			try {
+				resultConn = taskConn.get();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if (!resultConn) {
+				// Toast.makeText(AddressPrescription.this,
+				// "Please check you internet connection and try again.",
+				// Toast.LENGTH_SHORT).show();
+
+				createDialogForInternetConnection();
+				return;
+			}
+
 			String address = editTextDoctorAdd.getText().toString();
 			String offer = radioButtonFifteen.isChecked() ? "3 hours delivery"
 					: "8 hours delivery";
@@ -169,7 +221,7 @@ public class AddressPrescription extends Activity implements OnClickListener,
 			// this is where we actually upload the prescription
 
 			List<String> images = RetriveCapturedImagePath();
-			
+
 			totalImages = images.size();
 			uploadedImages = 0;
 
@@ -196,7 +248,8 @@ public class AddressPrescription extends Activity implements OnClickListener,
 						user.getPhoneNo(), offer);
 
 				AsyncTask<SaveImageDetailsModel, String, String> saveImageDetailsTask = new SaveImageDetailsTask(
-						AddressPrescription.this, file, uploadedEventListener).execute(arguments);
+						AddressPrescription.this, file, uploadedEventListener)
+						.execute(arguments);
 				// String response = null;
 				// try {
 				// response = saveImageDetailsTask.get();

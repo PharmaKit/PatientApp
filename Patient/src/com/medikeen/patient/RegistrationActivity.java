@@ -3,9 +3,12 @@ package com.medikeen.patient;
 import java.util.concurrent.ExecutionException;
 
 import com.google.gson.Gson;
+import com.medikeen.asyncTask.LoginTask;
 import com.medikeen.asyncTask.RegisterTask;
+import com.medikeen.dataModel.LoginModel;
 import com.medikeen.dataModel.RegisterModel;
 import com.medikeen.datamodels.serialized.RegistrationResponse;
+import com.medikeen.util.ConnectionDetector;
 import com.medikeen.util.SessionManager;
 
 import android.app.Activity;
@@ -33,6 +36,8 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 			mConfirmPassword;
 	AutoCompleteTextView mAddress;
 	Button mRegister, mLoginRegister;
+
+	RegisterModel objRegisterModel;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +131,7 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 
 			} else {
 
-				RegisterModel objRegisterModel = new RegisterModel();
+				objRegisterModel = new RegisterModel();
 				objRegisterModel.setFirstName(mFirstName.getText().toString());
 				objRegisterModel.setLastName(mLastName.getText().toString());
 				objRegisterModel.setEmailId(mEmailId.getText().toString());
@@ -143,44 +148,60 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 					objRegisterModel.setContactNo("91"
 							+ mContactNo.getText().toString());
 
-					final AsyncTask<RegisterModel, String, String> task = new RegisterTask(
-							RegistrationActivity.this)
-							.execute(objRegisterModel);
+					AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+							.execute();
 
-					String result = "";
+					boolean resultConn = false;
 					try {
-						result = task.get();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ExecutionException e) {
-						// TODO Auto-generated catch block
+						resultConn = taskConn.get();
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 
-					Gson gson = new Gson();
+					if (resultConn == true) {
+						final AsyncTask<RegisterModel, String, String> task = new RegisterTask(
+								RegistrationActivity.this)
+								.execute(objRegisterModel);
 
-					RegistrationResponse response = gson.fromJson(result,
-							RegistrationResponse.class);
+						String result = "";
+						try {
+							result = task.get();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ExecutionException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
-					if (response.success == 1) {
+						Gson gson = new Gson();
 
-						SessionManager session = new SessionManager(
-								getApplicationContext());
-						session.createLoginSession(true,
-								response.user.person_id, mFirstName.getText()
-										.toString(), mLastName.getText()
-										.toString(), mEmailId.getText()
-										.toString(), mAddress.getText()
-										.toString(), mContactNo.getText()
-										.toString());
+						RegistrationResponse response = gson.fromJson(result,
+								RegistrationResponse.class);
 
-						Intent intent = new Intent(RegistrationActivity.this,
-								OtpActivity.class);
-						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						startActivity(intent);
-					} else if (response.success == 0) {
-						showErrorDialog(response.error_msg, "Login", "Cancel");
+						if (response.success == 1) {
+
+							SessionManager session = new SessionManager(
+									getApplicationContext());
+							session.createLoginSession(true,
+									response.user.person_id, mFirstName
+											.getText().toString(), mLastName
+											.getText().toString(), mEmailId
+											.getText().toString(), mAddress
+											.getText().toString(), mContactNo
+											.getText().toString());
+
+							Intent intent = new Intent(
+									RegistrationActivity.this,
+									OtpActivity.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							startActivity(intent);
+						} else if (response.success == 0) {
+							showErrorDialog(response.error_msg, "Login",
+									"Cancel");
+						}
+					} else {
+						createDialogForInternetConnection();
 					}
 				}
 
@@ -188,6 +209,87 @@ public class RegistrationActivity extends Activity implements OnClickListener {
 		} else if (id == R.id.buttonLogin) {
 			RegistrationActivity.this.onBackPressed();
 		}
+	}
+
+	private void createDialogForInternetConnection() {
+
+		final AlertDialog.Builder alertDialog = new AlertDialog.Builder(
+				RegistrationActivity.this);
+		alertDialog.setTitle("No internet connection.");
+		alertDialog
+				.setMessage("Please check your internet setting and try again!");
+
+		alertDialog.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.setNegativeButton("RETRY",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						AsyncTask<Void, Boolean, Boolean> taskConn = new ConnectionDetector()
+								.execute();
+
+						boolean resultConn = false;
+						try {
+							resultConn = taskConn.get();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						if (resultConn == true) {
+							final AsyncTask<RegisterModel, String, String> task = new RegisterTask(
+									RegistrationActivity.this)
+									.execute(objRegisterModel);
+
+							String result = "";
+							try {
+								result = task.get();
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (ExecutionException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
+							Gson gson = new Gson();
+
+							RegistrationResponse response = gson.fromJson(
+									result, RegistrationResponse.class);
+
+							if (response.success == 1) {
+
+								SessionManager session = new SessionManager(
+										getApplicationContext());
+								session.createLoginSession(true,
+										response.user.person_id, mFirstName
+												.getText().toString(),
+										mLastName.getText().toString(),
+										mEmailId.getText().toString(), mAddress
+												.getText().toString(),
+										mContactNo.getText().toString());
+
+								Intent intent = new Intent(
+										RegistrationActivity.this,
+										OtpActivity.class);
+								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+								startActivity(intent);
+							} else if (response.success == 0) {
+								showErrorDialog(response.error_msg, "Login",
+										"Cancel");
+							}
+						} else {
+							createDialogForInternetConnection();
+						}
+						dialog.cancel();
+					}
+				});
+
+		alertDialog.show();
 	}
 
 	private void showErrorDialog(String error_msg, String ok_button_string,
