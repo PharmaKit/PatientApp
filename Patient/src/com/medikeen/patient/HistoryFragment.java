@@ -15,6 +15,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,11 +69,13 @@ public class HistoryFragment extends Fragment {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
+				FragmentActivity activity = HistoryFragment.this.getActivity();
 
-				if (resultConn == true) {
+				if (resultConn == true && activity!=null) {
 
 					final AsyncTask<String[], String, String> task = new HistoryAsyncTask(
-							HistoryFragment.this.getActivity(),
+							activity,
 							mHistoryListView, historyList)
 							.execute(historyRequestParams);
 				} else {

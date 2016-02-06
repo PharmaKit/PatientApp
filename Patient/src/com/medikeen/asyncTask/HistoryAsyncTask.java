@@ -65,11 +65,17 @@ public class HistoryAsyncTask extends AsyncTask<String[], String, String> {
 	protected void onPreExecute() {
 		// TODO Auto-generated method stub
 		super.onPreExecute();
+		
+		if(historyFragment == null)
+		{
+			return;
+		}
+		
 		pd = new ProgressDialog(historyFragment);
 		pd.setMessage("Please wait while we are loading your history");
 		pd.setTitle("History");
 		pd.setCancelable(false);
-//		pd.show();
+		//pd.show();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -219,6 +225,8 @@ public class HistoryAsyncTask extends AsyncTask<String[], String, String> {
 		adapter = new HistoryAdapter(historyFragment, historyList);
 		mHistoryListView.setAdapter(adapter);
 
-//		pd.dismiss();
+		if(pd.isShowing()) {
+			//pd.dismiss();
+		}
 	}
 }

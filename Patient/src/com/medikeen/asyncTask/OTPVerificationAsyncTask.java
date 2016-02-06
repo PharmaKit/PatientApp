@@ -23,6 +23,7 @@ import com.medikeen.dataModel.OTPModel;
 import com.medikeen.datamodels.serialized.OTPResponse;
 import com.medikeen.datamodels.serialized.ResetPasswordResponse;
 import com.medikeen.patient.LandingActivity;
+import com.medikeen.patient.Login;
 import com.medikeen.patient.NewPasswordActivity;
 import com.medikeen.patient.OtpActivity;
 import com.medikeen.util.Constants;
@@ -71,7 +72,7 @@ public class OTPVerificationAsyncTask extends
 		if (response.success == 1) {
 
 			Intent resetPasswordIntent = new Intent(_passwordReset,
-					LandingActivity.class);
+					Login.class);
 			resetPasswordIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			_passwordReset.startActivity(resetPasswordIntent);
 			_passwordReset.finish();
